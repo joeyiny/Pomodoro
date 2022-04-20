@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { Task } from "./TaskList.tsx";
+import type { Task } from "../App.tsx";
 
 enum ButtonState {
   BUTTON = "button",

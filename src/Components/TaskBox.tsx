@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { isSet } from "util/types";
-import type { Task } from "./TaskList";
+import type { Task } from "../App.tsx";
 
 let TaskBox = ({
   task,

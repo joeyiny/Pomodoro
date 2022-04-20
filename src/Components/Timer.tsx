@@ -9,7 +9,7 @@ enum SessionType {
 }
 
 let Timer = () => {
-  const [seconds, setSeconds] = useState<number>(5);
+  const [seconds, setSeconds] = useState<number>(25 * 60);
   const [isActive, setIsActive] = useState<boolean>(false);
   const [sessionType, setSessionType] = useState<SessionType>(
     SessionType.POMODORO
@@ -36,7 +36,7 @@ let Timer = () => {
         break;
     }
     setIsActive(false);
-    setSeconds(minutesToCountdown);
+    setSeconds(minutesToCountdown * 60);
     stop();
   };
 
