@@ -24,7 +24,7 @@ let Tasks = () => {
       selected: true,
     };
     setTasks(newTasks);
-  }, [selectedTaskIndex, setTasks, tasks]);
+  }, [selectedTaskIndex]);
 
   const listTasks = tasks.map((task, i) => {
     return (
