@@ -15,8 +15,11 @@ let Timer = () => {
   const [sessionType, setSessionType] = useState<SessionType>(
     SessionType.POMODORO
   );
-  const { iterateNumberOfPomodorosForSelectedTask } = useContext(TasksContext);
-  const [completedPomodoros, setCompletedPomodoros] = useState<number>(0);
+  const {
+    iterateNumberOfPomodorosForSelectedTask,
+    completedPomodoros,
+    setCompletedPomodoros,
+  } = useContext(TasksContext);
 
   let toggle = () => {
     setIsActive(!isActive);

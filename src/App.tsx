@@ -1,6 +1,7 @@
 import "./App.css";
 import Tasks from "./Components/TaskList.tsx";
 import Timer from "./Components/Timer.tsx";
+import TimeEstimation from "./Components/TimeEstimation.tsx";
 
 import { createContext, useState } from "react";
 
@@ -18,6 +19,7 @@ export const TasksContext = createContext({});
 function App() {
   let [tasks, setTasks] = useState<Array<Task>>([]);
   let [selectedTaskIndex, setSelectedTaskIndex] = useState<number | null>(null);
+  const [completedPomodoros, setCompletedPomodoros] = useState<number>(0);
 
   let addTask = (task) => {
     setTasks([...tasks, task]);
@@ -59,11 +61,14 @@ function App() {
         deleteTask,
         selectedTaskIndex,
         iterateNumberOfPomodorosForSelectedTask,
+        completedPomodoros,
+        setCompletedPomodoros,
       }}>
       <div className="App">
         <header className="App-header">
           <Timer />
           <Tasks />
+          <TimeEstimation />
         </header>
       </div>
     </TasksContext.Provider>
