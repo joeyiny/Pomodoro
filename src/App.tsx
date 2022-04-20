@@ -1,10 +1,10 @@
 import "./App.css";
-import Tasks from "./Components/TaskList.tsx";
+import Tasks from "./Components/Tasks.tsx";
 import Timer from "./Components/Timer.tsx";
 import TimeEstimation from "./Components/TimeEstimation.tsx";
 import ProgressSection from "./Components/ProgressSection.tsx";
 
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export type Task = {
   title: string;
@@ -18,9 +18,26 @@ export type Task = {
 export const TasksContext = createContext({});
 
 function App() {
-  let [tasks, setTasks] = useState<Array<Task>>([]);
-  let [selectedTaskIndex, setSelectedTaskIndex] = useState<number | null>(null);
+  const [tasks, setTasks] = useState<Array<Task>>([]);
+  const [selectedTaskIndex, setSelectedTaskIndex] = useState<number | null>(
+    null
+  );
   const [completedPomodoros, setCompletedPomodoros] = useState<number>(0);
+
+  useEffect(() => {
+    const taskData = localStorage.getItem("tasks");
+    const selectedTaskIndexData = localStorage.getItem("selectedTaskIndex");
+    const completedPomodorosData = localStorage.getItem("completedPomodoros");
+    setTasks(JSON.parse(taskData));
+    setSelectedTaskIndex(JSON.parse(selectedTaskIndexData));
+    setCompletedPomodoros(JSON.parse(completedPomodorosData));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    localStorage.setItem("selectedTaskIndex", selectedTaskIndex);
+    localStorage.setItem("completedPomodoros", completedPomodoros);
+  });
 
   const DAILY_POMODORO_GOAL = 8;
 
@@ -30,7 +47,6 @@ function App() {
   };
 
   let deleteTask = (taskIndex) => {
-    console.log(taskIndex);
     let newTasks = [...tasks];
     newTasks.splice(taskIndex, 1);
     setTasks(newTasks);

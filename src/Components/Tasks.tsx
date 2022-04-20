@@ -4,7 +4,7 @@ import AddTaskButton from "./AddTaskButton.tsx";
 import { TasksContext } from "../App.tsx";
 import { Task } from "../App.tsx";
 
-let TaskList = () => {
+let Tasks = () => {
   const {
     tasks,
     setTasks,
@@ -41,14 +41,16 @@ let TaskList = () => {
     <div>
       <p className="text-base font-semibold my-6">
         Working on:{" "}
-        {selectedTaskIndex < tasks.length && tasks[selectedTaskIndex].title}
+        {selectedTaskIndex !== null &&
+          selectedTaskIndex < tasks.length &&
+          tasks[selectedTaskIndex].title}
       </p>
       <div className="w-96 flex gap-1.5 mt-2 flex-col">
-        {listTasks}
+        {tasks.length > 0 && listTasks}
         <AddTaskButton onClick={(t) => addTask(t)} />
       </div>
     </div>
   );
 };
 
-export default TaskList;
+export default Tasks;
