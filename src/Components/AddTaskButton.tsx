@@ -46,16 +46,17 @@ let AddTaskButton = ({ onClick }) => {
               Cancel
             </button>
             <button
-              className=" bg-gray-600 text-white rounded px-3 py-1"
-              onClick={() =>
+              className="bg-gray-600 text-white rounded px-3 py-1"
+              onClick={() => {
                 onClick({
                   title: taskName,
                   selected: false,
                   pomodorosCompleted: false,
                   pomodoroGoal: estimatedPomodoros,
                   completed: false,
-                })
-              }>
+                });
+                setButtonState(ButtonState.BUTTON);
+              }}>
               Save
             </button>
           </div>

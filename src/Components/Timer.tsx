@@ -93,42 +93,42 @@ let Timer = () => {
 
   return (
     <div className="bg-gray-800 p-5 rounded-md flex gap-5 flex-col">
-      <div className="absolute top-10 text-lg">
-        <p>Completed Pomodoros: {completedPomodoros}</p>
+      <div className="absolute top-10 text-lg left-0 right-0">
+        <p className="text-center">Completed Pomodoros: {completedPomodoros}</p>
       </div>
       <div className="flex gap-3 text-lg">
         <span
           className={`${
-            sessionType === SessionType.POMODORO && "font-bold"
-          } cursor-pointer`}
+            sessionType === SessionType.POMODORO && "font-bold bg-gray-900"
+          } cursor-pointer px-2 py-1 rounded`}
           onClick={() => setSession(SessionType.POMODORO)}>
           {SessionType.POMODORO}
         </span>
         <span
           className={`${
-            sessionType === SessionType.SHORTBREAK && "font-bold"
-          } cursor-pointer`}
+            sessionType === SessionType.SHORTBREAK && "font-bold bg-gray-900"
+          } cursor-pointer px-2 py-1 rounded`}
           onClick={() => setSession(SessionType.SHORTBREAK)}>
           {SessionType.SHORTBREAK}
         </span>
         <span
           className={`${
-            sessionType === SessionType.LONGBREAK && "font-bold"
-          } cursor-pointer`}
+            sessionType === SessionType.LONGBREAK && "font-bold bg-gray-900"
+          } cursor-pointer px-2 py-1 rounded`}
           onClick={() => setSession(SessionType.LONGBREAK)}>
           {SessionType.LONGBREAK}
         </span>
       </div>
-      <span id="timer" className="flex gap-2 justify-center">
+      <span id="timer" className="flex gap-2 justify-between">
         <button
-          className="border-2 disabled:border-gray-600 disabled:text-gray-600"
+          className="border-2 disabled:border-gray-700 disabled:text-gray-700 w-12 rounded-md"
           disabled={isActive}
           onClick={() => decrement()}>
           -
         </button>
         <span className="font-bold text-6xl">{getTimestamp()}</span>
         <button
-          className="border-2 disabled:border-gray-600 disabled:text-gray-600"
+          className="border-2 disabled:border-gray-700 disabled:text-gray-700 w-12 rounded-md"
           disabled={isActive}
           onClick={() => increment()}>
           +

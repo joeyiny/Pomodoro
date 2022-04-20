@@ -11,7 +11,7 @@ export type Task = {
   note?: string;
 };
 
-let Tasks = () => {
+let TaskList = () => {
   let [tasks, setTasks] = useState<Array<Task>>([
     {
       title: "task 1",
@@ -40,6 +40,20 @@ let Tasks = () => {
 
   let addTask = (task) => {
     setTasks([...tasks, task]);
+    setSelectedTaskIndex(tasks.length);
+  };
+
+  let deleteTask = (taskIndex) => {
+    console.log(taskIndex);
+    let newTasks = [...tasks];
+    newTasks.splice(taskIndex, 1);
+    setTasks(newTasks);
+  };
+
+  let completeTask = (taskIndex) => {
+    let newTasks = [...tasks];
+    newTasks[taskIndex].completed = true;
+    setTasks(newTasks);
   };
 
   let iterateNumberOfPomodorosForSelectedTask = () => {
@@ -65,15 +79,27 @@ let Tasks = () => {
   };
 
   const listTasks = tasks.map((task, i) => {
-    return <TaskBox task={task} onClick={() => selectTask(i)} />;
+    return (
+      <TaskBox
+        task={task}
+        onClick={() => selectTask(i)}
+        onDelete={() => deleteTask(i)}
+      />
+    );
   });
 
   return (
-    <div className="w-80 flex gap-1 mt-2 flex-col">
-      {listTasks}
-      <AddTaskButton onClick={(t) => addTask(t)} />
+    <div>
+      <p className="text-base font-semibold my-6">
+        Working on:{" "}
+        {selectedTaskIndex < tasks.length && tasks[selectedTaskIndex].title}
+      </p>
+      <div className="w-96 flex gap-1.5 mt-2 flex-col">
+        {listTasks}
+        <AddTaskButton onClick={(t) => addTask(t)} />
+      </div>
     </div>
   );
 };
 
-export default Tasks;
+export default TaskList;
