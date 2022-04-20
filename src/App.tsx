@@ -38,6 +38,8 @@ function App() {
   };
 
   let iterateNumberOfPomodorosForSelectedTask = () => {
+    if (!selectedTaskIndex || selectedTaskIndex >= tasks.length) return;
+
     let newTasks = [...tasks];
     newTasks[selectedTaskIndex].pomodorosCompleted++;
     setTasks(newTasks);
@@ -56,6 +58,7 @@ function App() {
         selectTask,
         deleteTask,
         selectedTaskIndex,
+        iterateNumberOfPomodorosForSelectedTask,
       }}>
       <div className="App">
         <header className="App-header">

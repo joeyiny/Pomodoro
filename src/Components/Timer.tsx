@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { TasksContext } from "../App.tsx";
 import useSound from "use-sound";
 const alarmSound = require("../sounds/alarm.wav");
 
@@ -14,6 +15,7 @@ let Timer = () => {
   const [sessionType, setSessionType] = useState<SessionType>(
     SessionType.POMODORO
   );
+  const { iterateNumberOfPomodorosForSelectedTask } = useContext(TasksContext);
   const [completedPomodoros, setCompletedPomodoros] = useState<number>(0);
 
   let toggle = () => {
@@ -78,6 +80,7 @@ let Timer = () => {
         setIsActive(false);
         if (sessionType === SessionType.POMODORO) {
           setCompletedPomodoros((completedPomodoros) => completedPomodoros + 1);
+          iterateNumberOfPomodorosForSelectedTask();
           setSession(SessionType.SHORTBREAK);
         } else {
           setSession(SessionType.POMODORO);
