@@ -33,9 +33,9 @@ function App() {
     setTasks(newTasks);
   };
 
-  let completeTask = (taskIndex) => {
+  let toggleCompleteTask = (taskIndex) => {
     let newTasks = [...tasks];
-    newTasks[taskIndex].completed = true;
+    newTasks[taskIndex].completed = !newTasks[taskIndex].completed;
     setTasks(newTasks);
   };
 
@@ -63,6 +63,7 @@ function App() {
         iterateNumberOfPomodorosForSelectedTask,
         completedPomodoros,
         setCompletedPomodoros,
+        toggleCompleteTask,
       }}>
       <div className="App">
         <header className="App-header">

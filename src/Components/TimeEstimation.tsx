@@ -7,7 +7,7 @@ let TimeEstimation = () => {
   let totalPomodoroGoal = 0;
   if (tasks.length > 0)
     for (let i in tasks) {
-      totalPomodoroGoal += tasks[i].pomodoroGoal;
+      if (!tasks[i].completed) totalPomodoroGoal += tasks[i].pomodoroGoal;
     }
 
   let estimatedMinutesLeft = Math.max(

@@ -32,6 +32,7 @@ let TaskList = () => {
         task={task}
         onClick={() => selectTask(i)}
         onDelete={() => deleteTask(i)}
+        index={i}
       />
     );
   });
