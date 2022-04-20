@@ -26,6 +26,10 @@ let AddTaskButton = ({ onClick }) => {
             onChange={(e) => setTaskName(e.target.value)}></input>
           <p>Est Pomodoros</p>
           <div>
+            <button
+              onClick={() => setEstimatedPomodoros(estimatedPomodoros - 1)}>
+              -
+            </button>
             <input
               type="number"
               name="estimatedNumberOfPomodoros"
@@ -34,8 +38,11 @@ let AddTaskButton = ({ onClick }) => {
               value={estimatedPomodoros}
               onChange={(e) => setEstimatedPomodoros(e.target.valueAsNumber)}
             />
-            <button>+</button>
-            <button>-</button>
+
+            <button
+              onClick={() => setEstimatedPomodoros(estimatedPomodoros + 1)}>
+              +
+            </button>
           </div>
           {isEditingNotes ? (
             <textarea
