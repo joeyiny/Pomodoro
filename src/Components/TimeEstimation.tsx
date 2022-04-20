@@ -13,7 +13,12 @@ let TimeEstimation = () => {
   let estimatedMinutesLeft = (totalPomodoroGoal - completedPomodoros) * 30;
 
   let estimatedTimeLeft = () => {
-    if (estimatedMinutesLeft < 60) return `${estimatedTimeLeft} minutes`;
+    if (estimatedMinutesLeft < 60) return `${estimatedMinutesLeft} minutes`;
+
+    let numberOfHours = Math.floor(estimatedMinutesLeft / 60);
+    return `${numberOfHours} hours and ${
+      estimatedMinutesLeft - numberOfHours * 60
+    } minutes`;
   };
 
   return (
