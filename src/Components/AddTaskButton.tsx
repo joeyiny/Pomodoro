@@ -1,12 +1,12 @@
 import { useState } from "react";
-import type { Task } from "../App.tsx";
+import type { Task } from "../App";
 
 enum ButtonState {
   BUTTON = "button",
   ADDING = "Adding",
 }
 
-let AddTaskButton = ({ onClick }) => {
+let AddTaskButton = ({ onClick }: { onClick: (task: Task) => void }) => {
   let [buttonState, setButtonState] = useState<ButtonState>(ButtonState.BUTTON);
 
   let [taskName, setTaskName] = useState<string>("");
@@ -72,7 +72,7 @@ let AddTaskButton = ({ onClick }) => {
                 onClick({
                   title: taskName,
                   selected: false,
-                  pomodorosCompleted: false,
+                  pomodorosCompleted: undefined,
                   pomodoroGoal: estimatedPomodoros,
                   completed: false,
                   note: note,

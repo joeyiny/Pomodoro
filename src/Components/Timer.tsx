@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { TasksContext } from "../App.tsx";
+import { TasksContext } from "../App";
 import useSound from "use-sound";
 const alarmSound = require("../sounds/alarm.wav");
 
@@ -84,7 +84,7 @@ let Timer = () => {
   }, [seconds, isActive, sessionType]);
 
   useEffect(() => {
-    let interval = null;
+    let interval: any = null;
     if (isActive) {
       interval = setInterval(() => {
         setSeconds((seconds) => seconds - 1);

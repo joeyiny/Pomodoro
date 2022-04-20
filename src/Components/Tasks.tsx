@@ -1,8 +1,7 @@
 import { useEffect, useState, useContext } from "react";
-import TaskBox from "./TaskBox.tsx";
-import AddTaskButton from "./AddTaskButton.tsx";
-import { TasksContext } from "../App.tsx";
-import { Task } from "../App.tsx";
+import TaskBox from "./TaskBox";
+import AddTaskButton from "./AddTaskButton";
+import { TasksContext } from "../App";
 
 let Tasks = () => {
   const {
@@ -15,6 +14,7 @@ let Tasks = () => {
   } = useContext(TasksContext);
 
   useEffect(() => {
+    if (!selectedTaskIndex) return;
     let newTasks = [...tasks];
     for (let i in newTasks) {
       newTasks[i].selected = false;

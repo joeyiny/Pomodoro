@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { TasksContext } from "../App.tsx";
+import { TasksContext } from "../App";
 
 let TimeEstimation = () => {
   const { tasks, completedPomodoros } = useContext(TasksContext);

@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
-import type { Task } from "../App.tsx";
-import { TasksContext } from "../App.tsx";
+import type { Task } from "../App";
+import { TasksContext } from "../App";
 
 let TaskBox = ({
   task,
