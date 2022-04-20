@@ -17,15 +17,16 @@ let AddTaskButton = ({ onClick }) => {
 
   if (buttonState === ButtonState.ADDING)
     return (
-      <div className={`bg-gray-200 rounded text-lg text-gray-900`}>
+      <div className={`bg-gray-100 rounded text-lg text-gray-900`}>
         <div className="px-2 py-2 text-left">
           <input
-            className="w-full pl-2"
+            className="w-full pl-2 py-1 text-lg"
             placeholder="What are you working on?"
             value={taskName}
             onChange={(e) => setTaskName(e.target.value)}></input>
-          <p>Est Pomodoros</p>
-          <div>
+          <p className="font-semibold text-base mt-2">Est Pomodoros</p>
+          <p className="text-sm -mt-1 mb-1">How long will this take you?</p>
+          <div className="flex gap-2 justify-start">
             <button
               onClick={() => setEstimatedPomodoros(estimatedPomodoros - 1)}>
               -
@@ -34,7 +35,7 @@ let AddTaskButton = ({ onClick }) => {
               type="number"
               name="estimatedNumberOfPomodoros"
               id="EstimatedNumberOfPomodoros"
-              className="w-16"
+              className="w-12 rounded border border-gray-300 pl-2 text-center"
               value={estimatedPomodoros}
               onChange={(e) => setEstimatedPomodoros(e.target.valueAsNumber)}
             />
@@ -46,6 +47,8 @@ let AddTaskButton = ({ onClick }) => {
           </div>
           {isEditingNotes ? (
             <textarea
+              placeholder="Some notes..."
+              className="w-full rounded mt-2 px-2 py-1 text-sm border-gray-300 border resize-y "
               value={note}
               onChange={(e) => setNote(e.target.value)}></textarea>
           ) : (
