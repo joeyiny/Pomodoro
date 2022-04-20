@@ -73,6 +73,17 @@ let Timer = () => {
   };
 
   useEffect(() => {
+    if (!isActive) {
+      document.title = "My Pomo";
+      return;
+    }
+    let affirmation = "Time to focus!";
+    if (sessionType === SessionType.SHORTBREAK)
+      affirmation = "Enjoy your break!";
+    document.title = getTimestamp() + " - " + affirmation;
+  }, [seconds, isActive, sessionType]);
+
+  useEffect(() => {
     let interval = null;
     if (isActive) {
       interval = setInterval(() => {
