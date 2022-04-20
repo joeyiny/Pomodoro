@@ -33,6 +33,7 @@ let Tasks = () => {
         onClick={() => selectTask(i)}
         onDelete={() => deleteTask(i)}
         index={i}
+        key={i}
       />
     );
   });
