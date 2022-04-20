@@ -9,11 +9,12 @@ enum SessionType {
 }
 
 let Timer = () => {
-  const [seconds, setSeconds] = useState<number>(25 * 60);
+  const [seconds, setSeconds] = useState<number>(5);
   const [isActive, setIsActive] = useState<boolean>(false);
   const [sessionType, setSessionType] = useState<SessionType>(
     SessionType.POMODORO
   );
+  const [completedPomodoros, setCompletedPomodoros] = useState<number>(0);
 
   let toggle = () => {
     setIsActive(!isActive);
@@ -35,7 +36,7 @@ let Timer = () => {
         break;
     }
     setIsActive(false);
-    setSeconds(minutesToCountdown * 60);
+    setSeconds(minutesToCountdown);
     stop();
   };
 
@@ -75,6 +76,13 @@ let Timer = () => {
       if (seconds <= 0) {
         clearInterval(interval);
         setIsActive(false);
+        if (sessionType === SessionType.POMODORO) {
+          setCompletedPomodoros((completedPomodoros) => completedPomodoros + 1);
+          setSession(SessionType.SHORTBREAK);
+        } else {
+          setSession(SessionType.POMODORO);
+        }
+
         playAlarmSound();
       }
     } else if (!isActive && seconds !== 0) {
@@ -85,6 +93,9 @@ let Timer = () => {
 
   return (
     <>
+      <div className="absolute top-10 text-lg">
+        <p>Completed Pomodoros: {completedPomodoros}</p>
+      </div>
       <div className="flex gap-3 text-lg">
         <span
           className={`${
