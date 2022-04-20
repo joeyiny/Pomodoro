@@ -1,8 +1,8 @@
 import "./App.css";
-import Tasks from "./Components/Tasks";
-import Timer from "./Components/Timer";
-import TimeEstimation from "./Components/TimeEstimation";
-import ProgressSection from "./Components/ProgressSection";
+import Tasks from "./components/Tasks";
+import Timer from "./components/Timer";
+import TimeEstimation from "./components/TimeEstimation";
+import ProgressSection from "./components/ProgressSection";
 
 import {
   createContext,
