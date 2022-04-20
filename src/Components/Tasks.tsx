@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useContext } from "react";
 import TaskBox from "./TaskBox";
 import AddTaskButton from "./AddTaskButton";
 import { TasksContext } from "../App";
@@ -24,7 +24,7 @@ let Tasks = () => {
       selected: true,
     };
     setTasks(newTasks);
-  }, [selectedTaskIndex]);
+  }, [selectedTaskIndex, setTasks, tasks]);
 
   const listTasks = tasks.map((task, i) => {
     return (
