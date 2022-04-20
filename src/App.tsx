@@ -94,8 +94,8 @@ function App() {
         setCompletedPomodoros,
         toggleCompleteTask,
       }}>
-      <div className="App">
-        <header className="App-header">
+      <div className="text-center">
+        <header className="App-header text-white bg-slate-800">
           <ProgressSection />
           <Timer />
           <Tasks />

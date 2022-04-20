@@ -17,7 +17,7 @@ const ProgressSection = () => {
   }
 
   return (
-    <div className="absolute top-10 text-lg left-0 right-0 flex gap-1 flex-col">
+    <div className="absolute top-10 text-lg left-0 right-0 flex gap-1 flex-col bg-gray-700 w-96 m-auto p-4 rounded-md text-white">
       <p className="text-center">
         Daily Pomodoro Goal: {completedPomodoros} / 8{" "}
         {completedPomodoros && completedPomodoros >= 8 && "✅"}

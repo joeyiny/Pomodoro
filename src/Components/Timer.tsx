@@ -109,25 +109,25 @@ let Timer = () => {
   }, [isActive, seconds, playAlarmSound]);
 
   return (
-    <div className="bg-gray-800 p-5 rounded-md flex gap-5 flex-col">
+    <div className="bg-gray-700 p-5 rounded-md flex gap-5 flex-col">
       <div className="flex gap-3 text-lg">
         <span
           className={`${
-            sessionType === SessionType.POMODORO && "font-bold bg-gray-900"
+            sessionType === SessionType.POMODORO && "font-bold bg-gray-800"
           } cursor-pointer px-2 py-1 rounded`}
           onClick={() => setSession(SessionType.POMODORO)}>
           {SessionType.POMODORO}
         </span>
         <span
           className={`${
-            sessionType === SessionType.SHORTBREAK && "font-bold bg-gray-900"
+            sessionType === SessionType.SHORTBREAK && "font-bold bg-gray-800"
           } cursor-pointer px-2 py-1 rounded`}
           onClick={() => setSession(SessionType.SHORTBREAK)}>
           {SessionType.SHORTBREAK}
         </span>
         <span
           className={`${
-            sessionType === SessionType.LONGBREAK && "font-bold bg-gray-900"
+            sessionType === SessionType.LONGBREAK && "font-bold bg-gray-800"
           } cursor-pointer px-2 py-1 rounded`}
           onClick={() => setSession(SessionType.LONGBREAK)}>
           {SessionType.LONGBREAK}
