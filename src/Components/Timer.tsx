@@ -92,7 +92,7 @@ let Timer = () => {
   }, [isActive, seconds, playAlarmSound]);
 
   return (
-    <>
+    <div className="bg-gray-800 p-5 rounded-md flex gap-5 flex-col">
       <div className="absolute top-10 text-lg">
         <p>Completed Pomodoros: {completedPomodoros}</p>
       </div>
@@ -119,32 +119,32 @@ let Timer = () => {
           {SessionType.LONGBREAK}
         </span>
       </div>
-      <span id="timer" className="font-bold text-6xl">
-        {getTimestamp()}
-      </span>
-      <div className="flex gap-2">
+      <span id="timer" className="flex gap-2 justify-center">
         <button
-          className="border-2"
+          className="border-2 disabled:border-gray-600 disabled:text-gray-600"
           disabled={isActive}
           onClick={() => decrement()}>
           -
         </button>
+        <span className="font-bold text-6xl">{getTimestamp()}</span>
         <button
-          className="border-2"
+          className="border-2 disabled:border-gray-600 disabled:text-gray-600"
           disabled={isActive}
           onClick={() => increment()}>
           +
         </button>
-      </div>
-      <div className="flex gap-2">
-        <button onClick={() => reset(sessionType)} className="border-2">
+      </span>
+      <div className="flex gap-2 text-base justify-center">
+        {/* <button onClick={() => reset(sessionType)} className="border-2">
           Reset
-        </button>
-        <button onClick={() => toggle()} className="border-2">
+        </button> */}
+        <button
+          onClick={() => toggle()}
+          className="border-2 w-24 p-2 text-xl uppercase font-bold rounded-md">
           {isActive ? "Stop" : "Start"}
         </button>
       </div>
-    </>
+    </div>
   );
 };
 
