@@ -14,7 +14,7 @@ let Tasks = () => {
   } = useContext(TasksContext);
 
   useEffect(() => {
-    if (!selectedTaskIndex) return;
+    if (selectedTaskIndex === null) return;
     let newTasks = [...tasks];
     for (let i in newTasks) {
       newTasks[i].selected = false;
