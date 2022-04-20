@@ -3,9 +3,9 @@ import useSound from "use-sound";
 const alarmSound = require("../sounds/alarm.wav");
 
 enum SessionType {
-  POMODORO = "pomodoro",
-  SHORTBREAK = "shortbreak",
-  LONGBREAK = "longbreak",
+  POMODORO = "Pomodoro",
+  SHORTBREAK = "Short Break",
+  LONGBREAK = "Long Break",
 }
 
 let Timer = () => {
@@ -21,9 +21,21 @@ let Timer = () => {
 
   const [playAlarmSound, { stop }] = useSound(alarmSound, { volume: 0.4 });
 
-  let reset = () => {
+  let reset = (sessionType: SessionType) => {
+    let minutesToCountdown;
+    switch (sessionType) {
+      case SessionType.POMODORO:
+        minutesToCountdown = 25;
+        break;
+      case SessionType.SHORTBREAK:
+        minutesToCountdown = 5;
+        break;
+      case SessionType.LONGBREAK:
+        minutesToCountdown = 15;
+        break;
+    }
     setIsActive(false);
-    setSeconds(25 * 60);
+    setSeconds(minutesToCountdown * 60);
     stop();
   };
 
@@ -49,6 +61,11 @@ let Timer = () => {
     return minutesDisplay + ":" + secondsDisplay;
   };
 
+  let setSession = (sessionType: SessionType) => {
+    setSessionType(sessionType);
+    reset(sessionType);
+  };
+
   useEffect(() => {
     let interval = null;
     if (isActive) {
@@ -64,25 +81,57 @@ let Timer = () => {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [isActive, seconds]);
+  }, [isActive, seconds, playAlarmSound]);
 
   return (
     <>
-      <div>
-        <span>{sessionType}</span>
+      <div className="flex gap-3 text-lg">
+        <span
+          className={`${
+            sessionType === SessionType.POMODORO && "font-bold"
+          } cursor-pointer`}
+          onClick={() => setSession(SessionType.POMODORO)}>
+          {SessionType.POMODORO}
+        </span>
+        <span
+          className={`${
+            sessionType === SessionType.SHORTBREAK && "font-bold"
+          } cursor-pointer`}
+          onClick={() => setSession(SessionType.SHORTBREAK)}>
+          {SessionType.SHORTBREAK}
+        </span>
+        <span
+          className={`${
+            sessionType === SessionType.LONGBREAK && "font-bold"
+          } cursor-pointer`}
+          onClick={() => setSession(SessionType.LONGBREAK)}>
+          {SessionType.LONGBREAK}
+        </span>
       </div>
-      <h1>{getTimestamp()}</h1>
-      <div>
-        <button disabled={isActive} onClick={() => decrement()}>
+      <span id="timer" className="font-bold text-6xl">
+        {getTimestamp()}
+      </span>
+      <div className="flex gap-2">
+        <button
+          className="border-2"
+          disabled={isActive}
+          onClick={() => decrement()}>
           -
         </button>
-        <button disabled={isActive} onClick={() => increment()}>
+        <button
+          className="border-2"
+          disabled={isActive}
+          onClick={() => increment()}>
           +
         </button>
       </div>
-      <div>
-        <button onClick={() => reset()}>Reset</button>
-        <button onClick={() => toggle()}>{isActive ? "Stop" : "Start"}</button>
+      <div className="flex gap-2">
+        <button onClick={() => reset(sessionType)} className="border-2">
+          Reset
+        </button>
+        <button onClick={() => toggle()} className="border-2">
+          {isActive ? "Stop" : "Start"}
+        </button>
       </div>
     </>
   );
