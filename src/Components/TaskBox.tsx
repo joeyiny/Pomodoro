@@ -17,8 +17,9 @@ let TaskBox = ({
     <div
       className={`w-full text-black ${
         task.selected ? "bg-gray-200" : "bg-gray-600"
-      } text-lg px-3 py-2 rounded cursor-pointer`}>
-      <div className=" flex gap-2 justify-between" onClick={onClick}>
+      } text-lg px-3 py-2 rounded cursor-pointer`}
+      onClick={onClick}>
+      <div className=" flex gap-2 justify-between">
         <span
           className={`flex gap-2 justify-start items-center ${
             task.completed && "line-through"
@@ -53,6 +54,11 @@ let TaskBox = ({
           </button>
         </span>
       </div>
+      {task.note && (
+        <span className="text-sm bg-yellow-200 mt-2 p-2 shadow-sm rounded block text-left w-full">
+          {task.note}
+        </span>
+      )}
       {isSettingsOpen ? <button onClick={() => onDelete()}>delete</button> : ""}
     </div>
   );

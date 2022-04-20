@@ -10,7 +10,10 @@ let AddTaskButton = ({ onClick }) => {
   let [buttonState, setButtonState] = useState<ButtonState>(ButtonState.BUTTON);
 
   let [taskName, setTaskName] = useState<string>("");
+  let [note, setNote] = useState<string>("");
   let [estimatedPomodoros, setEstimatedPomodoros] = useState<number>(1);
+
+  let [isEditingNotes, setIsEditingNotes] = useState<boolean>(false);
 
   if (buttonState === ButtonState.ADDING)
     return (
@@ -34,9 +37,17 @@ let AddTaskButton = ({ onClick }) => {
             <button>+</button>
             <button>-</button>
           </div>
-          <button className="underline text-gray-500 text-sm">
-            + Add Note
-          </button>
+          {isEditingNotes ? (
+            <textarea
+              value={note}
+              onChange={(e) => setNote(e.target.value)}></textarea>
+          ) : (
+            <button
+              onClick={() => setIsEditingNotes(!isEditingNotes)}
+              className="underline text-gray-500 text-sm">
+              + Add Note
+            </button>
+          )}
         </div>
         <div className="bg-gray-300 rounded-b px-2 py-2">
           <div className="flex justify-end text-base gap-2">
@@ -54,6 +65,7 @@ let AddTaskButton = ({ onClick }) => {
                   pomodorosCompleted: false,
                   pomodoroGoal: estimatedPomodoros,
                   completed: false,
+                  note: note,
                 });
                 setButtonState(ButtonState.BUTTON);
               }}>
