@@ -1839,10 +1839,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^18.0.1":
-  "integrity" "sha512-VnWlrVgG0dYt+NqlfMI0yUYb8Rdl4XUROyH+c6gq/iFCiZ805Vi//26UW38DHnxQkbDhnrIWTBiy6oKZqL11cw=="
-  "resolved" "https://registry.npmjs.org/@types/react/-/react-18.0.1.tgz"
-  "version" "18.0.1"
+"@types/react@*", "@types/react@^18.0.3":
+  "integrity" "sha512-P8QUaMW4k+kH9aKNPl9b3XWcKMSSALYprLL8xpAMJOLUn3Pl6B+6nKC4F7dsk9oJPwkiRx+qlwhG/Zc1LxFVuQ=="
+  "resolved" "https://registry.npmjs.org/@types/react/-/react-18.0.3.tgz"
+  "version" "18.0.3"
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
