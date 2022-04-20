@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import type { Task } from "../App";
+import type { Task } from "../types/Task";
 import { TasksContext } from "../App";
 
 let TaskBox = ({
