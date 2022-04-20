@@ -10,10 +10,7 @@ let TimeEstimation = () => {
       if (!tasks[i].completed) totalPomodoroGoal += tasks[i].pomodoroGoal;
     }
 
-  let estimatedMinutesLeft = Math.max(
-    (totalPomodoroGoal - completedPomodoros) * 30,
-    0
-  );
+  let estimatedMinutesLeft = (totalPomodoroGoal - completedPomodoros) * 30;
 
   return (
     <div className=" w-96 mt-4 border-t bg-gray-700 rounded-b p-2 text-lg">

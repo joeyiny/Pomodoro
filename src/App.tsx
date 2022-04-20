@@ -40,7 +40,7 @@ function App() {
   };
 
   let iterateNumberOfPomodorosForSelectedTask = () => {
-    if (!selectedTaskIndex || selectedTaskIndex >= tasks.length) return;
+    if (selectedTaskIndex === null || selectedTaskIndex >= tasks.length) return;
 
     let newTasks = [...tasks];
     newTasks[selectedTaskIndex].pomodorosCompleted++;
@@ -69,7 +69,7 @@ function App() {
         <header className="App-header">
           <Timer />
           <Tasks />
-          <TimeEstimation />
+          {tasks.length > 0 && <TimeEstimation />}
         </header>
       </div>
     </TasksContext.Provider>

@@ -20,7 +20,7 @@ let AddTaskButton = ({ onClick }) => {
       <div className={`bg-gray-100 rounded text-lg text-gray-900`}>
         <div className="px-2 py-2 text-left">
           <input
-            className="w-full pl-2 py-1 text-lg"
+            className="w-full pl-2 py-1 text-lg border border-gray-300 rounded"
             placeholder="What are you working on?"
             value={taskName}
             onChange={(e) => setTaskName(e.target.value)}></input>
