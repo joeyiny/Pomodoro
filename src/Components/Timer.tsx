@@ -99,9 +99,6 @@ let Timer = () => {
 
   return (
     <div className="bg-gray-800 p-5 rounded-md flex gap-5 flex-col">
-      <div className="absolute top-10 text-lg left-0 right-0">
-        <p className="text-center">Completed Pomodoros: {completedPomodoros}</p>
-      </div>
       <div className="flex gap-3 text-lg">
         <span
           className={`${

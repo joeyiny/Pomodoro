@@ -12,12 +12,16 @@ let TimeEstimation = () => {
 
   let estimatedMinutesLeft = (totalPomodoroGoal - completedPomodoros) * 30;
 
+  let estimatedTimeLeft = () => {
+    if (estimatedMinutesLeft < 60) return `${estimatedTimeLeft} minutes`;
+  };
+
   return (
     <div className=" w-96 mt-4 border-t bg-gray-700 rounded-b p-2 text-lg">
       Estimated: {totalPomodoroGoal} Finished: {completedPomodoros}.{" "}
       {estimatedMinutesLeft > 0 &&
         `You should
-      finish in ${estimatedMinutesLeft} minutes.`}
+      finish in ${estimatedTimeLeft()}.`}
     </div>
   );
 };

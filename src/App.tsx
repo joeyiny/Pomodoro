@@ -2,6 +2,7 @@ import "./App.css";
 import Tasks from "./Components/TaskList.tsx";
 import Timer from "./Components/Timer.tsx";
 import TimeEstimation from "./Components/TimeEstimation.tsx";
+import ProgressSection from "./Components/ProgressSection.tsx";
 
 import { createContext, useState } from "react";
 
@@ -20,6 +21,8 @@ function App() {
   let [tasks, setTasks] = useState<Array<Task>>([]);
   let [selectedTaskIndex, setSelectedTaskIndex] = useState<number | null>(null);
   const [completedPomodoros, setCompletedPomodoros] = useState<number>(0);
+
+  const DAILY_POMODORO_GOAL = 8;
 
   let addTask = (task) => {
     setTasks([...tasks, task]);
@@ -67,6 +70,7 @@ function App() {
       }}>
       <div className="App">
         <header className="App-header">
+          <ProgressSection />
           <Timer />
           <Tasks />
           {tasks.length > 0 && <TimeEstimation />}
