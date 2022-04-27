@@ -7,7 +7,7 @@ import { Task } from "./types/Task";
 import { GlobalContext } from "./types/GlobalContext";
 
 import { createContext, useEffect, useState } from "react";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 
 export const TasksContext = createContext<GlobalContext>({
   tasks: [],
@@ -100,7 +100,7 @@ function App() {
       <div className="text-center bg-gray-800 min-h-screen">
         <div className="App-header text-white  flex gap-2 flex-col w-96 m-auto py-10">
           <ProgressSection />
-          <Timer />
+          <Timer socket={socket} />
           <Tasks />
           {tasks.length > 0 && <TimeEstimation />}
         </div>

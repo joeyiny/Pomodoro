@@ -9,7 +9,7 @@ enum SessionType {
   LONGBREAK = "Long Break",
 }
 
-let Timer = () => {
+let Timer = ({ socket }: { socket: any }) => {
   const [seconds, setSeconds] = useState<number>(25 * 60);
   const [isActive, setIsActive] = useState<boolean>(false);
   const [sessionType, setSessionType] = useState<SessionType>(
@@ -153,7 +153,10 @@ let Timer = () => {
           Reset
         </button> */}
         <button
-          onClick={() => toggle()}
+          onClick={() => {
+            socket.emit("button-press");
+            toggle();
+          }}
           className="border-2 w-24 p-2 text-xl uppercase font-bold rounded-md">
           {isActive ? "Stop" : "Start"}
         </button>
