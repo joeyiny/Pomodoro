@@ -7,6 +7,7 @@ import { Task } from "./types/Task";
 import { GlobalContext } from "./types/GlobalContext";
 
 import { createContext, useEffect, useState } from "react";
+import { io } from "socket.io-client";
 
 export const TasksContext = createContext<GlobalContext>({
   tasks: [],
@@ -20,6 +21,8 @@ export const TasksContext = createContext<GlobalContext>({
   setCompletedPomodoros: () => {},
   toggleCompleteTask: () => {},
 });
+
+const socket = io("http://localhost:3001");
 
 function App() {
   const [tasks, setTasks] = useState<Array<Task>>([]);
