@@ -64,7 +64,7 @@ let TaskBox = ({
           {task.note}
         </span>
       )}
-      {isSettingsOpen ? <button onClick={() => onDelete()}>delete</button> : ""}
+      {isSettingsOpen && <button onClick={() => onDelete()}>delete</button>}
     </div>
   );
 };

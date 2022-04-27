@@ -23,10 +23,12 @@ let TimeEstimation = () => {
 
   return (
     <div className=" w-96 mt-4 border-t bg-gray-700 rounded-b p-2 text-lg">
-      Estimated: {totalPomodoroGoal} Finished: {completedPomodoros}.{" "}
-      {estimatedMinutesLeft > 0 &&
-        `You should
-      finish in ${estimatedTimeLeft()}.`}
+      <p>
+        Estimated: {totalPomodoroGoal} Finished: {completedPomodoros}.
+      </p>
+      {estimatedMinutesLeft > 0 && (
+        <p>You should finish in {estimatedTimeLeft()}.</p>
+      )}
     </div>
   );
 };

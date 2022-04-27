@@ -41,7 +41,7 @@ function App() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
     localStorage.setItem(
       "selectedTaskIndex",
-      selectedTaskIndex !== null ? selectedTaskIndex.toString() : "null"
+      selectedTaskIndex ? selectedTaskIndex.toString() : "null"
     );
     localStorage.setItem(
       "completedPomodoros",
@@ -94,13 +94,13 @@ function App() {
         setCompletedPomodoros,
         toggleCompleteTask,
       }}>
-      <div className="text-center">
-        <header className="App-header text-white bg-slate-800">
+      <div className="text-center bg-gray-800 min-h-screen">
+        <div className="App-header text-white  flex gap-2 flex-col w-96 m-auto py-10">
           <ProgressSection />
           <Timer />
           <Tasks />
           {tasks.length > 0 && <TimeEstimation />}
-        </header>
+        </div>
       </div>
     </TasksContext.Provider>
   );
