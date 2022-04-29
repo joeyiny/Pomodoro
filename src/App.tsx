@@ -15,8 +15,14 @@ import { io } from "socket.io-client";
 import useSound from "use-sound";
 import NewUserNotification from "./components/notifications/NewUserNotification";
 import ConnectedUsers from "./components/ConnectedUsers";
+import JoinRoom from "./components/JoinRoom";
 const alarmSound = require("./sounds/alarm.wav");
 const joinSound = require("./sounds/join.wav");
+
+export type User = {
+  roomCode: string;
+  userName: string;
+};
 
 export const TasksContext = createContext<GlobalContext>({
   tasks: [],
@@ -41,13 +47,14 @@ const socket = io("localhost:3001");
 
 function App() {
   const [isInRoom, setIsInRoom] = useState<boolean>(false);
+  const [roomCode, setRoomCode] = useState<string>("");
 
   const [seconds, setSeconds] = useState<number>(1500);
   const [sessionType, setSessionType] = useState<SessionType>(
     SessionType.POMODORO
   );
   const [timerOn, setTimerOn] = useState<boolean>(false);
-  const [connectedUsers, setConnectedUsers] = useState<number>(0);
+  const [connectedUsers, setConnectedUsers] = useState<Array<User>>([]);
   const [tasks, setTasks] = useState<Array<Task>>([]);
   const [selectedTaskIndex, setSelectedTaskIndex] = useState<number | null>(
     null
@@ -78,7 +85,9 @@ function App() {
     socket.on("timer-tick", (data) => setSeconds(data));
     socket.on("timer-toggle", (data) => setTimerOn(data));
     socket.on("set-session-type", (data) => setSessionType(data));
-    socket.on("connected-users", (data) => setConnectedUsers(data));
+    socket.on("connected-users", (data) => {
+      setConnectedUsers(data);
+    });
     socket.on("new-user-connected", () => {
       playJoinSound();
       setNewUserEffectOn(true);
@@ -86,6 +95,10 @@ function App() {
     socket.on("timer-complete", () => {
       playAlarmSound();
       setCompletedPomodoros(completedPomodoros + 1);
+    });
+    socket.on("joined-room", (code) => {
+      setIsInRoom(true);
+      setRoomCode(code);
     });
   }, [playAlarmSound, playJoinSound]);
 
@@ -130,24 +143,7 @@ function App() {
     setSelectedTaskIndex(taskIndex);
   };
 
-  if (!isInRoom)
-    return (
-      <div className="text-center bg-gray-800 min-h-screen">
-        <div className="App-header text-white flex gap-2 flex-col w-96 m-auto py-10">
-          <p className="">Join a room:</p>
-          <div className="flex flex-row gap-2">
-            <input
-              className="text-gray-900 flex-grow px-1 py-0.5"
-              placeholder="Enter room code"
-              type="text"
-            />
-            <button className="border-2 border-white rounded  w-min px-2 py-1">
-              Join
-            </button>
-          </div>
-        </div>
-      </div>
-    );
+  if (!isInRoom) return <JoinRoom socket={socket} />;
   return (
     <TasksContext.Provider
       value={{
@@ -165,12 +161,13 @@ function App() {
       {newUserEffectOn && <NewUserNotification />}
       <div className="text-center bg-gray-800 min-h-screen">
         <div className="App-header text-white  flex gap-2 flex-col w-96 m-auto py-10">
+          <p>Room Code: {roomCode}</p>
           <ConnectedUsers connectedUsers={connectedUsers} />
           <ProgressSection />
           <TimerContext.Provider value={{ seconds, timerOn, sessionType }}>
             <Timer socket={socket} />
           </TimerContext.Provider>
-          <Tasks />
+          {/* <Tasks /> */}
           {tasks.length > 0 && <TimeEstimation />}
         </div>
       </div>
