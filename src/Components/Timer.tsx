@@ -29,13 +29,11 @@ let Timer = ({ socket }: { socket: any }) => {
   }, [seconds, timerOn, sessionType]);
 
   useEffect(() => {
-    let interval: any = null;
     if (timerOn) {
       if (seconds <= 0) {
         playAlarmSound();
       }
     }
-    if (!timerOn) stop();
   }, [timerOn, seconds, playAlarmSound]);
 
   return (
