@@ -12,6 +12,7 @@ import {
 
 import { createContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import { Link } from "react-router-dom";
 import useSound from "use-sound";
 import NewUserNotification from "./components/notifications/NewUserNotification";
 import ConnectedUsers from "./components/ConnectedUsers";

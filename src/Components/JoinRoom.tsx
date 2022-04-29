@@ -16,7 +16,13 @@ const JoinRoom = ({ socket }: { socket: Socket }) => {
           onChange={(e) => setUserNameInput(e.target.value)}
         />
         <div className="flex flex-row gap-x-2">
-          <button className="bg-white text-gray-800 px-2">
+          <button
+            onClick={() => {
+              socket.emit("create-room", userNameInput, (response: string) => {
+                console.log(response);
+              });
+            }}
+            className="bg-white text-gray-800 px-2">
             Start New Room
           </button>
           <div className="flex-grow flex flex-row gap-1">

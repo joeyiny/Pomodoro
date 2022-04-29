@@ -1,12 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
 import App from "./App.tsx";
 import reportWebVitals from "./reportWebVitals";
+import RoomScreen from "./screens/RoomScreen";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path=":roomCode" element={<RoomScreen />} />
+        <Route path="/" element={<App />}></Route>
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );
