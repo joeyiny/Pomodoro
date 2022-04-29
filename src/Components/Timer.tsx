@@ -1,13 +1,9 @@
-import { useContext, useEffect, useState } from "react";
-import { TasksContext, TimerContext } from "../App";
-import useSound from "use-sound";
+import { useContext, useEffect } from "react";
+import { TimerContext } from "../App";
 import { SessionType } from "../types/GlobalContext";
-const alarmSound = require("../sounds/alarm.wav");
 
 let Timer = ({ socket }: { socket: any }) => {
   const { seconds, timerOn, sessionType } = useContext(TimerContext);
-
-  const [playAlarmSound, { stop }] = useSound(alarmSound, { volume: 0.4 });
 
   let getTimestamp = () => {
     let minutes = Math.floor(seconds / 60);
@@ -27,14 +23,6 @@ let Timer = ({ socket }: { socket: any }) => {
       affirmation = "Enjoy your break!";
     document.title = getTimestamp() + " - " + affirmation;
   }, [seconds, timerOn, sessionType]);
-
-  useEffect(() => {
-    if (timerOn) {
-      if (seconds <= 0) {
-        playAlarmSound();
-      }
-    }
-  }, [timerOn, seconds, playAlarmSound]);
 
   return (
     <div className="bg-gray-700 p-5 rounded-md flex gap-5 flex-col">
