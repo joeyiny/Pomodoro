@@ -7,10 +7,6 @@ const alarmSound = require("../sounds/alarm.wav");
 let Timer = ({ socket }: { socket: any }) => {
   const { seconds, timerOn, sessionType } = useContext(TimerContext);
 
-  // let toggle = () => {
-  //   setIsActive(!isActive);
-  // };
-
   const [playAlarmSound, { stop }] = useSound(alarmSound, { volume: 0.4 });
 
   // let reset = (sessionType: SessionType) => {
@@ -83,24 +79,33 @@ let Timer = ({ socket }: { socket: any }) => {
   return (
     <div className="bg-gray-700 p-5 rounded-md flex gap-5 flex-col">
       <div className="flex gap-3 text-lg">
-        <span
+        <button
           className={`${
             sessionType === SessionType.POMODORO && "font-bold bg-gray-800"
-          } cursor-pointer px-2 py-1 rounded`}>
+          } cursor-pointer px-2 py-1 rounded`}
+          onClick={() => {
+            socket.emit("session-type-switch", SessionType.POMODORO);
+          }}>
           {SessionType.POMODORO}
-        </span>
-        <span
+        </button>
+        <button
           className={`${
             sessionType === SessionType.SHORTBREAK && "font-bold bg-gray-800"
-          } cursor-pointer px-2 py-1 rounded`}>
+          } cursor-pointer px-2 py-1 rounded`}
+          onClick={() => {
+            socket.emit("session-type-switch", SessionType.SHORTBREAK);
+          }}>
           {SessionType.SHORTBREAK}
-        </span>
-        <span
+        </button>
+        <button
           className={`${
             sessionType === SessionType.LONGBREAK && "font-bold bg-gray-800"
-          } cursor-pointer px-2 py-1 rounded`}>
+          } cursor-pointer px-2 py-1 rounded`}
+          onClick={() => {
+            socket.emit("session-type-switch", SessionType.LONGBREAK);
+          }}>
           {SessionType.LONGBREAK}
-        </span>
+        </button>
       </div>
       <span id="timer" className="flex gap-2 justify-between">
         <button
@@ -122,9 +127,6 @@ let Timer = ({ socket }: { socket: any }) => {
         </button>
       </span>
       <div className="flex gap-2 text-base justify-center">
-        {/* <button onClick={() => reset(sessionType)} className="border-2">
-          Reset
-        </button> */}
         <button
           onClick={() => {
             socket.emit("toggle-button-press");

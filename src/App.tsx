@@ -59,6 +59,7 @@ function App() {
   useEffect(() => {
     socket.on("timer-tick", (data) => setSeconds(data));
     socket.on("timer-toggle", (data) => setTimerOn(data));
+    socket.on("set-session-type", (data) => setSessionType(data));
   }, []);
 
   useEffect(() => {
