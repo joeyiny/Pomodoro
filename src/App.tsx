@@ -42,7 +42,7 @@ function App() {
     SessionType.POMODORO
   );
   const [timerOn, setTimerOn] = useState<boolean>(false);
-
+  const [connectedUsers, setConnectedUsers] = useState<number>(0);
   const [tasks, setTasks] = useState<Array<Task>>([]);
   const [selectedTaskIndex, setSelectedTaskIndex] = useState<number | null>(
     null
@@ -64,6 +64,7 @@ function App() {
     socket.on("timer-tick", (data) => setSeconds(data));
     socket.on("timer-toggle", (data) => setTimerOn(data));
     socket.on("set-session-type", (data) => setSessionType(data));
+    socket.on("connected-users", (data) => setConnectedUsers(data));
     socket.on("timer-complete", () => {
       playAlarmSound();
       setCompletedPomodoros(completedPomodoros + 1);
@@ -127,6 +128,7 @@ function App() {
       }}>
       <div className="text-center bg-gray-800 min-h-screen">
         <div className="App-header text-white  flex gap-2 flex-col w-96 m-auto py-10">
+          <p>connected users: {connectedUsers}</p>
           <ProgressSection />
           <TimerContext.Provider value={{ seconds, timerOn, sessionType }}>
             <Timer socket={socket} />
