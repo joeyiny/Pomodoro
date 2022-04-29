@@ -12,6 +12,8 @@ import {
 
 import { createContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import useSound from "use-sound";
+const alarmSound = require("./sounds/alarm.wav");
 
 export const TasksContext = createContext<GlobalContext>({
   tasks: [],
@@ -47,6 +49,8 @@ function App() {
   );
   const [completedPomodoros, setCompletedPomodoros] = useState<number>(0);
 
+  const [playAlarmSound] = useSound(alarmSound, { volume: 0.4 });
+
   useEffect(() => {
     const taskData = localStorage.getItem("tasks");
     const selectedTaskIndexData = localStorage.getItem("selectedTaskIndex");
@@ -60,7 +64,10 @@ function App() {
     socket.on("timer-tick", (data) => setSeconds(data));
     socket.on("timer-toggle", (data) => setTimerOn(data));
     socket.on("set-session-type", (data) => setSessionType(data));
-  }, []);
+    socket.on("timer-complete", () => {
+      playAlarmSound();
+    });
+  }, [playAlarmSound]);
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
