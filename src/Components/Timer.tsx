@@ -3,7 +3,7 @@ import { TimerContext } from "../App";
 import { SessionType } from "../types/GlobalContext";
 
 let Timer = ({ socket }: { socket: any }) => {
-  const { seconds, timerOn, sessionType } = useContext(TimerContext);
+  const { seconds, timerOn, sessionType, roomCode } = useContext(TimerContext);
 
   let getTimestamp = () => {
     let minutes = Math.floor(seconds / 60);
@@ -32,7 +32,7 @@ let Timer = ({ socket }: { socket: any }) => {
             sessionType === SessionType.POMODORO && "font-bold bg-gray-800"
           } cursor-pointer px-2 py-1 rounded`}
           onClick={() => {
-            socket.emit("session-type-switch", SessionType.POMODORO);
+            socket.emit("session-type-switch", roomCode, SessionType.POMODORO);
           }}>
           {SessionType.POMODORO}
         </button>
@@ -41,7 +41,11 @@ let Timer = ({ socket }: { socket: any }) => {
             sessionType === SessionType.SHORTBREAK && "font-bold bg-gray-800"
           } cursor-pointer px-2 py-1 rounded`}
           onClick={() => {
-            socket.emit("session-type-switch", SessionType.SHORTBREAK);
+            socket.emit(
+              "session-type-switch",
+              roomCode,
+              SessionType.SHORTBREAK
+            );
           }}>
           {SessionType.SHORTBREAK}
         </button>
@@ -50,7 +54,7 @@ let Timer = ({ socket }: { socket: any }) => {
             sessionType === SessionType.LONGBREAK && "font-bold bg-gray-800"
           } cursor-pointer px-2 py-1 rounded`}
           onClick={() => {
-            socket.emit("session-type-switch", SessionType.LONGBREAK);
+            socket.emit("session-type-switch", roomCode, SessionType.LONGBREAK);
           }}>
           {SessionType.LONGBREAK}
         </button>
@@ -60,7 +64,7 @@ let Timer = ({ socket }: { socket: any }) => {
           className="border-2 disabled:border-gray-700 disabled:text-gray-700 w-12 rounded-md"
           disabled={timerOn}
           onClick={() => {
-            socket.emit("decrement-button-press");
+            socket.emit("decrement-button-press", roomCode);
           }}>
           -
         </button>
@@ -69,7 +73,7 @@ let Timer = ({ socket }: { socket: any }) => {
           className="border-2 disabled:border-gray-700 disabled:text-gray-700 w-12 rounded-md"
           disabled={timerOn}
           onClick={() => {
-            socket.emit("increment-button-press");
+            socket.emit("increment-button-press", roomCode);
           }}>
           +
         </button>
@@ -77,7 +81,7 @@ let Timer = ({ socket }: { socket: any }) => {
       <div className="flex gap-2 text-base justify-center">
         <button
           onClick={() => {
-            socket.emit("toggle-button-press");
+            socket.emit("toggle-button-press", roomCode);
           }}
           className="border-2 w-24 p-2 text-xl uppercase font-bold rounded-md">
           {timerOn ? "Stop" : "Start"}

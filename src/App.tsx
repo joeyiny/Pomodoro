@@ -164,7 +164,8 @@ function App() {
           <p>Room Code: {roomCode}</p>
           <ConnectedUsers connectedUsers={connectedUsers} />
           <ProgressSection />
-          <TimerContext.Provider value={{ seconds, timerOn, sessionType }}>
+          <TimerContext.Provider
+            value={{ seconds, timerOn, sessionType, roomCode }}>
             <Timer socket={socket} />
           </TimerContext.Provider>
           {/* <Tasks /> */}

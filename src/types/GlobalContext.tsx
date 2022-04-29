@@ -24,4 +24,5 @@ export type TimerContextType = {
   seconds: number;
   timerOn: boolean;
   sessionType: SessionType;
+  roomCode?: string;
 };
