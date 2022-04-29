@@ -13,3 +13,7 @@ export type GlobalContext = {
   setCompletedPomodoros: Dispatch<SetStateAction<number>>;
   toggleCompleteTask: (taskIndex: number) => void;
 };
+
+export type TimerContextType = {
+  seconds: number;
+};

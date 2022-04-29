@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { TasksContext } from "../App";
+import { TasksContext, TimerContext } from "../App";
 import useSound from "use-sound";
 const alarmSound = require("../sounds/alarm.wav");
 
@@ -10,16 +10,13 @@ enum SessionType {
 }
 
 let Timer = ({ socket }: { socket: any }) => {
-  const [seconds, setSeconds] = useState<number>(25 * 60);
+  // const [seconds, setSeconds] = useState<number>(25 * 60);
   const [isActive, setIsActive] = useState<boolean>(false);
   const [sessionType, setSessionType] = useState<SessionType>(
     SessionType.POMODORO
   );
-  const {
-    iterateNumberOfPomodorosForSelectedTask,
-    completedPomodoros,
-    setCompletedPomodoros,
-  } = useContext(TasksContext);
+
+  const { seconds } = useContext(TimerContext);
 
   let toggle = () => {
     setIsActive(!isActive);
@@ -27,36 +24,36 @@ let Timer = ({ socket }: { socket: any }) => {
 
   const [playAlarmSound, { stop }] = useSound(alarmSound, { volume: 0.4 });
 
-  let reset = (sessionType: SessionType) => {
-    let minutesToCountdown;
-    switch (sessionType) {
-      case SessionType.POMODORO:
-        minutesToCountdown = 25;
-        break;
-      case SessionType.SHORTBREAK:
-        minutesToCountdown = 5;
-        break;
-      case SessionType.LONGBREAK:
-        minutesToCountdown = 15;
-        break;
-    }
-    setIsActive(false);
-    setSeconds(minutesToCountdown * 60);
-    stop();
-  };
+  // let reset = (sessionType: SessionType) => {
+  //   let minutesToCountdown;
+  //   switch (sessionType) {
+  //     case SessionType.POMODORO:
+  //       minutesToCountdown = 25;
+  //       break;
+  //     case SessionType.SHORTBREAK:
+  //       minutesToCountdown = 5;
+  //       break;
+  //     case SessionType.LONGBREAK:
+  //       minutesToCountdown = 15;
+  //       break;
+  //   }
+  //   setIsActive(false);
+  //   setSeconds(minutesToCountdown * 60);
+  //   stop();
+  // };
 
   let increment = () => {
-    if (!isActive) setSeconds(() => seconds + 60);
+    // if (!isActive) setSeconds(() => seconds + 60);
   };
 
   let decrement = () => {
-    if (!isActive) {
-      if (seconds >= 60) {
-        setSeconds(() => seconds - 60);
-      } else {
-        setSeconds(0);
-      }
-    }
+    // if (!isActive) {
+    //   if (seconds >= 60) {
+    //     setSeconds(() => seconds - 60);
+    //   } else {
+    //     setSeconds(0);
+    //   }
+    // }
   };
 
   let getTimestamp = () => {
@@ -69,7 +66,7 @@ let Timer = ({ socket }: { socket: any }) => {
 
   let setSession = (sessionType: SessionType) => {
     setSessionType(sessionType);
-    reset(sessionType);
+    // reset(sessionType);
   };
 
   useEffect(() => {
@@ -83,30 +80,30 @@ let Timer = ({ socket }: { socket: any }) => {
     document.title = getTimestamp() + " - " + affirmation;
   }, [seconds, isActive, sessionType]);
 
-  useEffect(() => {
-    let interval: any = null;
-    if (isActive) {
-      interval = setInterval(() => {
-        setSeconds((seconds) => seconds - 1);
-      }, 1000);
-      if (seconds <= 0) {
-        clearInterval(interval);
-        setIsActive(false);
-        if (sessionType === SessionType.POMODORO) {
-          setCompletedPomodoros((completedPomodoros) => completedPomodoros + 1);
-          iterateNumberOfPomodorosForSelectedTask();
-          setSession(SessionType.SHORTBREAK);
-        } else {
-          setSession(SessionType.POMODORO);
-        }
+  // useEffect(() => {
+  //   let interval: any = null;
+  //   if (isActive) {
+  //     interval = setInterval(() => {
+  //       setSeconds((seconds) => seconds - 1);
+  //     }, 1000);
+  //     if (seconds <= 0) {
+  //       clearInterval(interval);
+  //       setIsActive(false);
+  //       if (sessionType === SessionType.POMODORO) {
+  //         setCompletedPomodoros((completedPomodoros) => completedPomodoros + 1);
+  //         iterateNumberOfPomodorosForSelectedTask();
+  //         setSession(SessionType.SHORTBREAK);
+  //       } else {
+  //         setSession(SessionType.POMODORO);
+  //       }
 
-        playAlarmSound();
-      }
-    } else if (!isActive && seconds !== 0) {
-      clearInterval(interval);
-    }
-    return () => clearInterval(interval);
-  }, [isActive, seconds, playAlarmSound]);
+  //       playAlarmSound();
+  //     }
+  //   } else if (!isActive && seconds !== 0) {
+  //     clearInterval(interval);
+  //   }
+  //   return () => clearInterval(interval);
+  // }, [isActive, seconds, playAlarmSound]);
 
   return (
     <div className="bg-gray-700 p-5 rounded-md flex gap-5 flex-col">
