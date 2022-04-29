@@ -74,7 +74,7 @@ function App() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
     localStorage.setItem(
       "selectedTaskIndex",
-      selectedTaskIndex ? selectedTaskIndex.toString() : "null"
+      selectedTaskIndex !== null ? selectedTaskIndex?.toString() : "null"
     );
     localStorage.setItem(
       "completedPomodoros",
