@@ -14,6 +14,7 @@ import { createContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import useSound from "use-sound";
 import NewUserNotification from "./components/notifications/NewUserNotification";
+import ConnectedUsers from "./components/ConnectedUsers";
 const alarmSound = require("./sounds/alarm.wav");
 const joinSound = require("./sounds/join.wav");
 
@@ -36,9 +37,11 @@ export const TimerContext = createContext<TimerContextType>({
   sessionType: SessionType.POMODORO,
 });
 
-const socket = io("http://localhost:3001");
+const socket = io("localhost:3001");
 
 function App() {
+  const [isInRoom, setIsInRoom] = useState<boolean>(false);
+
   const [seconds, setSeconds] = useState<number>(1500);
   const [sessionType, setSessionType] = useState<SessionType>(
     SessionType.POMODORO
@@ -127,6 +130,24 @@ function App() {
     setSelectedTaskIndex(taskIndex);
   };
 
+  if (!isInRoom)
+    return (
+      <div className="text-center bg-gray-800 min-h-screen">
+        <div className="App-header text-white flex gap-2 flex-col w-96 m-auto py-10">
+          <p className="">Join a room:</p>
+          <div className="flex flex-row gap-2">
+            <input
+              className="text-gray-900 flex-grow px-1 py-0.5"
+              placeholder="Enter room code"
+              type="text"
+            />
+            <button className="border-2 border-white rounded  w-min px-2 py-1">
+              Join
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   return (
     <TasksContext.Provider
       value={{
@@ -144,7 +165,7 @@ function App() {
       {newUserEffectOn && <NewUserNotification />}
       <div className="text-center bg-gray-800 min-h-screen">
         <div className="App-header text-white  flex gap-2 flex-col w-96 m-auto py-10">
-          <p>connected users: {connectedUsers}</p>
+          <ConnectedUsers connectedUsers={connectedUsers} />
           <ProgressSection />
           <TimerContext.Provider value={{ seconds, timerOn, sessionType }}>
             <Timer socket={socket} />
