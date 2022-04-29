@@ -4,7 +4,11 @@ import Timer from "./components/Timer";
 import TimeEstimation from "./components/TimeEstimation";
 import ProgressSection from "./components/ProgressSection";
 import { Task } from "./types/Task";
-import { GlobalContext, TimerContextType } from "./types/GlobalContext";
+import {
+  GlobalContext,
+  SessionType,
+  TimerContextType,
+} from "./types/GlobalContext";
 
 import { createContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
@@ -24,12 +28,18 @@ export const TasksContext = createContext<GlobalContext>({
 
 export const TimerContext = createContext<TimerContextType>({
   seconds: 1500,
+  timerOn: false,
+  sessionType: SessionType.POMODORO,
 });
 
 const socket = io("http://localhost:3001");
 
 function App() {
   const [seconds, setSeconds] = useState<number>(1500);
+  const [sessionType, setSessionType] = useState<SessionType>(
+    SessionType.POMODORO
+  );
+  const [timerOn, setTimerOn] = useState<boolean>(false);
 
   const [tasks, setTasks] = useState<Array<Task>>([]);
   const [selectedTaskIndex, setSelectedTaskIndex] = useState<number | null>(
@@ -47,9 +57,8 @@ function App() {
   }, []);
 
   useEffect(() => {
-    socket.on("timer-tick", (data) => {
-      setSeconds(data);
-    });
+    socket.on("timer-tick", (data) => setSeconds(data));
+    socket.on("timer-toggle", (data) => setTimerOn(data));
   }, []);
 
   useEffect(() => {
@@ -112,7 +121,7 @@ function App() {
       <div className="text-center bg-gray-800 min-h-screen">
         <div className="App-header text-white  flex gap-2 flex-col w-96 m-auto py-10">
           <ProgressSection />
-          <TimerContext.Provider value={{ seconds }}>
+          <TimerContext.Provider value={{ seconds, timerOn, sessionType }}>
             <Timer socket={socket} />
           </TimerContext.Provider>
           <Tasks />

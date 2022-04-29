@@ -1,26 +1,21 @@
 import { useContext, useEffect, useState } from "react";
 import { TasksContext, TimerContext } from "../App";
 import useSound from "use-sound";
+import { SessionType } from "../types/GlobalContext";
 const alarmSound = require("../sounds/alarm.wav");
-
-enum SessionType {
-  POMODORO = "Pomodoro",
-  SHORTBREAK = "Short Break",
-  LONGBREAK = "Long Break",
-}
 
 let Timer = ({ socket }: { socket: any }) => {
   // const [seconds, setSeconds] = useState<number>(25 * 60);
-  const [isActive, setIsActive] = useState<boolean>(false);
-  const [sessionType, setSessionType] = useState<SessionType>(
-    SessionType.POMODORO
-  );
+  // const [isActive, setIsActive] = useState<boolean>(false);
+  // const [sessionType, setSessionType] = useState<SessionType>(
+  //   SessionType.POMODORO
+  // );
 
-  const { seconds } = useContext(TimerContext);
+  const { seconds, timerOn, sessionType } = useContext(TimerContext);
 
-  let toggle = () => {
-    setIsActive(!isActive);
-  };
+  // let toggle = () => {
+  //   setIsActive(!isActive);
+  // };
 
   const [playAlarmSound, { stop }] = useSound(alarmSound, { volume: 0.4 });
 
@@ -42,19 +37,19 @@ let Timer = ({ socket }: { socket: any }) => {
   //   stop();
   // };
 
-  let increment = () => {
-    // if (!isActive) setSeconds(() => seconds + 60);
-  };
+  // let increment = () => {
+  //   // if (!isActive) setSeconds(() => seconds + 60);
+  // };
 
-  let decrement = () => {
-    // if (!isActive) {
-    //   if (seconds >= 60) {
-    //     setSeconds(() => seconds - 60);
-    //   } else {
-    //     setSeconds(0);
-    //   }
-    // }
-  };
+  // let decrement = () => {
+  //   // if (!isActive) {
+  //   //   if (seconds >= 60) {
+  //   //     setSeconds(() => seconds - 60);
+  //   //   } else {
+  //   //     setSeconds(0);
+  //   //   }
+  //   // }
+  // };
 
   let getTimestamp = () => {
     let minutes = Math.floor(seconds / 60);
@@ -64,13 +59,13 @@ let Timer = ({ socket }: { socket: any }) => {
     return minutesDisplay + ":" + secondsDisplay;
   };
 
-  let setSession = (sessionType: SessionType) => {
-    setSessionType(sessionType);
-    // reset(sessionType);
-  };
+  // let setSession = (sessionType: SessionType) => {
+  //   setSessionType(sessionType);
+  //   // reset(sessionType);
+  // };
 
   useEffect(() => {
-    if (!isActive) {
+    if (!timerOn) {
       document.title = "My Pomo";
       return;
     }
@@ -78,7 +73,7 @@ let Timer = ({ socket }: { socket: any }) => {
     if (sessionType === SessionType.SHORTBREAK)
       affirmation = "Enjoy your break!";
     document.title = getTimestamp() + " - " + affirmation;
-  }, [seconds, isActive, sessionType]);
+  }, [seconds, timerOn, sessionType]);
 
   // useEffect(() => {
   //   let interval: any = null;
@@ -111,37 +106,34 @@ let Timer = ({ socket }: { socket: any }) => {
         <span
           className={`${
             sessionType === SessionType.POMODORO && "font-bold bg-gray-800"
-          } cursor-pointer px-2 py-1 rounded`}
-          onClick={() => setSession(SessionType.POMODORO)}>
+          } cursor-pointer px-2 py-1 rounded`}>
           {SessionType.POMODORO}
         </span>
         <span
           className={`${
             sessionType === SessionType.SHORTBREAK && "font-bold bg-gray-800"
-          } cursor-pointer px-2 py-1 rounded`}
-          onClick={() => setSession(SessionType.SHORTBREAK)}>
+          } cursor-pointer px-2 py-1 rounded`}>
           {SessionType.SHORTBREAK}
         </span>
         <span
           className={`${
             sessionType === SessionType.LONGBREAK && "font-bold bg-gray-800"
-          } cursor-pointer px-2 py-1 rounded`}
-          onClick={() => setSession(SessionType.LONGBREAK)}>
+          } cursor-pointer px-2 py-1 rounded`}>
           {SessionType.LONGBREAK}
         </span>
       </div>
       <span id="timer" className="flex gap-2 justify-between">
         <button
           className="border-2 disabled:border-gray-700 disabled:text-gray-700 w-12 rounded-md"
-          disabled={isActive}
-          onClick={() => decrement()}>
+          disabled={timerOn}
+          onClick={() => {}}>
           -
         </button>
         <span className="font-bold text-6xl">{getTimestamp()}</span>
         <button
           className="border-2 disabled:border-gray-700 disabled:text-gray-700 w-12 rounded-md"
-          disabled={isActive}
-          onClick={() => increment()}>
+          disabled={timerOn}
+          onClick={() => {}}>
           +
         </button>
       </span>
@@ -151,11 +143,11 @@ let Timer = ({ socket }: { socket: any }) => {
         </button> */}
         <button
           onClick={() => {
-            socket.emit("button-press");
-            toggle();
+            socket.emit("toggle-button-press");
+            // toggle();
           }}
           className="border-2 w-24 p-2 text-xl uppercase font-bold rounded-md">
-          {isActive ? "Stop" : "Start"}
+          {timerOn ? "Stop" : "Start"}
         </button>
       </div>
     </div>

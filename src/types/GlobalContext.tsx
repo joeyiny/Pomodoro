@@ -1,6 +1,12 @@
 import { Dispatch, SetStateAction } from "react";
 import { Task } from "./Task";
 
+export enum SessionType {
+  POMODORO = "Pomodoro",
+  SHORTBREAK = "Short Break",
+  LONGBREAK = "Long Break",
+}
+
 export type GlobalContext = {
   tasks: Array<Task>;
   setTasks: Dispatch<SetStateAction<Task[]>>;
@@ -16,4 +22,6 @@ export type GlobalContext = {
 
 export type TimerContextType = {
   seconds: number;
+  timerOn: boolean;
+  sessionType: SessionType;
 };
