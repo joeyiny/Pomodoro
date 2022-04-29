@@ -9,24 +9,6 @@ let Timer = ({ socket }: { socket: any }) => {
 
   const [playAlarmSound, { stop }] = useSound(alarmSound, { volume: 0.4 });
 
-  // let reset = (sessionType: SessionType) => {
-  //   let minutesToCountdown;
-  //   switch (sessionType) {
-  //     case SessionType.POMODORO:
-  //       minutesToCountdown = 25;
-  //       break;
-  //     case SessionType.SHORTBREAK:
-  //       minutesToCountdown = 5;
-  //       break;
-  //     case SessionType.LONGBREAK:
-  //       minutesToCountdown = 15;
-  //       break;
-  //   }
-  //   setIsActive(false);
-  //   setSeconds(minutesToCountdown * 60);
-  //   stop();
-  // };
-
   let getTimestamp = () => {
     let minutes = Math.floor(seconds / 60);
     let minutesDisplay = minutes <= 9 ? "0" + minutes : minutes;
@@ -34,11 +16,6 @@ let Timer = ({ socket }: { socket: any }) => {
       seconds % 60 <= 9 ? "0" + (seconds % 60) : seconds % 60;
     return minutesDisplay + ":" + secondsDisplay;
   };
-
-  // let setSession = (sessionType: SessionType) => {
-  //   setSessionType(sessionType);
-  //   // reset(sessionType);
-  // };
 
   useEffect(() => {
     if (!timerOn) {
@@ -51,30 +28,15 @@ let Timer = ({ socket }: { socket: any }) => {
     document.title = getTimestamp() + " - " + affirmation;
   }, [seconds, timerOn, sessionType]);
 
-  // useEffect(() => {
-  //   let interval: any = null;
-  //   if (isActive) {
-  //     interval = setInterval(() => {
-  //       setSeconds((seconds) => seconds - 1);
-  //     }, 1000);
-  //     if (seconds <= 0) {
-  //       clearInterval(interval);
-  //       setIsActive(false);
-  //       if (sessionType === SessionType.POMODORO) {
-  //         setCompletedPomodoros((completedPomodoros) => completedPomodoros + 1);
-  //         iterateNumberOfPomodorosForSelectedTask();
-  //         setSession(SessionType.SHORTBREAK);
-  //       } else {
-  //         setSession(SessionType.POMODORO);
-  //       }
-
-  //       playAlarmSound();
-  //     }
-  //   } else if (!isActive && seconds !== 0) {
-  //     clearInterval(interval);
-  //   }
-  //   return () => clearInterval(interval);
-  // }, [isActive, seconds, playAlarmSound]);
+  useEffect(() => {
+    let interval: any = null;
+    if (timerOn) {
+      if (seconds <= 0) {
+        playAlarmSound();
+      }
+    }
+    if (!timerOn) stop();
+  }, [timerOn, seconds, playAlarmSound]);
 
   return (
     <div className="bg-gray-700 p-5 rounded-md flex gap-5 flex-col">
