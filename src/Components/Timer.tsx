@@ -5,12 +5,6 @@ import { SessionType } from "../types/GlobalContext";
 const alarmSound = require("../sounds/alarm.wav");
 
 let Timer = ({ socket }: { socket: any }) => {
-  // const [seconds, setSeconds] = useState<number>(25 * 60);
-  // const [isActive, setIsActive] = useState<boolean>(false);
-  // const [sessionType, setSessionType] = useState<SessionType>(
-  //   SessionType.POMODORO
-  // );
-
   const { seconds, timerOn, sessionType } = useContext(TimerContext);
 
   // let toggle = () => {
@@ -35,20 +29,6 @@ let Timer = ({ socket }: { socket: any }) => {
   //   setIsActive(false);
   //   setSeconds(minutesToCountdown * 60);
   //   stop();
-  // };
-
-  // let increment = () => {
-  //   // if (!isActive) setSeconds(() => seconds + 60);
-  // };
-
-  // let decrement = () => {
-  //   // if (!isActive) {
-  //   //   if (seconds >= 60) {
-  //   //     setSeconds(() => seconds - 60);
-  //   //   } else {
-  //   //     setSeconds(0);
-  //   //   }
-  //   // }
   // };
 
   let getTimestamp = () => {
@@ -126,14 +106,18 @@ let Timer = ({ socket }: { socket: any }) => {
         <button
           className="border-2 disabled:border-gray-700 disabled:text-gray-700 w-12 rounded-md"
           disabled={timerOn}
-          onClick={() => {}}>
+          onClick={() => {
+            socket.emit("decrement-button-press");
+          }}>
           -
         </button>
         <span className="font-bold text-6xl">{getTimestamp()}</span>
         <button
           className="border-2 disabled:border-gray-700 disabled:text-gray-700 w-12 rounded-md"
           disabled={timerOn}
-          onClick={() => {}}>
+          onClick={() => {
+            socket.emit("increment-button-press");
+          }}>
           +
         </button>
       </span>
@@ -144,7 +128,6 @@ let Timer = ({ socket }: { socket: any }) => {
         <button
           onClick={() => {
             socket.emit("toggle-button-press");
-            // toggle();
           }}
           className="border-2 w-24 p-2 text-xl uppercase font-bold rounded-md">
           {timerOn ? "Stop" : "Start"}
