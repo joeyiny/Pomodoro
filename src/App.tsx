@@ -66,6 +66,7 @@ function App() {
     socket.on("set-session-type", (data) => setSessionType(data));
     socket.on("timer-complete", () => {
       playAlarmSound();
+      setCompletedPomodoros(completedPomodoros + 1);
     });
   }, [playAlarmSound]);
 
@@ -80,8 +81,6 @@ function App() {
       completedPomodoros ? completedPomodoros.toString() : "null"
     );
   });
-
-  // const DAILY_POMODORO_GOAL = 8;
 
   let addTask = (task: Task) => {
     setTasks([...tasks, task]);
