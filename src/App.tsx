@@ -13,7 +13,9 @@ import {
 import { createContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import useSound from "use-sound";
+import NewUserNotification from "./components/notifications/NewUserNotification";
 const alarmSound = require("./sounds/alarm.wav");
+const joinSound = require("./sounds/join.wav");
 
 export const TasksContext = createContext<GlobalContext>({
   tasks: [],
@@ -50,6 +52,9 @@ function App() {
   const [completedPomodoros, setCompletedPomodoros] = useState<number>(0);
 
   const [playAlarmSound] = useSound(alarmSound, { volume: 0.4 });
+  const [playJoinSound] = useSound(joinSound, { volume: 0.4 });
+
+  const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
 
   useEffect(() => {
     const taskData = localStorage.getItem("tasks");
@@ -61,15 +66,25 @@ function App() {
   }, []);
 
   useEffect(() => {
+    setTimeout(() => {
+      setNewUserEffectOn(false);
+    }, 6500);
+  }, [newUserEffectOn]);
+
+  useEffect(() => {
     socket.on("timer-tick", (data) => setSeconds(data));
     socket.on("timer-toggle", (data) => setTimerOn(data));
     socket.on("set-session-type", (data) => setSessionType(data));
     socket.on("connected-users", (data) => setConnectedUsers(data));
+    socket.on("new-user-connected", () => {
+      playJoinSound();
+      setNewUserEffectOn(true);
+    });
     socket.on("timer-complete", () => {
       playAlarmSound();
       setCompletedPomodoros(completedPomodoros + 1);
     });
-  }, [playAlarmSound]);
+  }, [playAlarmSound, playJoinSound]);
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -126,6 +141,7 @@ function App() {
         setCompletedPomodoros,
         toggleCompleteTask,
       }}>
+      {newUserEffectOn && <NewUserNotification />}
       <div className="text-center bg-gray-800 min-h-screen">
         <div className="App-header text-white  flex gap-2 flex-col w-96 m-auto py-10">
           <p>connected users: {connectedUsers}</p>
