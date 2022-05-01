@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Socket } from "socket.io-client";
+import { RoomContext, SocketContext } from "../App";
 
-const JoinRoom = ({ socket }: { socket: Socket }) => {
+const JoinRoom = () => {
   const [roomCodeInput, setRoomCodeInput] = useState<string>("");
   const [userNameInput, setUserNameInput] = useState<string>("");
+  const { socket } = useContext(SocketContext);
+  const { setRoomCode, setIsInRoom } = useContext(RoomContext);
   return (
     <div className="text-center bg-gray-800 min-h-screen">
       <div className="App-header text-white flex gap-2 flex-col w-96 m-auto py-10">
@@ -19,7 +22,8 @@ const JoinRoom = ({ socket }: { socket: Socket }) => {
           <button
             onClick={() => {
               socket.emit("create-room", userNameInput, (response: string) => {
-                console.log(response);
+                setIsInRoom(true);
+                setRoomCode(response);
               });
             }}
             className="bg-white text-gray-800 px-2">
@@ -35,10 +39,16 @@ const JoinRoom = ({ socket }: { socket: Socket }) => {
             />
             <button
               onClick={() => {
-                socket.emit("join-room", {
-                  roomCode: roomCodeInput,
-                  userName: userNameInput,
-                });
+                socket.emit(
+                  "join-room",
+                  {
+                    roomCode: roomCodeInput,
+                    userName: userNameInput,
+                  },
+                  (roomCode: string) => {
+                    setRoomCode(roomCode);
+                  }
+                );
               }}
               className="border-2 border-white rounded  w-min px-2 py-1">
               Join

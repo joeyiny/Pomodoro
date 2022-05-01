@@ -5,18 +5,23 @@ import TimeEstimation from "./components/TimeEstimation";
 import ProgressSection from "./components/ProgressSection";
 import { Task } from "./types/Task";
 import {
+  ClientToServerEvents,
   GlobalContext,
+  RoomContextType,
+  ServerToClientEvents,
   SessionType,
+  SocketContextType,
   TimerContextType,
 } from "./types/GlobalContext";
 
 import { createContext, useEffect, useState } from "react";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import { Link } from "react-router-dom";
 import useSound from "use-sound";
 import NewUserNotification from "./components/notifications/NewUserNotification";
 import ConnectedUsers from "./components/ConnectedUsers";
 import JoinRoom from "./components/JoinRoom";
+import RoomScreen from "./screens/RoomScreen";
 const alarmSound = require("./sounds/alarm.wav");
 const joinSound = require("./sounds/join.wav");
 
@@ -47,7 +52,17 @@ export const TimerContext = createContext<TimerContextType>({
   setTimerOn: () => {},
 });
 
-const socket = io("localhost:3001");
+export const RoomContext = createContext<RoomContextType>({
+  roomCode: "",
+  setIsInRoom: () => {},
+  setRoomCode: () => {},
+});
+
+const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
+  io("localhost:3001");
+export const SocketContext = createContext({
+  socket: socket,
+});
 
 function App() {
   const [isInRoom, setIsInRoom] = useState<boolean>(false);
@@ -86,21 +101,21 @@ function App() {
   }, [newUserEffectOn]);
 
   useEffect(() => {
-    // socket.on("timer-tick", (data) => setSeconds(data));
-    // socket.on("timer-toggle", (data) => setTimerOn(data));
-    // socket.on("set-session-type", (data) => setSessionType(data));
-    // socket.on("connected-users", (data) => {
-    //   setConnectedUsers(data);
-    // });
-    // socket.on("new-user-connected", () => {
-    //   playJoinSound();
-    //   setNewUserEffectOn(true);
-    // });
-    // socket.on("timer-complete", () => {
-    //   playAlarmSound();
-    //   setCompletedPomodoros(completedPomodoros + 1);
-    // });
-    socket.on("joined-room", (code) => {
+    socket.on("timer-tick", (data) => setSeconds(data));
+    socket.on("timer-toggle", (data) => setTimerOn(data));
+    socket.on("set-session-type", (data) => setSessionType(data));
+    socket.on("connected-users", (data) => {
+      setConnectedUsers(data);
+    });
+    socket.on("new-user-connected", () => {
+      playJoinSound();
+      setNewUserEffectOn(true);
+    });
+    socket.on("timer-complete", () => {
+      playAlarmSound();
+      setCompletedPomodoros(completedPomodoros + 1);
+    });
+    socket.on("joined-room", (code: string) => {
       setIsInRoom(true);
       setRoomCode(code);
     });
@@ -147,7 +162,6 @@ function App() {
     setSelectedTaskIndex(taskIndex);
   };
 
-  if (!isInRoom) return <JoinRoom socket={socket} />;
   return (
     <TasksContext.Provider
       value={{
@@ -162,27 +176,21 @@ function App() {
         setCompletedPomodoros,
         toggleCompleteTask,
       }}>
-      {newUserEffectOn && <NewUserNotification />}
-      <div className="text-center bg-gray-800 min-h-screen">
-        <div className="App-header text-white  flex gap-2 flex-col w-96 m-auto py-10">
-          <p>Room Code: {roomCode}</p>
-          <ConnectedUsers connectedUsers={connectedUsers} />
-          <ProgressSection />
-          <TimerContext.Provider
-            value={{
-              seconds,
-              timerOn,
-              setTimerOn,
-              sessionType,
-              setSessionType,
-              setSeconds,
-            }}>
-            <Timer socket={socket} />
-          </TimerContext.Provider>
-          {/* <Tasks /> */}
-          {tasks.length > 0 && <TimeEstimation />}
-        </div>
-      </div>
+      <TimerContext.Provider
+        value={{
+          seconds,
+          timerOn,
+          sessionType,
+          setSeconds,
+          setTimerOn,
+          setSessionType,
+        }}>
+        <SocketContext.Provider value={{ socket }}>
+          <RoomContext.Provider value={{ roomCode, setIsInRoom, setRoomCode }}>
+            {isInRoom ? <RoomScreen /> : <JoinRoom />}
+          </RoomContext.Provider>
+        </SocketContext.Provider>
+      </TimerContext.Provider>
     </TasksContext.Provider>
   );
 }

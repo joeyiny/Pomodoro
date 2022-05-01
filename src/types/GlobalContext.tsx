@@ -1,4 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
+import { Socket } from "socket.io-client";
+import { User } from "../App";
 import { Task } from "./Task";
 
 export enum SessionType {
@@ -29,3 +31,43 @@ export type TimerContextType = {
   setTimerOn?: any;
   setSeconds?: any;
 };
+
+export type RoomContextType = {
+  roomCode: string;
+  setIsInRoom: (isInRoom: boolean) => void;
+  setRoomCode: (roomCode: string) => void;
+};
+
+export type SocketContextType = {
+  socket: Socket | null;
+};
+export interface ServerToClientEvents {
+  "joined-room": (code: string) => void;
+  "timer-tick": (seconds: number) => void;
+  "timer-toggle": (timerOn: boolean) => void;
+  "set-session-type": (sessionType: SessionType) => void;
+  "connected-users": (data: any) => void;
+  "new-user-connected": () => void;
+  "timer-complete": () => void;
+}
+
+export interface ClientToServerEvents {
+  "toggle-button-press": (roomCode: string) => void;
+  "increment-button-press": () => void;
+  "decrement-button-press": () => void;
+  "session-type-switch": (sessionType: SessionType) => void;
+  "create-room": (
+    userNameInput: string,
+    callback: (roomCode: string) => void
+  ) => void;
+  "join-room": (user: User, callback: (roomCode: string) => void) => {};
+}
+
+export interface InterServerEvents {
+  ping: () => void;
+}
+
+export interface SocketData {
+  name: string;
+  age: number;
+}
