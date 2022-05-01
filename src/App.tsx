@@ -42,6 +42,9 @@ export const TimerContext = createContext<TimerContextType>({
   seconds: 1500,
   timerOn: false,
   sessionType: SessionType.POMODORO,
+  setSessionType: () => {},
+  setSeconds: () => {},
+  setTimerOn: () => {},
 });
 
 const socket = io("localhost:3001");
@@ -83,20 +86,20 @@ function App() {
   }, [newUserEffectOn]);
 
   useEffect(() => {
-    socket.on("timer-tick", (data) => setSeconds(data));
-    socket.on("timer-toggle", (data) => setTimerOn(data));
-    socket.on("set-session-type", (data) => setSessionType(data));
-    socket.on("connected-users", (data) => {
-      setConnectedUsers(data);
-    });
-    socket.on("new-user-connected", () => {
-      playJoinSound();
-      setNewUserEffectOn(true);
-    });
-    socket.on("timer-complete", () => {
-      playAlarmSound();
-      setCompletedPomodoros(completedPomodoros + 1);
-    });
+    // socket.on("timer-tick", (data) => setSeconds(data));
+    // socket.on("timer-toggle", (data) => setTimerOn(data));
+    // socket.on("set-session-type", (data) => setSessionType(data));
+    // socket.on("connected-users", (data) => {
+    //   setConnectedUsers(data);
+    // });
+    // socket.on("new-user-connected", () => {
+    //   playJoinSound();
+    //   setNewUserEffectOn(true);
+    // });
+    // socket.on("timer-complete", () => {
+    //   playAlarmSound();
+    //   setCompletedPomodoros(completedPomodoros + 1);
+    // });
     socket.on("joined-room", (code) => {
       setIsInRoom(true);
       setRoomCode(code);
@@ -165,7 +168,15 @@ function App() {
           <p>Room Code: {roomCode}</p>
           <ConnectedUsers connectedUsers={connectedUsers} />
           <ProgressSection />
-          <TimerContext.Provider value={{ seconds, timerOn, sessionType }}>
+          <TimerContext.Provider
+            value={{
+              seconds,
+              timerOn,
+              setTimerOn,
+              sessionType,
+              setSessionType,
+              setSeconds,
+            }}>
             <Timer socket={socket} />
           </TimerContext.Provider>
           {/* <Tasks /> */}
