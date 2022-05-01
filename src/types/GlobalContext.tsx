@@ -36,6 +36,7 @@ export type RoomContextType = {
   roomCode: string;
   setIsInRoom: (isInRoom: boolean) => void;
   setRoomCode: (roomCode: string) => void;
+  connectedUsers: Array<User>;
 };
 
 export type SocketContextType = {

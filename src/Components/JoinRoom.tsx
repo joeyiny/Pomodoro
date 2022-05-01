@@ -22,8 +22,16 @@ const JoinRoom = () => {
           <button
             onClick={() => {
               socket.emit("create-room", userNameInput, (response: string) => {
-                setIsInRoom(true);
-                setRoomCode(response);
+                socket.emit(
+                  "join-room",
+                  {
+                    roomCode: response,
+                    userName: userNameInput,
+                  },
+                  (roomCode: string) => {
+                    setRoomCode(roomCode);
+                  }
+                );
               });
             }}
             className="bg-white text-gray-800 px-2">

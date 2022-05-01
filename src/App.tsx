@@ -56,6 +56,7 @@ export const RoomContext = createContext<RoomContextType>({
   roomCode: "",
   setIsInRoom: () => {},
   setRoomCode: () => {},
+  connectedUsers: [],
 });
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
@@ -186,7 +187,8 @@ function App() {
           setSessionType,
         }}>
         <SocketContext.Provider value={{ socket }}>
-          <RoomContext.Provider value={{ roomCode, setIsInRoom, setRoomCode }}>
+          <RoomContext.Provider
+            value={{ roomCode, setIsInRoom, setRoomCode, connectedUsers }}>
             {isInRoom ? <RoomScreen /> : <JoinRoom />}
           </RoomContext.Provider>
         </SocketContext.Provider>
