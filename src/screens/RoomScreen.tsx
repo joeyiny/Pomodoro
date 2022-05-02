@@ -24,7 +24,7 @@ const RoomScreen = () => {
   let navigate = useNavigate();
 
   useEffect(() => {
-    if (!roomCode) return;
+    if (!roomCode || !currentUserName) return;
     socket.emit(
       "join-room",
       { roomCode, userName: currentUserName },
