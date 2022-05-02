@@ -4,8 +4,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
 import App from "./App.tsx";
 import reportWebVitals from "./reportWebVitals";
-import RoomScreen from "./screens/RoomScreen";
-import JoinRoom from "./components/JoinRoom";
+import RoomScreen from "./screens/RoomScreen.tsx";
+import JoinRoom from "./components/JoinRoom.tsx";
 import { SocketProvider } from "./types/GlobalContext";
 
 ReactDOM.render(
