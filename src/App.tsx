@@ -79,7 +79,7 @@ function App() {
     const taskData = localStorage.getItem("tasks");
     const selectedTaskIndexData = localStorage.getItem("selectedTaskIndex");
     const completedPomodorosData = localStorage.getItem("completedPomodoros");
-    setTasks(JSON.parse(taskData || "{}"));
+    setTasks(JSON.parse(taskData || "[]"));
     setSelectedTaskIndex(JSON.parse(selectedTaskIndexData || "null"));
     setCompletedPomodoros(JSON.parse(completedPomodorosData || "0"));
   }, []);
