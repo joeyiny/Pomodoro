@@ -14,52 +14,39 @@ const JoinRoom = () => {
   return (
     <div className="text-center bg-gray-800 min-h-screen">
       <div className="App-header text-white flex gap-2 flex-col w-96 m-auto py-10">
-        <p className="">Join a room:</p>
-        <input
-          className="text-gray-900 flex-grow px-1 py-0.5"
-          placeholder="Username"
-          type="text"
-          value={currentUserName}
-          onChange={(e) => setCurrentUserName(e.target.value)}
-        />
-        <div className="flex flex-row gap-x-2">
+        <button
+          onClick={() => {
+            socket.emit("create-room", currentUserName, (response: string) => {
+              navigate("/" + response);
+            });
+          }}
+          className="bg-white text-gray-800 w-max m-auto px-2">
+          Start New Room
+        </button>
+        <p className="">Or join a room:</p>
+        <div className="flex-grow flex flex-row gap-1 w-full">
+          <input
+            className="text-gray-900 px-1 flex-grow py-0.5"
+            placeholder="Enter room code"
+            type="text"
+            value={roomCodeInput}
+            onChange={(e) => setRoomCodeInput(e.target.value)}
+          />
           <button
             onClick={() => {
               socket.emit(
-                "create-room",
-                currentUserName,
-                (response: string) => {
-                  navigate("/" + response);
+                "check-if-room-exists",
+                roomCodeInput,
+                (response: { roomCode: string; exists: boolean }) => {
+                  if (response.exists) {
+                    navigate("/" + response.roomCode);
+                  }
                 }
               );
             }}
-            className="bg-white text-gray-800 px-2">
-            Start New Room
+            className="border-2 border-white rounded  w-min px-2 py-1">
+            Join
           </button>
-          <div className="flex-grow flex flex-row gap-1">
-            <input
-              className="text-gray-900 px-1 py-0.5"
-              placeholder="Enter room code"
-              type="text"
-              value={roomCodeInput}
-              onChange={(e) => setRoomCodeInput(e.target.value)}
-            />
-            <button
-              onClick={() => {
-                socket.emit(
-                  "check-if-room-exists",
-                  roomCodeInput,
-                  (response: { roomCode: string; exists: boolean }) => {
-                    if (response.exists) {
-                      navigate("/" + response.roomCode);
-                    }
-                  }
-                );
-              }}
-              className="border-2 border-white rounded  w-min px-2 py-1">
-              Join
-            </button>
-          </div>
         </div>
       </div>
     </div>
