@@ -82,6 +82,7 @@ function App() {
     setTasks(JSON.parse(taskData || "[]"));
     setSelectedTaskIndex(JSON.parse(selectedTaskIndexData || "null"));
     setCompletedPomodoros(JSON.parse(completedPomodorosData || "0"));
+    if (taskData === "{}") setTasks([]);
   }, []);
 
   useEffect(() => {
