@@ -2,12 +2,15 @@ import React, { useContext, useState } from "react";
 import { Socket } from "socket.io-client";
 import { RoomContext } from "../App";
 import { SocketContext } from "../types/GlobalContext";
+import { useNavigate } from "react-router-dom";
 
 const JoinRoom = () => {
   const [roomCodeInput, setRoomCodeInput] = useState<string>("");
   const [userNameInput, setUserNameInput] = useState<string>("");
   const { socket } = useContext(SocketContext);
   const { setRoomCode } = useContext(RoomContext);
+  const navigate = useNavigate();
+
   return (
     <div className="text-center bg-gray-800 min-h-screen">
       <div className="App-header text-white flex gap-2 flex-col w-96 m-auto py-10">
@@ -23,16 +26,17 @@ const JoinRoom = () => {
           <button
             onClick={() => {
               socket.emit("create-room", userNameInput, (response: string) => {
-                socket.emit(
-                  "join-room",
-                  {
-                    roomCode: response,
-                    userName: userNameInput,
-                  },
-                  (roomCode: string) => {
-                    setRoomCode(roomCode);
-                  }
-                );
+                navigate("/" + response);
+                // socket.emit(
+                //   "join-room",
+                //   {
+                //     roomCode: response,
+                //     userName: userNameInput,
+                //   },
+                //   (roomCode: string) => {
+                //     setRoomCode(roomCode);
+                //   }
+                // );
               });
             }}
             className="bg-white text-gray-800 px-2">
@@ -49,13 +53,12 @@ const JoinRoom = () => {
             <button
               onClick={() => {
                 socket.emit(
-                  "join-room",
-                  {
-                    roomCode: roomCodeInput,
-                    userName: userNameInput,
-                  },
-                  (roomCode: string) => {
-                    setRoomCode(roomCode);
+                  "check-if-room-exists",
+                  roomCodeInput,
+                  (response: { roomCode: string; exists: boolean }) => {
+                    if (response.exists) {
+                      navigate("/" + response.roomCode);
+                    }
                   }
                 );
               }}

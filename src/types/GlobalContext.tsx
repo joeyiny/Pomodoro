@@ -77,7 +77,11 @@ export interface ClientToServerEvents {
     userNameInput: string,
     callback: (roomCode: string) => void
   ) => void;
-  "join-room": (user: User, callback: (roomCode: string) => void) => {};
+  "join-room": (user: User) => {};
+  "check-if-room-exists": (
+    roomCode: string,
+    callback: (response: { roomCode: string; exists: boolean }) => void
+  ) => void;
 }
 
 export interface InterServerEvents {

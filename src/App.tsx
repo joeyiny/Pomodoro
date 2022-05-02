@@ -70,7 +70,6 @@ function App() {
   const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
 
   const { socket } = useContext(SocketContext);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const taskData = localStorage.getItem("tasks");
@@ -80,10 +79,6 @@ function App() {
     setSelectedTaskIndex(JSON.parse(selectedTaskIndexData || "null"));
     setCompletedPomodoros(JSON.parse(completedPomodorosData || "0"));
   }, []);
-
-  useEffect(() => {
-    navigate("/" + roomCode);
-  }, [roomCode]);
 
   useEffect(() => {
     setTimeout(() => {

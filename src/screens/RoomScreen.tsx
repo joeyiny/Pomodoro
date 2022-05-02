@@ -19,6 +19,11 @@ const RoomScreen = () => {
   const { roomCode } = useParams();
 
   useEffect(() => {
+    if (!roomCode) return;
+    socket.emit("join-room", { roomCode, userName: "d" });
+  }, [roomCode]);
+
+  useEffect(() => {
     setTimeout(() => {
       setNewUserEffectOn(false);
     }, 6500);
