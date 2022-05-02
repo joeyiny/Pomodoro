@@ -12,6 +12,7 @@ import { createContext, useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import useSound from "use-sound";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 const alarmSound = require("./sounds/alarm.wav");
 const joinSound = require("./sounds/join.wav");
 
@@ -69,6 +70,7 @@ function App() {
   const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
 
   const { socket } = useContext(SocketContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const taskData = localStorage.getItem("tasks");
@@ -78,6 +80,10 @@ function App() {
     setSelectedTaskIndex(JSON.parse(selectedTaskIndexData || "null"));
     setCompletedPomodoros(JSON.parse(completedPomodorosData || "0"));
   }, []);
+
+  useEffect(() => {
+    navigate("/" + roomCode);
+  }, [roomCode]);
 
   useEffect(() => {
     setTimeout(() => {

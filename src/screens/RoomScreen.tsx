@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { RoomContext, TasksContext, User } from "../App";
+import { RoomContext, TasksContext } from "../App";
 import ConnectedUsers from "../components/ConnectedUsers";
 import NewUserNotification from "../components/notifications/NewUserNotification";
 import ProgressSection from "../components/ProgressSection";
