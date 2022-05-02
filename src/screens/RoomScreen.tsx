@@ -8,6 +8,7 @@ import TimeEstimation from "../components/TimeEstimation";
 import Timer from "../components/Timer";
 import { SocketContext } from "../types/GlobalContext";
 import { useNavigate } from "react-router-dom";
+import Tasks from "../components/Tasks";
 
 const RoomScreen = () => {
   const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
@@ -72,7 +73,7 @@ const RoomScreen = () => {
           <ConnectedUsers connectedUsers={connectedUsers} />
           <ProgressSection />
           <Timer socket={socket} />
-          {/* <Tasks /> */}
+          <Tasks />
           {tasks.length > 0 && <TimeEstimation />}
         </div>
       </div>

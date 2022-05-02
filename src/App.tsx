@@ -1,11 +1,11 @@
 import "./App.css";
 import { Task } from "./types/Task";
 import {
-  GlobalContext,
   RoomContextType,
   SessionType,
   SocketContext,
   TimerContextType,
+  TasksContextType,
 } from "./types/GlobalContext";
 
 import { createContext, useEffect, useState } from "react";
@@ -21,7 +21,7 @@ export type User = {
   userName: string;
 };
 
-export const TasksContext = createContext<GlobalContext>({
+export const TasksContext = createContext<TasksContextType>({
   tasks: [],
   setTasks: () => {},
   addTask: (e) => {},

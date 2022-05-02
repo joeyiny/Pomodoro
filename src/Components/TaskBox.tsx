@@ -15,7 +15,7 @@ let TaskBox = ({
 }) => {
   let [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
   let { toggleCompleteTask } = useContext(TasksContext);
-
+  if (!task) return <p>none</p>;
   return (
     <div
       className={`w-full text-black ${

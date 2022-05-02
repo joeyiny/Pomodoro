@@ -13,7 +13,7 @@ export enum SessionType {
   LONGBREAK = "Long Break",
 }
 
-export type GlobalContext = {
+export type TasksContextType = {
   tasks: Array<Task>;
   setTasks: Dispatch<SetStateAction<Task[]>>;
   addTask: (task: Task) => void;
