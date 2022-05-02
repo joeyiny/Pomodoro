@@ -69,7 +69,7 @@ const RoomScreen = () => {
       {newUserEffectOn && <NewUserNotification />}
       <div className="text-center bg-gray-800 min-h-screen">
         <div className="App-header text-white  flex gap-2 flex-col w-96 m-auto py-10">
-          <p>Room Code: {roomCode}</p>
+          {/* <p>Room Code: {roomCode}</p> */}
           <ConnectedUsers connectedUsers={connectedUsers} />
           <ProgressSection />
           <Timer socket={socket} />
