@@ -27,16 +27,6 @@ const JoinRoom = () => {
             onClick={() => {
               socket.emit("create-room", userNameInput, (response: string) => {
                 navigate("/" + response);
-                // socket.emit(
-                //   "join-room",
-                //   {
-                //     roomCode: response,
-                //     userName: userNameInput,
-                //   },
-                //   (roomCode: string) => {
-                //     setRoomCode(roomCode);
-                //   }
-                // );
               });
             }}
             className="bg-white text-gray-800 px-2">

@@ -7,6 +7,7 @@ import ProgressSection from "../components/ProgressSection";
 import TimeEstimation from "../components/TimeEstimation";
 import Timer from "../components/Timer";
 import { SocketContext } from "../types/GlobalContext";
+import { useNavigate } from "react-router-dom";
 
 const RoomScreen = () => {
   const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
@@ -17,10 +18,17 @@ const RoomScreen = () => {
   const { connectedUsers } = useContext(RoomContext);
 
   const { roomCode } = useParams();
+  let navigate = useNavigate();
 
   useEffect(() => {
     if (!roomCode) return;
-    socket.emit("join-room", { roomCode, userName: "d" });
+    socket.emit(
+      "join-room",
+      { roomCode, userName: "d" },
+      (roomExists: boolean) => {
+        if (!roomExists) navigate("/");
+      }
+    );
   }, [roomCode]);
 
   useEffect(() => {
