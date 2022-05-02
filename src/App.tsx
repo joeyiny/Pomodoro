@@ -1,20 +1,17 @@
 import "./App.css";
 import { Task } from "./types/Task";
 import {
-  ClientToServerEvents,
   GlobalContext,
   RoomContextType,
-  ServerToClientEvents,
   SessionType,
+  SocketContext,
   TimerContextType,
 } from "./types/GlobalContext";
 
 import { createContext, useEffect, useState } from "react";
-import { io, Socket } from "socket.io-client";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import useSound from "use-sound";
-import JoinRoom from "./components/JoinRoom";
-import RoomScreen from "./screens/RoomScreen";
+import { useContext } from "react";
 const alarmSound = require("./sounds/alarm.wav");
 const joinSound = require("./sounds/join.wav");
 
@@ -36,6 +33,12 @@ export const TasksContext = createContext<GlobalContext>({
   toggleCompleteTask: () => {},
 });
 
+export const RoomContext = createContext<RoomContextType>({
+  roomCode: "",
+  setRoomCode: () => {},
+  connectedUsers: [],
+});
+
 export const TimerContext = createContext<TimerContextType>({
   seconds: 1500,
   timerOn: false,
@@ -43,19 +46,6 @@ export const TimerContext = createContext<TimerContextType>({
   setSessionType: () => {},
   setSeconds: () => {},
   setTimerOn: () => {},
-});
-
-export const RoomContext = createContext<RoomContextType>({
-  roomCode: "",
-  setIsInRoom: () => {},
-  setRoomCode: () => {},
-  connectedUsers: [],
-});
-
-const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
-  io("localhost:3001");
-export const SocketContext = createContext({
-  socket: socket,
 });
 
 function App() {
@@ -78,6 +68,8 @@ function App() {
   const [playJoinSound] = useSound(joinSound, { volume: 0.4 });
 
   const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
+
+  const { socket } = useContext(SocketContext);
 
   useEffect(() => {
     const taskData = localStorage.getItem("tasks");
@@ -179,12 +171,9 @@ function App() {
           setTimerOn,
           setSessionType,
         }}>
-        <SocketContext.Provider value={{ socket }}>
-          <RoomContext.Provider
-            value={{ roomCode, setIsInRoom, setRoomCode, connectedUsers }}>
-            {isInRoom ? <RoomScreen /> : <JoinRoom />}
-          </RoomContext.Provider>
-        </SocketContext.Provider>
+        <RoomContext.Provider value={{ roomCode, setRoomCode, connectedUsers }}>
+          <Outlet />
+        </RoomContext.Provider>
       </TimerContext.Provider>
     </TasksContext.Provider>
   );

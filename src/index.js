@@ -5,15 +5,21 @@ import "./index.css";
 import App from "./App.tsx";
 import reportWebVitals from "./reportWebVitals";
 import RoomScreen from "./screens/RoomScreen";
+import JoinRoom from "./components/JoinRoom";
+import { SocketProvider } from "./types/GlobalContext";
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path=":roomCode" element={<RoomScreen />} />
-        <Route path="/" element={<App />}></Route>
-      </Routes>
-    </BrowserRouter>
+    <SocketProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />}>
+            <Route path=":roomCode" element={<RoomScreen />} />
+            <Route path="/" element={<JoinRoom />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </SocketProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

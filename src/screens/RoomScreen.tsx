@@ -1,10 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { RoomContext, SocketContext, TasksContext, User } from "../App";
+import { useParams } from "react-router-dom";
+import { RoomContext, TasksContext, User } from "../App";
 import ConnectedUsers from "../components/ConnectedUsers";
 import NewUserNotification from "../components/notifications/NewUserNotification";
 import ProgressSection from "../components/ProgressSection";
 import TimeEstimation from "../components/TimeEstimation";
 import Timer from "../components/Timer";
+import { SocketContext } from "../types/GlobalContext";
 
 const RoomScreen = () => {
   const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
@@ -12,7 +14,9 @@ const RoomScreen = () => {
     useContext(TasksContext);
   const { socket } = useContext(SocketContext);
 
-  const { roomCode, connectedUsers } = useContext(RoomContext);
+  const { connectedUsers } = useContext(RoomContext);
+
+  const { roomCode } = useParams();
 
   useEffect(() => {
     setTimeout(() => {

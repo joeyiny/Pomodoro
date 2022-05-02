@@ -1,12 +1,13 @@
 import React, { useContext, useState } from "react";
 import { Socket } from "socket.io-client";
-import { RoomContext, SocketContext } from "../App";
+import { RoomContext } from "../App";
+import { SocketContext } from "../types/GlobalContext";
 
 const JoinRoom = () => {
   const [roomCodeInput, setRoomCodeInput] = useState<string>("");
   const [userNameInput, setUserNameInput] = useState<string>("");
   const { socket } = useContext(SocketContext);
-  const { setRoomCode, setIsInRoom } = useContext(RoomContext);
+  const { setRoomCode } = useContext(RoomContext);
   return (
     <div className="text-center bg-gray-800 min-h-screen">
       <div className="App-header text-white flex gap-2 flex-col w-96 m-auto py-10">

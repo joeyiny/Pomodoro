@@ -1,7 +1,11 @@
-import { Dispatch, SetStateAction } from "react";
-import { Socket } from "socket.io-client";
+import { Dispatch, SetStateAction, createContext } from "react";
+import { io, Socket } from "socket.io-client";
+
 import { User } from "../App";
 import { Task } from "./Task";
+
+const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
+  io("localhost:3001");
 
 export enum SessionType {
   POMODORO = "Pomodoro",
@@ -34,7 +38,6 @@ export type TimerContextType = {
 
 export type RoomContextType = {
   roomCode: string;
-  setIsInRoom: (isInRoom: boolean) => void;
   setRoomCode: (roomCode: string) => void;
   connectedUsers: Array<User>;
 };
@@ -42,6 +45,19 @@ export type RoomContextType = {
 export type SocketContextType = {
   socket: Socket | null;
 };
+
+export const SocketContext = createContext({
+  socket: socket,
+});
+
+export const SocketProvider: any = ({ children }: { children: any }) => {
+  return (
+    <SocketContext.Provider value={{ socket }}>
+      {children}
+    </SocketContext.Provider>
+  );
+};
+
 export interface ServerToClientEvents {
   "joined-room": (code: string) => void;
   "timer-tick": (seconds: number) => void;
