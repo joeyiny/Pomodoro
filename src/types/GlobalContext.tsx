@@ -4,8 +4,9 @@ import { io, Socket } from "socket.io-client";
 import { User } from "../App";
 import { Task } from "./Task";
 
-const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
-  io("localhost:3001");
+const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
+  "https://pomowtf.herokuapp.com"
+);
 
 export enum SessionType {
   POMODORO = "Pomodoro",
