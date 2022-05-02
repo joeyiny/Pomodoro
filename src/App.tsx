@@ -99,15 +99,23 @@ function App() {
       setConnectedUsers(data);
     });
     socket.on("new-user-connected", () => {
-      playJoinSound();
       setNewUserEffectOn(true);
     });
-    socket.on("timer-complete", () => {
-      playAlarmSound();
-      setCompletedPomodoros(completedPomodoros + 1);
+    socket.on("completed-pomo", () => {
+      setCompletedPomodoros((completedPomodoros) => completedPomodoros + 1);
+      console.log("1");
     });
     socket.on("joined-room", (code: string) => {
       setRoomCode(code);
+    });
+  }, []);
+
+  useEffect(() => {
+    socket.on("new-user-connected", () => {
+      playJoinSound();
+    });
+    socket.on("timer-complete", () => {
+      playAlarmSound();
     });
   }, [playAlarmSound, playJoinSound]);
 
