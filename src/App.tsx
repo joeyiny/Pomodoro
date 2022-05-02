@@ -38,6 +38,8 @@ export const RoomContext = createContext<RoomContextType>({
   roomCode: "",
   setRoomCode: () => {},
   connectedUsers: [],
+  currentUserName: "",
+  setCurrentUserName: () => {},
 });
 
 export const TimerContext = createContext<TimerContextType>({
@@ -68,6 +70,8 @@ function App() {
   const [playJoinSound] = useSound(joinSound, { volume: 0.4 });
 
   const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
+
+  const [currentUserName, setCurrentUserName] = useState<string>("");
 
   const { socket } = useContext(SocketContext);
 
@@ -170,7 +174,14 @@ function App() {
           setTimerOn,
           setSessionType,
         }}>
-        <RoomContext.Provider value={{ roomCode, setRoomCode, connectedUsers }}>
+        <RoomContext.Provider
+          value={{
+            roomCode,
+            setRoomCode,
+            connectedUsers,
+            currentUserName,
+            setCurrentUserName,
+          }}>
           <Outlet />
         </RoomContext.Provider>
       </TimerContext.Provider>

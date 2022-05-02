@@ -6,9 +6,9 @@ import { useNavigate } from "react-router-dom";
 
 const JoinRoom = () => {
   const [roomCodeInput, setRoomCodeInput] = useState<string>("");
-  const [userNameInput, setUserNameInput] = useState<string>("");
+  const { currentUserName, setCurrentUserName } = useContext(RoomContext);
   const { socket } = useContext(SocketContext);
-  const { setRoomCode } = useContext(RoomContext);
+
   const navigate = useNavigate();
 
   return (
@@ -19,15 +19,19 @@ const JoinRoom = () => {
           className="text-gray-900 flex-grow px-1 py-0.5"
           placeholder="Username"
           type="text"
-          value={userNameInput}
-          onChange={(e) => setUserNameInput(e.target.value)}
+          value={currentUserName}
+          onChange={(e) => setCurrentUserName(e.target.value)}
         />
         <div className="flex flex-row gap-x-2">
           <button
             onClick={() => {
-              socket.emit("create-room", userNameInput, (response: string) => {
-                navigate("/" + response);
-              });
+              socket.emit(
+                "create-room",
+                currentUserName,
+                (response: string) => {
+                  navigate("/" + response);
+                }
+              );
             }}
             className="bg-white text-gray-800 px-2">
             Start New Room
