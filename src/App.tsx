@@ -49,7 +49,6 @@ export const TimerContext = createContext<TimerContextType>({
 });
 
 function App() {
-  const [isInRoom, setIsInRoom] = useState<boolean>(false);
   const [roomCode, setRoomCode] = useState<string>("");
 
   const [seconds, setSeconds] = useState<number>(1500);
@@ -102,7 +101,6 @@ function App() {
       setCompletedPomodoros(completedPomodoros + 1);
     });
     socket.on("joined-room", (code: string) => {
-      setIsInRoom(true);
       setRoomCode(code);
     });
   }, [playAlarmSound, playJoinSound]);
