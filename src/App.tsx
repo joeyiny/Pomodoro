@@ -1,8 +1,4 @@
 import "./App.css";
-import Tasks from "./components/Tasks";
-import Timer from "./components/Timer";
-import TimeEstimation from "./components/TimeEstimation";
-import ProgressSection from "./components/ProgressSection";
 import { Task } from "./types/Task";
 import {
   ClientToServerEvents,
@@ -10,7 +6,6 @@ import {
   RoomContextType,
   ServerToClientEvents,
   SessionType,
-  SocketContextType,
   TimerContextType,
 } from "./types/GlobalContext";
 
@@ -18,8 +13,6 @@ import { createContext, useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { Link } from "react-router-dom";
 import useSound from "use-sound";
-import NewUserNotification from "./components/notifications/NewUserNotification";
-import ConnectedUsers from "./components/ConnectedUsers";
 import JoinRoom from "./components/JoinRoom";
 import RoomScreen from "./screens/RoomScreen";
 const alarmSound = require("./sounds/alarm.wav");
