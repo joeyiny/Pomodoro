@@ -1,5 +1,5 @@
-import React from "react";
 import { User } from "../App";
+import UserVideos from "./UserVideos";
 
 const ConnectedUsers = ({
   connectedUsers,
@@ -16,6 +16,7 @@ const ConnectedUsers = ({
         Connected users: {Object.keys(connectedUsers).length}
       </span>
       <ul className="">{listUsers}</ul>
+      <UserVideos />
     </div>
   );
 };
