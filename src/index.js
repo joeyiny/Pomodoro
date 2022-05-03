@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
 import App from "./App.tsx";
@@ -8,7 +8,8 @@ import RoomScreen from "./screens/RoomScreen";
 import JoinRoom from "./components/JoinRoom.tsx";
 import { SocketProvider } from "./types/GlobalContext";
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
   <React.StrictMode>
     <SocketProvider>
       <BrowserRouter>
@@ -20,8 +21,7 @@ ReactDOM.render(
         </Routes>
       </BrowserRouter>
     </SocketProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
