@@ -4,9 +4,12 @@ import { io, Socket } from "socket.io-client";
 import { User } from "../App";
 import { Task } from "./Task";
 
-const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
-  "https://pomowtf.herokuapp.com"
-);
+let serverUrl = process.env.REACT_APP_SERVER;
+if (!serverUrl) {
+  throw new Error("serverUrl not set in env file");
+}
+const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
+  io(serverUrl);
 
 export enum SessionType {
   POMODORO = "Pomodoro",

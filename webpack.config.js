@@ -1,4 +1,6 @@
 const path = require("path");
+require("dotenv").config();
+const webpack = require("webpack");
 
 module.exports = {
   entry: "./src/index.ts",
@@ -18,4 +20,9 @@ module.exports = {
     filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      REACT_APP_SERVER: JSON.stringify(process.env.REACT_APP_SERVER),
+    }),
+  ],
 };
