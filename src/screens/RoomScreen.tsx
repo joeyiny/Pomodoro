@@ -6,7 +6,6 @@ import NewUserNotification from "../components/notifications/NewUserNotification
 import ProgressSection from "../components/ProgressSection";
 import TimeEstimation from "../components/TimeEstimation";
 import Timer from "../components/Timer";
-import { SocketContext } from "../types/GlobalContext";
 import { useNavigate } from "react-router-dom";
 import Tasks from "../components/Tasks";
 import { RoomContext } from "../context/RoomContext";
@@ -15,7 +14,7 @@ const RoomScreen = () => {
   const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
   const { tasks, setCompletedPomodoros, completedPomodoros } =
     useContext(TasksContext);
-  const { socket } = useContext(SocketContext);
+  const { socket } = useContext(RoomContext);
 
   const { connectedUsers, currentUserName, setCurrentUserName } =
     useContext(RoomContext);

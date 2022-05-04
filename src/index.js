@@ -13,16 +13,14 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <RoomProvider>
-      <SocketProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<App />}>
-              <Route path=":roomCode" element={<RoomScreen />} />
-              <Route path="/" element={<JoinRoom />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </SocketProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />}>
+            <Route path=":roomCode" element={<RoomScreen />} />
+            <Route path="/" element={<JoinRoom />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </RoomProvider>
   </React.StrictMode>
 );

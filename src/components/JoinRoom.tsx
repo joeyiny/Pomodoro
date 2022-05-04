@@ -1,13 +1,12 @@
 import React, { useContext, useState } from "react";
 import { Socket } from "socket.io-client";
-import { SocketContext } from "../types/GlobalContext";
 import { useNavigate } from "react-router-dom";
 import { RoomContext } from "../context/RoomContext";
 
 const JoinRoom = () => {
   const [roomCodeInput, setRoomCodeInput] = useState<string>("");
   const { currentUserName, setCurrentUserName } = useContext(RoomContext);
-  const { socket } = useContext(SocketContext);
+  const { socket } = useContext(RoomContext);
 
   const navigate = useNavigate();
 

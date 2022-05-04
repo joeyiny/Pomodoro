@@ -1,15 +1,7 @@
 import { Dispatch, SetStateAction, createContext } from "react";
-import { io, Socket } from "socket.io-client";
 
 import { User } from "../App";
 import { Task } from "./Task";
-
-let serverUrl = process.env.REACT_APP_SERVER;
-if (!serverUrl) {
-  throw new Error("serverUrl not set in env file");
-}
-const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
-  io(serverUrl);
 
 export enum SessionType {
   POMODORO = "Pomodoro",
@@ -40,21 +32,21 @@ export type TimerContextType = {
   setSeconds?: any;
 };
 
-export type SocketContextType = {
-  socket: Socket | null;
-};
+// export type SocketContextType = {
+//   socket: Socket | null;
+// };
 
-export const SocketContext = createContext({
-  socket: socket,
-});
+// export const SocketContext = createContext({
+//   socket: socket,
+// });
 
-export const SocketProvider: any = ({ children }: { children: any }) => {
-  return (
-    <SocketContext.Provider value={{ socket }}>
-      {children}
-    </SocketContext.Provider>
-  );
-};
+// export const SocketProvider: any = ({ children }: { children: any }) => {
+//   return (
+//     <SocketContext.Provider value={{ socket }}>
+//       {children}
+//     </SocketContext.Provider>
+//   );
+// };
 
 export interface ServerToClientEvents {
   "joined-room": (code: string) => void;

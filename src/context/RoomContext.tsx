@@ -1,5 +1,17 @@
 import { createContext, useState } from "react";
 import { User } from "../App";
+import { io, Socket } from "socket.io-client";
+import {
+  ClientToServerEvents,
+  ServerToClientEvents,
+} from "../types/GlobalContext";
+
+let serverUrl = process.env.REACT_APP_SERVER;
+if (!serverUrl) {
+  throw new Error("serverUrl not set in env file");
+}
+const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
+  io(serverUrl);
 
 export type RoomContextType = {
   roomCode: string;
@@ -8,6 +20,7 @@ export type RoomContextType = {
   currentUserName: string;
   setCurrentUserName: any;
   setConnectedUsers: any;
+  socket: Socket;
 };
 
 export const RoomContext = createContext<RoomContextType>({
@@ -17,6 +30,7 @@ export const RoomContext = createContext<RoomContextType>({
   currentUserName: "",
   setCurrentUserName: () => {},
   setConnectedUsers: () => {},
+  socket: socket,
 });
 
 export const RoomProvider: any = ({ children }: { children: any }) => {
@@ -33,6 +47,7 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
         currentUserName,
         setCurrentUserName,
         setConnectedUsers,
+        socket,
       }}>
       {children}
     </RoomContext.Provider>

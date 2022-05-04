@@ -2,7 +2,6 @@ import "./App.css";
 import { Task } from "./types/Task";
 import {
   SessionType,
-  SocketContext,
   TimerContextType,
   TasksContextType,
 } from "./types/GlobalContext";
@@ -61,7 +60,7 @@ function App() {
   const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
 
   const { setConnectedUsers, setRoomCode } = useContext(RoomContext);
-  const { socket } = useContext(SocketContext);
+  const { socket } = useContext(RoomContext);
 
   useEffect(() => {
     const taskData = localStorage.getItem("tasks");
