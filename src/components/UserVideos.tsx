@@ -1,31 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
+import { RoomContext } from "../context/RoomContext";
 
-var localVideoref = React.createRef<HTMLVideoElement>();
+// var localVideoref = React.createRef<HTMLVideoElement>();
 const UserVideos = () => {
+  let { mediaStream } = useContext(RoomContext);
+  let videoRef = useRef<HTMLVideoElement>(null);
   useEffect(() => {
-    var constraints = {
-      video: true,
-      audio: true,
-    };
-    async function getMedia(constraints: { video: boolean; audio: boolean }) {
-      let stream = null;
-      try {
-        stream = await navigator.mediaDevices.getUserMedia(constraints);
-        if (!localVideoref.current) return;
-        localVideoref.current.srcObject = stream;
-        localVideoref.current.srcObject = stream;
-        localVideoref.current.muted = true;
-        localVideoref.current.play();
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    getMedia(constraints);
-  }, [localVideoref]);
+    if (videoRef.current) videoRef.current.srcObject = mediaStream;
+  }, [mediaStream]);
+
+  // useEffect(() => {
+  //   var constraints = {
+  //     video: true,
+  //     audio: true,
+  //   };
+  //   async function getMedia(constraints: { video: boolean; audio: boolean }) {
+  //     let stream = null;
+  //     try {
+  //       if (!localVideoref.current)return;
+  //       localVideoref.current.srcObject = mediaStream;
+  //       localVideoref.current.srcObject = mediaStream;
+  //       localVideoref.current.muted = true;
+  //       localVideoref.current.play();
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
+  //   getMedia(constraints);
+  // }, [mediaStream]);
 
   return (
     <div>
-      <video className="w-32" ref={localVideoref} autoPlay />
+      <video className="w-32" muted ref={videoRef} autoPlay />
     </div>
   );
 };

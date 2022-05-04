@@ -32,29 +32,13 @@ export type TimerContextType = {
   setSeconds?: any;
 };
 
-// export type SocketContextType = {
-//   socket: Socket | null;
-// };
-
-// export const SocketContext = createContext({
-//   socket: socket,
-// });
-
-// export const SocketProvider: any = ({ children }: { children: any }) => {
-//   return (
-//     <SocketContext.Provider value={{ socket }}>
-//       {children}
-//     </SocketContext.Provider>
-//   );
-// };
-
 export interface ServerToClientEvents {
   "joined-room": (code: string) => void;
   "timer-tick": (seconds: number) => void;
   "timer-toggle": (timerOn: boolean) => void;
   "set-session-type": (sessionType: SessionType) => void;
   "connected-users": (data: any) => void;
-  "new-user-connected": () => void;
+  "new-user-connected": (userId: string) => void;
   "timer-complete": () => void;
   "completed-pomo": () => void;
 }
@@ -74,11 +58,9 @@ export interface ClientToServerEvents {
     callback: (response: { roomCode: string; exists: boolean }) => void
   ) => void;
 }
-
 export interface InterServerEvents {
   ping: () => void;
 }
-
 export interface SocketData {
   name: string;
   age: number;
