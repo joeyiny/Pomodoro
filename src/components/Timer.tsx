@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
-import { RoomContext, TimerContext } from "../App";
-import RoomScreen from "../screens/RoomScreen";
+import { TimerContext } from "../App";
+import { RoomContext } from "../context/RoomContext";
 import { SessionType } from "../types/GlobalContext";
 
 let Timer = ({ socket }: { socket: any }) => {

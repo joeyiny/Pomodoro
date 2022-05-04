@@ -40,14 +40,6 @@ export type TimerContextType = {
   setSeconds?: any;
 };
 
-export type RoomContextType = {
-  roomCode: string;
-  setRoomCode: (roomCode: string) => void;
-  connectedUsers: Array<User>;
-  currentUserName: string;
-  setCurrentUserName: any;
-};
-
 export type SocketContextType = {
   socket: Socket | null;
 };

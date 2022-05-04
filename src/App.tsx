@@ -1,12 +1,12 @@
 import "./App.css";
 import { Task } from "./types/Task";
 import {
-  RoomContextType,
   SessionType,
   SocketContext,
   TimerContextType,
   TasksContextType,
 } from "./types/GlobalContext";
+import { RoomContext } from "./context/RoomContext";
 
 import { createContext, useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
@@ -32,14 +32,6 @@ export const TasksContext = createContext<TasksContextType>({
   completedPomodoros: 0,
   setCompletedPomodoros: () => {},
   toggleCompleteTask: () => {},
-});
-
-export const RoomContext = createContext<RoomContextType>({
-  roomCode: "",
-  setRoomCode: () => {},
-  connectedUsers: [],
-  currentUserName: "",
-  setCurrentUserName: () => {},
 });
 
 export const TimerContext = createContext<TimerContextType>({
