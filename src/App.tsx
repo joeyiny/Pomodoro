@@ -44,14 +44,11 @@ export const TimerContext = createContext<TimerContextType>({
 });
 
 function App() {
-  const [roomCode, setRoomCode] = useState<string>("");
-
   const [seconds, setSeconds] = useState<number>(1500);
   const [sessionType, setSessionType] = useState<SessionType>(
     SessionType.POMODORO
   );
   const [timerOn, setTimerOn] = useState<boolean>(false);
-  const [connectedUsers, setConnectedUsers] = useState<Array<User>>([]);
   const [tasks, setTasks] = useState<Array<Task>>([]);
   const [selectedTaskIndex, setSelectedTaskIndex] = useState<number | null>(
     null
@@ -63,8 +60,7 @@ function App() {
 
   const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
 
-  const [currentUserName, setCurrentUserName] = useState<string>("");
-
+  const { setConnectedUsers, setRoomCode } = useContext(RoomContext);
   const { socket } = useContext(SocketContext);
 
   useEffect(() => {
@@ -175,16 +171,7 @@ function App() {
           setTimerOn,
           setSessionType,
         }}>
-        <RoomContext.Provider
-          value={{
-            roomCode,
-            setRoomCode,
-            connectedUsers,
-            currentUserName,
-            setCurrentUserName,
-          }}>
-          <Outlet />
-        </RoomContext.Provider>
+        <Outlet />
       </TimerContext.Provider>
     </TasksContext.Provider>
   );

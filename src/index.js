@@ -7,20 +7,23 @@ import reportWebVitals from "./reportWebVitals";
 import RoomScreen from "./screens/RoomScreen";
 import JoinRoom from "./components/JoinRoom.tsx";
 import { SocketProvider } from "./types/GlobalContext";
+import { RoomProvider } from "./context/RoomContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <SocketProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<App />}>
-            <Route path=":roomCode" element={<RoomScreen />} />
-            <Route path="/" element={<JoinRoom />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </SocketProvider>
+    <RoomProvider>
+      <SocketProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<App />}>
+              <Route path=":roomCode" element={<RoomScreen />} />
+              <Route path="/" element={<JoinRoom />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </SocketProvider>
+    </RoomProvider>
   </React.StrictMode>
 );
 
