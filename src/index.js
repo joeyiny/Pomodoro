@@ -11,18 +11,18 @@ import { RoomProvider } from "./context/RoomContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <RoomProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<App />}>
-            <Route path=":roomCode" element={<RoomScreen />} />
-            <Route path="/" element={<JoinRoom />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </RoomProvider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <RoomProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />}>
+          <Route path=":roomCode" element={<RoomScreen />} />
+          <Route path="/" element={<JoinRoom />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  </RoomProvider>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
