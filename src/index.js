@@ -12,9 +12,9 @@ import { TimerProvider } from "./context/TimerContext";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
-  <RoomProvider>
-    <TasksProvider>
-      <TimerProvider>
+  <TimerProvider>
+    <RoomProvider>
+      <TasksProvider>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<App />}>
@@ -23,9 +23,10 @@ root.render(
             </Route>
           </Routes>
         </BrowserRouter>
-      </TimerProvider>
-    </TasksProvider>
-  </RoomProvider>
+      </TasksProvider>
+    </RoomProvider>
+  </TimerProvider>
+
   // </React.StrictMode>
 );
 

@@ -1,4 +1,11 @@
-import { createContext, useEffect, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { User } from "../types/User";
 import { io, Socket } from "socket.io-client";
 import {
@@ -6,6 +13,8 @@ import {
   ClientToServerEvents,
 } from "../types/SocketEvents";
 import Peer from "peerjs";
+import { TimerContext } from "./TimerContext";
+import { TasksContext } from "./TasksContext";
 
 let serverUrl = process.env.REACT_APP_SERVER;
 if (!serverUrl) {
@@ -13,11 +22,6 @@ if (!serverUrl) {
 }
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
   io(serverUrl);
-
-// type VideoCallType = {
-//   peerId: string;
-//   stream: MediaStream;
-// };
 
 export type RoomContextType = {
   roomCode: string;
@@ -29,6 +33,8 @@ export type RoomContextType = {
   socket: Socket;
   mediaStream: MediaStream | null;
   peerStreams: Array<MediaStream>;
+  newUserEffectOn: boolean;
+  setNewUserEffectOn: Dispatch<SetStateAction<boolean>>;
 };
 
 export const RoomContext = createContext<RoomContextType>({
@@ -41,6 +47,8 @@ export const RoomContext = createContext<RoomContextType>({
   socket: socket,
   mediaStream: null,
   peerStreams: [],
+  newUserEffectOn: false,
+  setNewUserEffectOn: () => {},
 });
 
 export const RoomProvider: any = ({ children }: { children: any }) => {
@@ -50,6 +58,29 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
   const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
   const [peer, setPeer] = useState<Peer>();
   const [peerStreams, setPeerStreams] = useState<MediaStream[]>([]);
+  const { setSeconds, setTimerOn, setSessionType } = useContext(TimerContext);
+  const { setCompletedPomodoros, completedPomodoros } =
+    useContext(TasksContext);
+  const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
+
+  useEffect(() => {
+    socket.on("timer-tick", (data) => setSeconds(data));
+    socket.on("timer-toggle", (data) => setTimerOn(data));
+    socket.on("set-session-type", (data) => setSessionType(data));
+    socket.on("connected-users", (data) => {
+      setConnectedUsers(data);
+    });
+    socket.on("new-user-connected", () => {
+      setNewUserEffectOn(true);
+    });
+    socket.on("completed-pomo", () => {
+      setCompletedPomodoros((completedPomodoros) => completedPomodoros + 1);
+      console.log("1");
+    });
+    socket.on("joined-room", (code: string) => {
+      setRoomCode(code);
+    });
+  }, []);
 
   useEffect(() => {
     if (!roomCode) return;
@@ -102,6 +133,8 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
         socket,
         mediaStream,
         peerStreams,
+        newUserEffectOn,
+        setNewUserEffectOn,
       }}>
       {children}
     </RoomContext.Provider>
