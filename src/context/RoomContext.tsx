@@ -14,6 +14,11 @@ if (!serverUrl) {
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
   io(serverUrl);
 
+// type VideoCallType = {
+//   peerId: string;
+//   stream: MediaStream;
+// };
+
 export type RoomContextType = {
   roomCode: string;
   setRoomCode: (roomCode: string) => void;
@@ -23,6 +28,7 @@ export type RoomContextType = {
   setConnectedUsers: any;
   socket: Socket;
   mediaStream: MediaStream | null;
+  peerStreams: Array<MediaStream>;
 };
 
 export const RoomContext = createContext<RoomContextType>({
@@ -34,6 +40,7 @@ export const RoomContext = createContext<RoomContextType>({
   setConnectedUsers: () => {},
   socket: socket,
   mediaStream: null,
+  peerStreams: [],
 });
 
 export const RoomProvider: any = ({ children }: { children: any }) => {
@@ -42,6 +49,7 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
   const [currentUserName, setCurrentUserName] = useState<string>("");
   const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
   const [peer, setPeer] = useState<Peer>();
+  const [peerStreams, setPeerStreams] = useState<MediaStream[]>([]);
 
   useEffect(() => {
     if (!roomCode) return;
@@ -63,20 +71,22 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
   useEffect(() => {
     if (!peer || !mediaStream) return;
 
+    peer.on("call", (call) => {
+      call.answer(mediaStream);
+      call.on("stream", (peerStream) => {
+        console.log("call answered");
+        peerStreams.push(peerStream);
+      });
+    });
+
     socket.on("new-user-joined-video", (userId) => {
       if (socket.id !== userId) {
         const call = peer.call(userId, mediaStream);
         call.on("stream", (peerStream) => {
           console.log("call made");
+          peerStreams.push(peerStream);
         });
       }
-    });
-
-    peer.on("call", (call) => {
-      call.answer(mediaStream);
-      call.on("stream", (peerStream) => {
-        console.log("call answered");
-      });
     });
   }, [peer, mediaStream]);
 
@@ -91,6 +101,7 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
         setConnectedUsers,
         socket,
         mediaStream,
+        peerStreams,
       }}>
       {children}
     </RoomContext.Provider>
