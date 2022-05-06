@@ -4,7 +4,7 @@ import {
   SessionType,
   TimerContextType,
   TasksContextType,
-} from "./types/GlobalContext";
+} from "./context/GlobalContext";
 import { RoomContext } from "./context/RoomContext";
 
 import { createContext, useEffect, useState } from "react";

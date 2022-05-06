@@ -1,10 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { User } from "../App";
 import { io, Socket } from "socket.io-client";
-import {
-  ClientToServerEvents,
-  ServerToClientEvents,
-} from "../types/GlobalContext";
+import { ClientToServerEvents, ServerToClientEvents } from "./GlobalContext";
 import Peer from "peerjs";
 
 let serverUrl = process.env.REACT_APP_SERVER;

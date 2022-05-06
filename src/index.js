@@ -6,7 +6,7 @@ import App from "./App.tsx";
 import reportWebVitals from "./reportWebVitals";
 import RoomScreen from "./screens/RoomScreen";
 import JoinRoom from "./components/JoinRoom.tsx";
-import { SocketProvider } from "./types/GlobalContext";
+import { SocketProvider } from "./context/GlobalContext";
 import { RoomProvider } from "./context/RoomContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
