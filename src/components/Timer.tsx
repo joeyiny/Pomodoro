@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { TimerContext } from "../App";
 import { RoomContext } from "../context/RoomContext";
-import { SessionType } from "../context/GlobalContext";
+import { SessionType } from "../types/Session";
 
 let Timer = ({ socket }: { socket: any }) => {
   const { seconds, timerOn, sessionType } = useContext(TimerContext);

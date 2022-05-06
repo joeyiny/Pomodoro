@@ -1,10 +1,7 @@
 import "./App.css";
 import { Task } from "./types/Task";
-import {
-  SessionType,
-  TimerContextType,
-  TasksContextType,
-} from "./context/GlobalContext";
+import { TimerContextType, TasksContextType } from "./context/GlobalContext";
+import { SessionType } from "./types/Session";
 import { RoomContext } from "./context/RoomContext";
 
 import { createContext, useEffect, useState } from "react";
