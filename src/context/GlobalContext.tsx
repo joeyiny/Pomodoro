@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, createContext } from "react";
 
-import { User } from "../App";
+import { User } from "../types/User";
 import { Task } from "../types/Task";
 
 export enum SessionType {

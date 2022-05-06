@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { User } from "../App";
+import { User } from "../types/User";
 import { io, Socket } from "socket.io-client";
 import { ClientToServerEvents, ServerToClientEvents } from "./GlobalContext";
 import Peer from "peerjs";

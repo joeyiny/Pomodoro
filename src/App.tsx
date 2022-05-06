@@ -15,11 +15,6 @@ import { useNavigate } from "react-router-dom";
 const alarmSound = require("./sounds/alarm.wav");
 const joinSound = require("./sounds/join.wav");
 
-export type User = {
-  roomCode: string;
-  userName: string;
-};
-
 export const TasksContext = createContext<TasksContextType>({
   tasks: [],
   setTasks: () => {},

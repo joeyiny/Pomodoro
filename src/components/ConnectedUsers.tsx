@@ -1,4 +1,4 @@
-import { User } from "../App";
+import { User } from "../types/User";
 import UserVideos from "./UserVideos";
 
 const ConnectedUsers = ({
