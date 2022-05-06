@@ -37,10 +37,11 @@ export interface ServerToClientEvents {
   "timer-tick": (seconds: number) => void;
   "timer-toggle": (timerOn: boolean) => void;
   "set-session-type": (sessionType: SessionType) => void;
-  "connected-users": (data: any) => void;
+  "connected-users": (users: User[]) => void;
   "new-user-connected": (userId: string) => void;
   "timer-complete": () => void;
   "completed-pomo": () => void;
+  "new-user-joined-video": (userId: string) => void;
 }
 
 export interface ClientToServerEvents {
@@ -57,6 +58,7 @@ export interface ClientToServerEvents {
     roomCode: string,
     callback: (response: { roomCode: string; exists: boolean }) => void
   ) => void;
+  "video-ready": (roomCode: string) => void;
 }
 export interface InterServerEvents {
   ping: () => void;

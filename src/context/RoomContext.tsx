@@ -44,6 +44,7 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
   const [peer, setPeer] = useState<Peer>();
 
   useEffect(() => {
+    if (!roomCode) return;
     const p = new Peer(socket.id);
     setPeer(p);
 
@@ -52,15 +53,31 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
         .getUserMedia({ video: true, audio: true })
         .then((stream) => {
           setMediaStream(stream);
+          socket.emit("video-ready", roomCode);
         });
     } catch (error) {
       console.error(error);
     }
-  }, []);
+  }, [roomCode]);
 
   useEffect(() => {
     if (!peer || !mediaStream) return;
-    console.log(peer, mediaStream);
+
+    socket.on("new-user-joined-video", (userId) => {
+      if (socket.id !== userId) {
+        const call = peer.call(userId, mediaStream);
+        call.on("stream", (peerStream) => {
+          console.log("call made");
+        });
+      }
+    });
+
+    peer.on("call", (call) => {
+      call.answer(mediaStream);
+      call.on("stream", (peerStream) => {
+        console.log("call answered");
+      });
+    });
   }, [peer, mediaStream]);
 
   return (
