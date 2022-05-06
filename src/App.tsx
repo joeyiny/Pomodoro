@@ -1,41 +1,24 @@
 import "./App.css";
-import { Task } from "./types/Task";
-import { TimerContextType } from "./context/GlobalContext";
-import { TasksContext, TasksContextType } from "./context/TasksContext";
-import { SessionType } from "./types/Session";
+import { TasksContext } from "./context/TasksContext";
 import { RoomContext } from "./context/RoomContext";
 
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import useSound from "use-sound";
 import { useContext } from "react";
+import { TimerContext, TimerProvider } from "./context/TimerContext";
 const alarmSound = require("./sounds/alarm.wav");
 const joinSound = require("./sounds/join.wav");
 
-export const TimerContext = createContext<TimerContextType>({
-  seconds: 1500,
-  timerOn: false,
-  sessionType: SessionType.POMODORO,
-  setSessionType: () => {},
-  setSeconds: () => {},
-  setTimerOn: () => {},
-});
-
 function App() {
-  const [seconds, setSeconds] = useState<number>(1500);
-  const [sessionType, setSessionType] = useState<SessionType>(
-    SessionType.POMODORO
-  );
   const { setCompletedPomodoros } = useContext(TasksContext);
-  const [timerOn, setTimerOn] = useState<boolean>(false);
+  const { setSeconds, setTimerOn, setSessionType } = useContext(TimerContext);
+  const { setConnectedUsers, setRoomCode, socket } = useContext(RoomContext);
 
   const [playAlarmSound] = useSound(alarmSound, { volume: 0.4 });
   const [playJoinSound] = useSound(joinSound, { volume: 0.4 });
 
   const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
-
-  const { setConnectedUsers, setRoomCode } = useContext(RoomContext);
-  const { socket } = useContext(RoomContext);
 
   useEffect(() => {
     setTimeout(() => {
@@ -71,19 +54,7 @@ function App() {
     });
   }, [playAlarmSound, playJoinSound]);
 
-  return (
-    <TimerContext.Provider
-      value={{
-        seconds,
-        timerOn,
-        sessionType,
-        setSeconds,
-        setTimerOn,
-        setSessionType,
-      }}>
-      <Outlet />
-    </TimerContext.Provider>
-  );
+  return <Outlet />;
 }
 
 export default App;

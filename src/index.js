@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
@@ -8,20 +7,23 @@ import RoomScreen from "./screens/RoomScreen";
 import JoinRoom from "./components/JoinRoom.tsx";
 import { RoomProvider } from "./context/RoomContext";
 import { TasksProvider } from "./context/TasksContext";
+import { TimerProvider } from "./context/TimerContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
   <RoomProvider>
     <TasksProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<App />}>
-            <Route path=":roomCode" element={<RoomScreen />} />
-            <Route path="/" element={<JoinRoom />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <TimerProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<App />}>
+              <Route path=":roomCode" element={<RoomScreen />} />
+              <Route path="/" element={<JoinRoom />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </TimerProvider>
     </TasksProvider>
   </RoomProvider>
   // </React.StrictMode>

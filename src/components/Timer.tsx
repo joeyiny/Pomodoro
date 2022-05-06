@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { TimerContext } from "../App";
+import { TimerContext } from "../context/TimerContext";
 import { RoomContext } from "../context/RoomContext";
 import { SessionType } from "../types/Session";
 
