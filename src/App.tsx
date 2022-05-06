@@ -1,29 +1,16 @@
 import "./App.css";
 import { Task } from "./types/Task";
-import { TimerContextType, TasksContextType } from "./context/GlobalContext";
+import { TimerContextType } from "./context/GlobalContext";
+import { TasksContext, TasksContextType } from "./context/TasksContext";
 import { SessionType } from "./types/Session";
 import { RoomContext } from "./context/RoomContext";
 
 import { createContext, useEffect, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import useSound from "use-sound";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
 const alarmSound = require("./sounds/alarm.wav");
 const joinSound = require("./sounds/join.wav");
-
-export const TasksContext = createContext<TasksContextType>({
-  tasks: [],
-  setTasks: () => {},
-  addTask: (e) => {},
-  selectTask: (e) => {},
-  deleteTask: (e) => {},
-  selectedTaskIndex: null,
-  iterateNumberOfPomodorosForSelectedTask: () => {},
-  completedPomodoros: 0,
-  setCompletedPomodoros: () => {},
-  toggleCompleteTask: () => {},
-});
 
 export const TimerContext = createContext<TimerContextType>({
   seconds: 1500,
@@ -39,12 +26,8 @@ function App() {
   const [sessionType, setSessionType] = useState<SessionType>(
     SessionType.POMODORO
   );
+  const { setCompletedPomodoros } = useContext(TasksContext);
   const [timerOn, setTimerOn] = useState<boolean>(false);
-  const [tasks, setTasks] = useState<Array<Task>>([]);
-  const [selectedTaskIndex, setSelectedTaskIndex] = useState<number | null>(
-    null
-  );
-  const [completedPomodoros, setCompletedPomodoros] = useState<number>(0);
 
   const [playAlarmSound] = useSound(alarmSound, { volume: 0.4 });
   const [playJoinSound] = useSound(joinSound, { volume: 0.4 });
@@ -53,16 +36,6 @@ function App() {
 
   const { setConnectedUsers, setRoomCode } = useContext(RoomContext);
   const { socket } = useContext(RoomContext);
-
-  useEffect(() => {
-    const taskData = localStorage.getItem("tasks");
-    const selectedTaskIndexData = localStorage.getItem("selectedTaskIndex");
-    const completedPomodorosData = localStorage.getItem("completedPomodoros");
-    setTasks(JSON.parse(taskData || "[]"));
-    setSelectedTaskIndex(JSON.parse(selectedTaskIndexData || "null"));
-    setCompletedPomodoros(JSON.parse(completedPomodorosData || "0"));
-    if (taskData === "{}") setTasks([]);
-  }, []);
 
   useEffect(() => {
     setTimeout(() => {
@@ -98,73 +71,18 @@ function App() {
     });
   }, [playAlarmSound, playJoinSound]);
 
-  useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-    localStorage.setItem(
-      "selectedTaskIndex",
-      selectedTaskIndex !== null ? selectedTaskIndex?.toString() : "null"
-    );
-    localStorage.setItem(
-      "completedPomodoros",
-      completedPomodoros ? completedPomodoros.toString() : "null"
-    );
-  });
-
-  let addTask = (task: Task) => {
-    setTasks([...tasks, task]);
-    setSelectedTaskIndex(tasks.length);
-  };
-
-  let deleteTask = (taskIndex: number) => {
-    let newTasks = [...tasks];
-    newTasks.splice(taskIndex, 1);
-    setTasks(newTasks);
-  };
-
-  let toggleCompleteTask = (taskIndex: number) => {
-    let newTasks = [...tasks];
-    newTasks[taskIndex].completed = !newTasks[taskIndex].completed;
-    setTasks(newTasks);
-  };
-
-  let iterateNumberOfPomodorosForSelectedTask = () => {
-    if (selectedTaskIndex === null || selectedTaskIndex >= tasks.length) return;
-    let newTasks = [...tasks];
-    //@ts-ignore
-    newTasks[selectedTaskIndex].pomodorosCompleted++;
-    setTasks(newTasks);
-  };
-
-  let selectTask = (taskIndex: number) => {
-    setSelectedTaskIndex(taskIndex);
-  };
-
   return (
-    <TasksContext.Provider
+    <TimerContext.Provider
       value={{
-        tasks,
-        setTasks,
-        addTask,
-        selectTask,
-        deleteTask,
-        selectedTaskIndex,
-        iterateNumberOfPomodorosForSelectedTask,
-        completedPomodoros,
-        setCompletedPomodoros,
-        toggleCompleteTask,
+        seconds,
+        timerOn,
+        sessionType,
+        setSeconds,
+        setTimerOn,
+        setSessionType,
       }}>
-      <TimerContext.Provider
-        value={{
-          seconds,
-          timerOn,
-          sessionType,
-          setSeconds,
-          setTimerOn,
-          setSessionType,
-        }}>
-        <Outlet />
-      </TimerContext.Provider>
-    </TasksContext.Provider>
+      <Outlet />
+    </TimerContext.Provider>
   );
 }
 

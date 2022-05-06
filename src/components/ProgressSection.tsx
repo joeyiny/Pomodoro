@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { TasksContext } from "../App";
+import { TasksContext } from "../context/TasksContext";
 
 const ProgressSection = () => {
   const { completedPomodoros } = useContext(TasksContext);

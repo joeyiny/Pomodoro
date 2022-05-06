@@ -6,21 +6,23 @@ import App from "./App.tsx";
 import reportWebVitals from "./reportWebVitals";
 import RoomScreen from "./screens/RoomScreen";
 import JoinRoom from "./components/JoinRoom.tsx";
-import { SocketProvider } from "./context/GlobalContext";
 import { RoomProvider } from "./context/RoomContext";
+import { TasksProvider } from "./context/TasksContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
   <RoomProvider>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />}>
-          <Route path=":roomCode" element={<RoomScreen />} />
-          <Route path="/" element={<JoinRoom />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <TasksProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />}>
+            <Route path=":roomCode" element={<RoomScreen />} />
+            <Route path="/" element={<JoinRoom />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </TasksProvider>
   </RoomProvider>
   // </React.StrictMode>
 );

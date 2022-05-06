@@ -1,7 +1,7 @@
 import { useEffect, useContext } from "react";
 import TaskBox from "./TaskBox";
 import AddTaskButton from "./AddTaskButton";
-import { TasksContext } from "../App";
+import { TasksContext } from "../context/TasksContext";
 
 let Tasks = () => {
   const {
