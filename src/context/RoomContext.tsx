@@ -84,7 +84,10 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
     });
     socket.on("user-disconnected", (userId) => {
       let newStreams = [...peerStreams];
+      console.log(peerStreams);
+
       newStreams.filter((e) => e.peerId === userId);
+      console.log(newStreams);
       setPeerStreams(newStreams);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
