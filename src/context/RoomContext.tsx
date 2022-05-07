@@ -105,8 +105,8 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
     peer.on("call", (call) => {
       call.answer(mediaStream);
       call.on("stream", (peerStream) => {
-        console.log("call answered");
-        peerStreams.push(peerStream);
+        console.log("Answered call");
+        setPeerStreams((peerStreams) => [...peerStreams, peerStream]);
       });
     });
 
@@ -114,8 +114,8 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
       if (socket.id !== userId) {
         const call = peer.call(userId, mediaStream);
         call.on("stream", (peerStream) => {
-          console.log("call made");
-          peerStreams.push(peerStream);
+          console.log("Calling " + userId);
+          setPeerStreams((peerStreams) => [...peerStreams, peerStream]);
         });
       }
     });
