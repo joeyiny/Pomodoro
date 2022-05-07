@@ -30,7 +30,7 @@ const UserVideos = () => {
     <div className="">
       <video className="w-32" muted ref={videoRef} autoPlay />
       {peerStreams.map((s, key) => {
-        return <Video stream={s} key={key} />;
+        return <Video stream={s.stream} key={key} />;
       })}
     </div>
   );

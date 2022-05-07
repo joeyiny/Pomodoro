@@ -32,7 +32,7 @@ export type RoomContextType = {
   setConnectedUsers: any;
   socket: Socket;
   mediaStream: MediaStream | null;
-  peerStreams: Array<MediaStream>;
+  peerStreams: Array<{ peerId: string; stream: MediaStream }>;
   newUserEffectOn: boolean;
   setNewUserEffectOn: Dispatch<SetStateAction<boolean>>;
 };
@@ -57,10 +57,11 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
   const [currentUserName, setCurrentUserName] = useState<string>("");
   const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
   const [peer, setPeer] = useState<Peer>();
-  const [peerStreams, setPeerStreams] = useState<MediaStream[]>([]);
+  const [peerStreams, setPeerStreams] = useState<
+    { peerId: string; stream: MediaStream }[]
+  >([]);
   const { setSeconds, setTimerOn, setSessionType } = useContext(TimerContext);
-  const { setCompletedPomodoros, completedPomodoros } =
-    useContext(TasksContext);
+  const { setCompletedPomodoros } = useContext(TasksContext);
   const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
 
   useEffect(() => {
@@ -69,6 +70,7 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
     socket.on("set-session-type", (data) => setSessionType(data));
     socket.on("connected-users", (data) => {
       setConnectedUsers(data);
+      console.log(data);
     });
     socket.on("new-user-connected", () => {
       setNewUserEffectOn(true);
@@ -80,6 +82,16 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
     socket.on("joined-room", (code: string) => {
       setRoomCode(code);
     });
+    socket.on("user-disconnected", (userId) => {
+      // console.log(peerStreams);
+      // if (newStreams.find((e) => e.id === userId)) console.log("found");
+      // setPeerStreams((peerStreams) => {
+      //   if (!peerStreams.find((e) => e.id === peerStream.id))
+      //     return [...peerStreams, peerStream];
+      //   return peerStreams;
+      // });
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -107,9 +119,15 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
       call.on("stream", (peerStream) => {
         console.log("Answered call");
         setPeerStreams((peerStreams) => {
-          if (!peerStreams.find((e) => e.id === peerStream.id))
-            return [...peerStreams, peerStream];
+          if (!peerStreams.find((e) => e.peerId === call.peer)) {
+            console.log("cant fine");
+            return [...peerStreams, { peerId: call.peer, stream: peerStream }];
+          }
+          // console.log(peerStreams);
           return peerStreams;
+        });
+        call.on("close", () => {
+          // console.log(call);
         });
       });
     });
@@ -118,11 +136,14 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
       if (socket.id !== userId) {
         const call = peer.call(userId, mediaStream);
         call.on("stream", (peerStream) => {
-          console.log("Calling " + userId);
+          // console.log("Calling " + userId);
           setPeerStreams((peerStreams) => {
-            if (!peerStreams.find((e) => e.id === peerStream.id))
-              return [...peerStreams, peerStream];
+            if (!peerStreams.find((e) => e.peerId === userId))
+              return [...peerStreams, { peerId: userId, stream: peerStream }];
             return peerStreams;
+          });
+          call.on("close", () => {
+            // console.log(call);
           });
         });
       }
