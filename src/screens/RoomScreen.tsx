@@ -12,12 +12,15 @@ import { RoomContext } from "../context/RoomContext";
 
 const RoomScreen = () => {
   const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
-  const { tasks, setCompletedPomodoros, completedPomodoros } =
-    useContext(TasksContext);
+  const { tasks } = useContext(TasksContext);
   const { socket } = useContext(RoomContext);
 
-  const { connectedUsers, currentUserName, setCurrentUserName } =
-    useContext(RoomContext);
+  const {
+    connectedUsers,
+    currentUserName,
+    setCurrentUserName,
+    toggleScreenShare,
+  } = useContext(RoomContext);
   const [userNameInput, setUserNameInput] = useState<string>("");
 
   const { roomCode } = useParams();
