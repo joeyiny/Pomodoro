@@ -25,7 +25,7 @@ const MutedLogo = ({ muted }: { muted: boolean }) => {
 
 const Video = ({ stream, name }: { stream: MediaStream; name: string }) => {
   let localVideo = useRef<HTMLVideoElement>(null);
-  const [muted, setMuted] = useState<boolean>(true);
+  const [muted, setMuted] = useState<boolean>(false);
 
   useEffect(() => {
     if (localVideo.current) localVideo.current.srcObject = stream;
