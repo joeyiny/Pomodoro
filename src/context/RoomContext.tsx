@@ -70,26 +70,20 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
     socket.on("set-session-type", (data) => setSessionType(data));
     socket.on("connected-users", (data) => {
       setConnectedUsers(data);
-      console.log(data);
     });
     socket.on("new-user-connected", () => {
       setNewUserEffectOn(true);
     });
     socket.on("completed-pomo", () => {
       setCompletedPomodoros((completedPomodoros) => completedPomodoros + 1);
-      console.log("1");
     });
     socket.on("joined-room", (code: string) => {
       setRoomCode(code);
     });
     socket.on("user-disconnected", (userId) => {
-      // console.log(peerStreams);
-      // if (newStreams.find((e) => e.id === userId)) console.log("found");
-      // setPeerStreams((peerStreams) => {
-      //   if (!peerStreams.find((e) => e.id === peerStream.id))
-      //     return [...peerStreams, peerStream];
-      //   return peerStreams;
-      // });
+      let newStreams = [...peerStreams];
+      newStreams.filter((e) => e.peerId === userId);
+      setPeerStreams(newStreams);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -120,14 +114,9 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
         console.log("Answered call");
         setPeerStreams((peerStreams) => {
           if (!peerStreams.find((e) => e.peerId === call.peer)) {
-            console.log("cant fine");
             return [...peerStreams, { peerId: call.peer, stream: peerStream }];
           }
-          // console.log(peerStreams);
           return peerStreams;
-        });
-        call.on("close", () => {
-          // console.log(call);
         });
       });
     });
@@ -136,23 +125,16 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
       if (socket.id !== userId) {
         const call = peer.call(userId, mediaStream);
         call.on("stream", (peerStream) => {
-          // console.log("Calling " + userId);
+          console.log("Calling " + userId);
           setPeerStreams((peerStreams) => {
             if (!peerStreams.find((e) => e.peerId === userId))
               return [...peerStreams, { peerId: userId, stream: peerStream }];
             return peerStreams;
           });
-          call.on("close", () => {
-            // console.log(call);
-          });
         });
       }
     });
   }, [peer, mediaStream]);
-
-  useEffect(() => {
-    console.log(peerStreams);
-  }, [peerStreams]);
 
   return (
     <RoomContext.Provider
