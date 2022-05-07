@@ -11,6 +11,7 @@ export interface ServerToClientEvents {
   "timer-complete": () => void;
   "completed-pomo": () => void;
   "new-user-joined-video": (userId: string) => void;
+  "user-disconnected": (userId: string) => void;
 }
 
 export interface ClientToServerEvents {
