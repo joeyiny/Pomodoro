@@ -35,6 +35,8 @@ export type RoomContextType = {
   peerStreams: Array<{ peerId: string; stream: MediaStream }>;
   newUserEffectOn: boolean;
   setNewUserEffectOn: Dispatch<SetStateAction<boolean>>;
+  toggleScreenShare: () => void;
+  isScreenSharing: boolean;
 };
 
 export const RoomContext = createContext<RoomContextType>({
@@ -49,6 +51,8 @@ export const RoomContext = createContext<RoomContextType>({
   peerStreams: [],
   newUserEffectOn: false,
   setNewUserEffectOn: () => {},
+  toggleScreenShare: () => {},
+  isScreenSharing: false,
 });
 
 export const RoomProvider: any = ({ children }: { children: any }) => {
@@ -65,6 +69,7 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
   const { setSeconds, setTimerOn, setSessionType } = useContext(TimerContext);
   const { setCompletedPomodoros } = useContext(TasksContext);
   const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
+  const [isScreenSharing, setIsScreenSharing] = useState<boolean>(false);
 
   useEffect(() => {
     socket.on("timer-tick", (data) => setSeconds(data));
@@ -107,7 +112,54 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
     } catch (error) {
       console.error(error);
     }
+    // try {
+    //   navigator.mediaDevices.getDisplayMedia().then(stream=>{setMediaStream(stream);socket.emit('video-ready')})
+    // }
   }, [roomCode]);
+
+  let toggleScreenShare = async () => {
+    if (!isScreenSharing) {
+      try {
+        navigator.mediaDevices
+          .getDisplayMedia({ video: true, audio: true })
+          .then((stream) => {
+            setMediaStream(stream);
+            setIsScreenSharing(true);
+            Object.values(peer?.connections).forEach((connection: any) => {
+              const videoTrack = stream
+                ?.getTracks()
+                .find((track) => track.kind === "video");
+              connection[0].peerConnection
+                .getSenders()[1]
+                .replaceTrack(videoTrack)
+                .catch((err: any) => console.log(err));
+            });
+          });
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        navigator.mediaDevices
+          .getUserMedia({ video: true, audio: true })
+          .then((stream) => {
+            setMediaStream(stream);
+            setIsScreenSharing(false);
+            Object.values(peer?.connections).forEach((connection: any) => {
+              const videoTrack = stream
+                ?.getTracks()
+                .find((track) => track.kind === "video");
+              connection[0].peerConnection
+                .getSenders()[1]
+                .replaceTrack(videoTrack)
+                .catch((err: any) => console.log(err));
+            });
+          });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
 
   useEffect(() => {
     if (!peer || !mediaStream) return;
@@ -154,6 +206,8 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
         peerStreams,
         newUserEffectOn,
         setNewUserEffectOn,
+        toggleScreenShare,
+        isScreenSharing,
       }}>
       {children}
     </RoomContext.Provider>

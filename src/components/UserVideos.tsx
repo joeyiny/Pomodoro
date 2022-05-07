@@ -50,8 +50,14 @@ const Video = ({ stream, name }: { stream: MediaStream; name: string }) => {
 };
 
 const UserVideos = () => {
-  let { mediaStream, peerStreams, connectedUsers, currentUserName } =
-    useContext(RoomContext);
+  let {
+    mediaStream,
+    peerStreams,
+    connectedUsers,
+    currentUserName,
+    isScreenSharing,
+    toggleScreenShare,
+  } = useContext(RoomContext);
   let videoRef = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     if (videoRef.current) videoRef.current.srcObject = mediaStream;
@@ -60,6 +66,11 @@ const UserVideos = () => {
   return (
     <div className="">
       <div>
+        <button
+          className="border rounded border-gray-400 text-gray-800 p-1 mb-1"
+          onClick={() => toggleScreenShare()}>
+          {!isScreenSharing ? "Share Screen" : "Back to Webcam"}
+        </button>
         <video className="w-32 m-auto" muted ref={videoRef} autoPlay />
         <p>{currentUserName}</p>
       </div>
