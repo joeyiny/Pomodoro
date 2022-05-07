@@ -20,7 +20,7 @@ const Video = ({ stream }: { stream: MediaStream }) => {
 };
 
 const UserVideos = () => {
-  let { mediaStream, peerStreams } = useContext(RoomContext);
+  let { mediaStream, peerStreams, connectedUsers } = useContext(RoomContext);
   let videoRef = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     if (videoRef.current) videoRef.current.srcObject = mediaStream;
@@ -30,8 +30,15 @@ const UserVideos = () => {
     <div className="">
       <video className="w-32" muted ref={videoRef} autoPlay />
       {peerStreams.map((s, key) => {
-        return <Video stream={s.stream} key={key} />;
+        return (
+          <div>
+            <Video stream={s.stream} key={key} />
+            <p>{connectedUsers[s.peerId].userName}</p>
+          </div>
+        );
       })}
+      {/* {JSON.stringify(connectedUsers)} */}
+      {/* {JSON.stringify(peerStreams)} */}
     </div>
   );
 };

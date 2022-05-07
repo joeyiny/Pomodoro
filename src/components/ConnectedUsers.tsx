@@ -4,7 +4,7 @@ import UserVideos from "./UserVideos";
 const ConnectedUsers = ({
   connectedUsers,
 }: {
-  connectedUsers: Array<User>;
+  connectedUsers: { [peerId: string]: User };
 }) => {
   const listUsers = Object.entries(connectedUsers).map(([key, user], i) => {
     return <li key={i}>{user.userName}</li>;
@@ -15,7 +15,7 @@ const ConnectedUsers = ({
       <span className="pb-2 border-gray-300 border-b">
         Connected users: {Object.keys(connectedUsers).length}
       </span>
-      <ul className="">{listUsers}</ul>
+      {/* <ul className="">{listUsers}</ul> */}
       <UserVideos />
     </div>
   );

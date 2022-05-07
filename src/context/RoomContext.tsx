@@ -26,7 +26,7 @@ const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
 export type RoomContextType = {
   roomCode: string;
   setRoomCode: (roomCode: string) => void;
-  connectedUsers: Array<User>;
+  connectedUsers: { [peerId: string]: User };
   currentUserName: string;
   setCurrentUserName: any;
   setConnectedUsers: any;
@@ -40,7 +40,7 @@ export type RoomContextType = {
 export const RoomContext = createContext<RoomContextType>({
   roomCode: "",
   setRoomCode: () => {},
-  connectedUsers: [],
+  connectedUsers: {},
   currentUserName: "",
   setCurrentUserName: () => {},
   setConnectedUsers: () => {},
@@ -53,7 +53,9 @@ export const RoomContext = createContext<RoomContextType>({
 
 export const RoomProvider: any = ({ children }: { children: any }) => {
   const [roomCode, setRoomCode] = useState<string>("");
-  const [connectedUsers, setConnectedUsers] = useState<Array<User>>([]);
+  const [connectedUsers, setConnectedUsers] = useState<{
+    [peerId: string]: User;
+  }>({});
   const [currentUserName, setCurrentUserName] = useState<string>("");
   const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
   const [peer, setPeer] = useState<Peer>();

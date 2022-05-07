@@ -6,7 +6,7 @@ export interface ServerToClientEvents {
   "timer-tick": (seconds: number) => void;
   "timer-toggle": (timerOn: boolean) => void;
   "set-session-type": (sessionType: SessionType) => void;
-  "connected-users": (users: User[]) => void;
+  "connected-users": (users: any) => void;
   "new-user-connected": (userId: string) => void;
   "timer-complete": () => void;
   "completed-pomo": () => void;
