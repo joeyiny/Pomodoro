@@ -106,7 +106,11 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
       call.answer(mediaStream);
       call.on("stream", (peerStream) => {
         console.log("Answered call");
-        setPeerStreams((peerStreams) => [...peerStreams, peerStream]);
+        setPeerStreams((peerStreams) => {
+          if (!peerStreams.find((e) => e.id === peerStream.id))
+            return [...peerStreams, peerStream];
+          return peerStreams;
+        });
       });
     });
 
@@ -115,11 +119,19 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
         const call = peer.call(userId, mediaStream);
         call.on("stream", (peerStream) => {
           console.log("Calling " + userId);
-          setPeerStreams((peerStreams) => [...peerStreams, peerStream]);
+          setPeerStreams((peerStreams) => {
+            if (!peerStreams.find((e) => e.id === peerStream.id))
+              return [...peerStreams, peerStream];
+            return peerStreams;
+          });
         });
       }
     });
   }, [peer, mediaStream]);
+
+  useEffect(() => {
+    console.log(peerStreams);
+  }, [peerStreams]);
 
   return (
     <RoomContext.Provider
