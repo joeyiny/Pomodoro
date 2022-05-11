@@ -9,29 +9,30 @@ import Timer from "../components/Timer";
 import { useNavigate } from "react-router-dom";
 import Tasks from "../components/Tasks";
 import { RoomContext } from "../context/RoomContext";
+import { AuthContext } from "../context/AuthContext";
 
 const RoomScreen = () => {
   const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
   const { tasks } = useContext(TasksContext);
   const { socket } = useContext(RoomContext);
 
-  const { connectedUsers, currentUserName, setCurrentUserName } =
-    useContext(RoomContext);
+  const { connectedUsers } = useContext(RoomContext);
+  const { displayName, isLoggedIn, setDisplayName } = useContext(AuthContext);
   const [userNameInput, setUserNameInput] = useState<string>("");
 
   const { roomCode } = useParams();
   let navigate = useNavigate();
 
   useEffect(() => {
-    if (!roomCode || !currentUserName) return;
+    if (!isLoggedIn || !roomCode || !displayName) return;
     socket.emit(
       "join-room",
-      { roomCode, userName: currentUserName },
+      { roomCode, userName: displayName },
       (roomExists: boolean) => {
         if (!roomExists) navigate("/");
       }
     );
-  }, [roomCode, currentUserName]);
+  }, [roomCode, displayName]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -57,33 +58,10 @@ const RoomScreen = () => {
         if (!data.isLoggedIn) {
           navigate("/login", { replace: true });
         } else {
-          setCurrentUserName(data.displayName);
+          setDisplayName(data.displayName);
         }
       });
   }, []);
-
-  if (!currentUserName)
-    return (
-      <>
-        <p>What's your name?</p>
-        <form
-          className="flex flex-row gap-2"
-          onSubmit={() => setCurrentUserName(userNameInput)}>
-          <input
-            className="text-gray-800 flex-grow"
-            type="text"
-            value={userNameInput}
-            placeholder="Display Name"
-            onChange={(e) => setUserNameInput(e.target.value)}
-          />
-          <button
-            type="submit"
-            className="border-2 border-white rounded  w-min px-2 py-1">
-            Join
-          </button>
-        </form>
-      </>
-    );
   return (
     <div className="flex gap-2 flex-col w-96 m-auto py-10">
       {newUserEffectOn && <NewUserNotification />}

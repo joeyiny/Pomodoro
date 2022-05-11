@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import { RoomContext } from "../context/RoomContext";
 
 const JoinRoom = () => {
   const [roomCodeInput, setRoomCodeInput] = useState<string>("");
-  const { currentUserName } = useContext(RoomContext);
+  const { displayName } = useContext(AuthContext);
   const { socket } = useContext(RoomContext);
 
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const JoinRoom = () => {
     <div>
       <button
         onClick={() => {
-          socket.emit("create-room", currentUserName, (response: string) => {
+          socket.emit("create-room", displayName, (response: string) => {
             navigate("/" + response);
           });
         }}

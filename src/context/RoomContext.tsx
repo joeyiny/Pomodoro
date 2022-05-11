@@ -27,8 +27,6 @@ export type RoomContextType = {
   roomCode: string;
   setRoomCode: (roomCode: string) => void;
   connectedUsers: { [peerId: string]: User };
-  currentUserName: string;
-  setCurrentUserName: any;
   setConnectedUsers: any;
   socket: Socket;
   mediaStream: MediaStream | null;
@@ -43,8 +41,6 @@ export const RoomContext = createContext<RoomContextType>({
   roomCode: "",
   setRoomCode: () => {},
   connectedUsers: {},
-  currentUserName: "",
-  setCurrentUserName: () => {},
   setConnectedUsers: () => {},
   socket: socket,
   mediaStream: null,
@@ -60,7 +56,6 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
   const [connectedUsers, setConnectedUsers] = useState<{
     [peerId: string]: User;
   }>({});
-  const [currentUserName, setCurrentUserName] = useState<string>("");
   const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
   const [peer, setPeer] = useState<Peer>();
   const [peerStreams, setPeerStreams] = useState<
@@ -87,13 +82,7 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
     socket.on("joined-room", (code: string) => {
       setRoomCode(code);
     });
-    socket.on("user-disconnected", (userId) => {
-      // let newStreams = [...peerStreams];
-      // console.log(peerStreams);
-      // newStreams.filter((e) => e.peerId === userId);
-      // console.log(newStreams);
-      // setPeerStreams(newStreams);
-    });
+    socket.on("user-disconnected", (userId) => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -112,9 +101,6 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
     } catch (error) {
       console.error(error);
     }
-    // try {
-    //   navigator.mediaDevices.getDisplayMedia().then(stream=>{setMediaStream(stream);socket.emit('video-ready')})
-    // }
   }, [roomCode]);
 
   let toggleScreenShare = async () => {
@@ -198,8 +184,6 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
         roomCode,
         setRoomCode,
         connectedUsers,
-        currentUserName,
-        setCurrentUserName,
         setConnectedUsers,
         socket,
         mediaStream,

@@ -1,4 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 import { RoomContext } from "../context/RoomContext";
 
 const MutedLogo = ({ muted }: { muted: boolean }) => {
@@ -54,10 +55,10 @@ const UserVideos = () => {
     mediaStream,
     peerStreams,
     connectedUsers,
-    currentUserName,
     isScreenSharing,
     toggleScreenShare,
   } = useContext(RoomContext);
+  const { displayName } = useContext(AuthContext);
   let videoRef = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     if (videoRef.current) videoRef.current.srcObject = mediaStream;
@@ -72,7 +73,7 @@ const UserVideos = () => {
           {!isScreenSharing ? "Share Screen" : "Back to Webcam"}
         </button>
         <video className="w-32 m-auto" muted ref={videoRef} autoPlay />
-        <p>{currentUserName}</p>
+        <p>{displayName}</p>
       </div>
 
       {peerStreams.map((s, key) => {
