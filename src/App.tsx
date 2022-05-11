@@ -3,7 +3,7 @@ import { TasksContext } from "./context/TasksContext";
 import { RoomContext } from "./context/RoomContext";
 
 import { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import useSound from "use-sound";
 import { useContext } from "react";
 import { TimerContext } from "./context/TimerContext";
@@ -12,15 +12,8 @@ const alarmSound = require("./sounds/alarm.wav");
 const joinSound = require("./sounds/join.wav");
 
 function App() {
-  const { setCompletedPomodoros } = useContext(TasksContext);
-  const { setSeconds, setTimerOn, setSessionType } = useContext(TimerContext);
-  const {
-    setConnectedUsers,
-    setRoomCode,
-    socket,
-    newUserEffectOn,
-    setNewUserEffectOn,
-  } = useContext(RoomContext);
+  const { socket, newUserEffectOn, setNewUserEffectOn } =
+    useContext(RoomContext);
 
   const [playAlarmSound] = useSound(alarmSound, { volume: 0.4 });
   const [playJoinSound] = useSound(joinSound, { volume: 0.4 });

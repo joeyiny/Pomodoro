@@ -15,12 +15,8 @@ const RoomScreen = () => {
   const { tasks } = useContext(TasksContext);
   const { socket } = useContext(RoomContext);
 
-  const {
-    connectedUsers,
-    currentUserName,
-    setCurrentUserName,
-    toggleScreenShare,
-  } = useContext(RoomContext);
+  const { connectedUsers, currentUserName, setCurrentUserName } =
+    useContext(RoomContext);
   const [userNameInput, setUserNameInput] = useState<string>("");
 
   const { roomCode } = useParams();
