@@ -1,4 +1,4 @@
-import { SyntheticEvent, useEffect, useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -31,7 +31,7 @@ const Login = () => {
       .then((data) => {
         if (data.message === "Success") {
           localStorage.setItem("token", data.token);
-          navigate("/profile", { replace: true });
+          navigate("/", { replace: true });
         } else setResponseMessage(data.message);
       });
   };
