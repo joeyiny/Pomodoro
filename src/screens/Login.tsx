@@ -31,7 +31,7 @@ const Login = () => {
       .then((data) => {
         if (data.message === "Success") {
           localStorage.setItem("token", data.token);
-          setResponseMessage("");
+          navigate("/profile", { replace: true });
         } else setResponseMessage(data.message);
       });
   };
