@@ -43,6 +43,29 @@ const RoomScreen = () => {
     }, 6500);
   }, [newUserEffectOn]);
 
+  useEffect(() => {
+    let token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login", { replace: true });
+      return;
+    }
+
+    fetch("http://localhost:3000/isUserAuth", {
+      method: "POST",
+      headers: {
+        "x-access-token": token,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data.isLoggedIn) {
+          navigate("/login", { replace: true });
+        } else {
+          setCurrentUserName(data.displayName);
+        }
+      });
+  }, []);
+
   if (!currentUserName)
     return (
       <>
