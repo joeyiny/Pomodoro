@@ -7,6 +7,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import useSound from "use-sound";
 import { useContext } from "react";
 import { TimerContext } from "./context/TimerContext";
+import Header from "./components/Header";
 
 const alarmSound = require("./sounds/alarm.wav");
 const joinSound = require("./sounds/join.wav");
@@ -34,8 +35,11 @@ function App() {
   }, [playAlarmSound, playJoinSound]);
 
   return (
-    <div className="text-center bg-gray-800 min-h-screen App-header text-white  ">
-      <Outlet />
+    <div className="text-center bg-gray-800 min-h-screen App-header text-white ">
+      <div className="m-auto max-w-2xl">
+        <Header />
+        <Outlet />
+      </div>
     </div>
   );
 }

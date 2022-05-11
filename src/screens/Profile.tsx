@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const Profile = () => {
   const [displayName, setDisplayName] = useState("");
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   useEffect(() => {
     let token = localStorage.getItem("token");
     if (!token) return;
@@ -14,8 +16,9 @@ const Profile = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        setIsLoggedIn(data.isLoggedIn);
+
         if (data.isLoggedIn) {
-          console.log(data.displayName);
           setDisplayName(data.displayName);
         }
       });

@@ -1,8 +1,10 @@
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { setDisplayName, setIsLoggedIn } = useContext(AuthContext);
 
   const [form, setForm] = useState({
     email: "",
@@ -18,7 +20,6 @@ const Login = () => {
 
   let onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
-    console.log(form);
 
     fetch("http://localhost:3000/login", {
       method: "POST",
@@ -29,8 +30,11 @@ const Login = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        setIsLoggedIn(true);
+
         if (data.message === "Success") {
           localStorage.setItem("token", data.token);
+          setDisplayName(data.displayName);
           navigate("/", { replace: true });
         } else setResponseMessage(data.message);
       });

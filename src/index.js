@@ -11,27 +11,30 @@ import { TimerProvider } from "./context/TimerContext";
 import Register from "./screens/Register";
 import Login from "./screens/Login";
 import Profile from "./screens/Profile";
+import { AuthProvider } from "./context/AuthContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
-  <TimerProvider>
-    <RoomProvider>
-      <TasksProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<App />}>
-              <Route path="/register" element={<Register />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path=":roomCode" element={<RoomScreen />} />
-              <Route path="/" element={<JoinRoom />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </TasksProvider>
-    </RoomProvider>
-  </TimerProvider>
+  <AuthProvider>
+    <TimerProvider>
+      <RoomProvider>
+        <TasksProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<App />}>
+                <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path=":roomCode" element={<RoomScreen />} />
+                <Route path="/" element={<JoinRoom />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </TasksProvider>
+      </RoomProvider>
+    </TimerProvider>
+  </AuthProvider>
 
   // </React.StrictMode>
 );
