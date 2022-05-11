@@ -20,6 +20,7 @@ root.render(
           <div className="text-center bg-gray-800 min-h-screen App-header text-white  ">
             <Routes>
               <Route path="/" element={<App />}>
+                <Route path="/register" element={<Register />} />
                 <Route path=":roomCode" element={<RoomScreen />} />
                 <Route path="/" element={<JoinRoom />} />
               </Route>
