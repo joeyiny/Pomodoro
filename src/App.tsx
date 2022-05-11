@@ -40,7 +40,11 @@ function App() {
     });
   }, [playAlarmSound, playJoinSound]);
 
-  return <Outlet />;
+  return (
+    <div className="text-center bg-gray-800 min-h-screen App-header text-white  ">
+      <Outlet />
+    </div>
+  );
 }
 
 export default App;
