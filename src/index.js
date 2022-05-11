@@ -8,6 +8,7 @@ import JoinRoom from "./components/JoinRoom.tsx";
 import { RoomProvider } from "./context/RoomContext";
 import { TasksProvider } from "./context/TasksContext";
 import { TimerProvider } from "./context/TimerContext";
+import Register from "./screens/Register";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
