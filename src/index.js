@@ -16,12 +16,14 @@ root.render(
     <RoomProvider>
       <TasksProvider>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<App />}>
-              <Route path=":roomCode" element={<RoomScreen />} />
-              <Route path="/" element={<JoinRoom />} />
-            </Route>
-          </Routes>
+          <div className="text-center bg-gray-800 min-h-screen App-header text-white  ">
+            <Routes>
+              <Route path="/" element={<App />}>
+                <Route path=":roomCode" element={<RoomScreen />} />
+                <Route path="/" element={<JoinRoom />} />
+              </Route>
+            </Routes>
+          </div>
         </BrowserRouter>
       </TasksProvider>
     </RoomProvider>
