@@ -9,6 +9,8 @@ import { RoomProvider } from "./context/RoomContext";
 import { TasksProvider } from "./context/TasksContext";
 import { TimerProvider } from "./context/TimerContext";
 import Register from "./screens/Register";
+import Login from "./screens/Login";
+import Profile from "./screens/Profile";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -20,6 +22,8 @@ root.render(
           <Routes>
             <Route path="/" element={<App />}>
               <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/profile" element={<Profile />} />
               <Route path=":roomCode" element={<RoomScreen />} />
               <Route path="/" element={<JoinRoom />} />
             </Route>
