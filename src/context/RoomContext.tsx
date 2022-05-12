@@ -37,6 +37,8 @@ export type RoomContextType = {
   setNewUserEffectOn: Dispatch<SetStateAction<boolean>>;
   toggleScreenShare: () => void;
   isScreenSharing: boolean;
+  toggleAudio: () => void;
+  toggleVideo: () => void;
 };
 
 export const RoomContext = createContext<RoomContextType>({
@@ -53,6 +55,8 @@ export const RoomContext = createContext<RoomContextType>({
   setNewUserEffectOn: () => {},
   toggleScreenShare: () => {},
   isScreenSharing: false,
+  toggleAudio: () => {},
+  toggleVideo: () => {},
 });
 
 export const RoomProvider: any = ({ children }: { children: any }) => {
@@ -116,6 +120,32 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
     //   navigator.mediaDevices.getDisplayMedia().then(stream=>{setMediaStream(stream);socket.emit('video-ready')})
     // }
   }, [roomCode]);
+
+  let toggleVideo = () => {
+    if (!mediaStream) return;
+    const videoTrack = mediaStream
+      .getTracks()
+      .find((track) => track.kind === "video");
+    if (!videoTrack) return;
+    if (videoTrack.enabled) {
+      videoTrack.enabled = false;
+    } else {
+      videoTrack.enabled = true;
+    }
+  };
+
+  let toggleAudio = () => {
+    if (!mediaStream) return;
+    const audioTrack = mediaStream
+      .getTracks()
+      .find((track) => track.kind === "audio");
+    if (!audioTrack) return;
+    if (audioTrack.enabled) {
+      audioTrack.enabled = false;
+    } else {
+      audioTrack.enabled = true;
+    }
+  };
 
   let toggleScreenShare = async () => {
     if (!isScreenSharing) {
@@ -208,6 +238,8 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
         setNewUserEffectOn,
         toggleScreenShare,
         isScreenSharing,
+        toggleAudio,
+        toggleVideo,
       }}>
       {children}
     </RoomContext.Provider>
