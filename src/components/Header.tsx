@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const LoggedInDisplay = ({
-  displayName,
+  user,
   setIsLoggedIn,
 }: {
-  displayName: string;
+  user: any;
   setIsLoggedIn: any;
 }) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
@@ -27,7 +27,7 @@ const LoggedInDisplay = ({
       <button
         onClick={toggleDropDown}
         className="bg-gray-600 p-1 px-2 block rounded-sm text-gray-200">
-        {displayName}
+        {user.displayName}
       </button>
       {isDropDownOpen && (
         <button
@@ -52,7 +52,7 @@ const LoginButton = () => {
 };
 
 const Header = () => {
-  const { isLoggedIn, setIsLoggedIn, displayName } = useContext(AuthContext);
+  const { isLoggedIn, setIsLoggedIn, user } = useContext(AuthContext);
   useEffect(() => {
     let token = localStorage.getItem("token");
     if (!token) return;
@@ -74,10 +74,7 @@ const Header = () => {
       <h1 className="font-bold">Pomo.wtf</h1>
       <div>
         {isLoggedIn ? (
-          <LoggedInDisplay
-            displayName={displayName}
-            setIsLoggedIn={setIsLoggedIn}
-          />
+          <LoggedInDisplay user={user} setIsLoggedIn={setIsLoggedIn} />
         ) : (
           <LoginButton />
         )}

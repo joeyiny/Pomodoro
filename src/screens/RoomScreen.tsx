@@ -17,22 +17,22 @@ const RoomScreen = () => {
   const { socket } = useContext(RoomContext);
 
   const { connectedUsers } = useContext(RoomContext);
-  const { displayName, isLoggedIn, setDisplayName } = useContext(AuthContext);
+  const { user, isLoggedIn, setUser } = useContext(AuthContext);
   const [userNameInput, setUserNameInput] = useState<string>("");
 
   const { roomCode } = useParams();
   let navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLoggedIn || !roomCode || !displayName) return;
+    if (!isLoggedIn || !roomCode || !user) return;
     socket.emit(
       "join-room",
-      { roomCode, userName: displayName },
+      { roomCode, userName: user.displayName },
       (roomExists: boolean) => {
         if (!roomExists) navigate("/");
       }
     );
-  }, [roomCode, displayName]);
+  }, [roomCode, user]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -58,14 +58,13 @@ const RoomScreen = () => {
         if (!data.isLoggedIn) {
           navigate("/login", { replace: true });
         } else {
-          setDisplayName(data.displayName);
+          setUser(data);
         }
       });
   }, []);
   return (
     <div className="flex gap-2 flex-col w-96 m-auto py-10">
       {newUserEffectOn && <NewUserNotification />}
-      {/* <p>Room Code: {roomCode}</p> */}
       <ConnectedUsers connectedUsers={connectedUsers} />
       <ProgressSection />
       <Timer socket={socket} />

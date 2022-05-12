@@ -5,7 +5,7 @@ import { RoomContext } from "../context/RoomContext";
 
 const JoinRoom = () => {
   const [roomCodeInput, setRoomCodeInput] = useState<string>("");
-  const { displayName } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const { socket } = useContext(RoomContext);
 
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const JoinRoom = () => {
     <div>
       <button
         onClick={() => {
-          socket.emit("create-room", displayName, (response: string) => {
+          socket.emit("create-room", user.displayName, (response: string) => {
             navigate("/" + response);
           });
         }}

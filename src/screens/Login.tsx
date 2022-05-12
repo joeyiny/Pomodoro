@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { setDisplayName, setIsLoggedIn } = useContext(AuthContext);
+  const { setUser, setIsLoggedIn } = useContext(AuthContext);
 
   const [form, setForm] = useState({
     email: "",
@@ -34,7 +34,7 @@ const Login = () => {
 
         if (data.message === "Success") {
           localStorage.setItem("token", data.token);
-          setDisplayName(data.displayName);
+          setUser(data);
           navigate("/", { replace: true });
         } else setResponseMessage(data.message);
       });
