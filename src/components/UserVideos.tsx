@@ -1,5 +1,11 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { RoomContext } from "../context/RoomContext";
+import {
+  BsFillMicFill,
+  BsFillMicMuteFill,
+  BsCameraVideoOffFill,
+  BsCameraVideoFill,
+} from "react-icons/bs";
 
 const MutedLogo = ({ muted }: { muted: boolean }) => {
   if (muted)
@@ -79,12 +85,12 @@ const UserVideos = () => {
         <p>{currentUserName}</p>
         {isAudioOn !== null && (
           <button onClick={toggleAudio}>
-            {isAudioOn ? "Mute self" : "Unmute self"}
+            {isAudioOn ? <BsFillMicFill /> : <BsFillMicMuteFill />}
           </button>
         )}
         {isVideoOn !== null && (
           <button onClick={toggleVideo}>
-            {isVideoOn ? "Turn off video" : "Turn on video"}
+            {isVideoOn ? <BsCameraVideoFill /> : <BsCameraVideoOffFill />}
           </button>
         )}
       </div>
