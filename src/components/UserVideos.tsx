@@ -1,6 +1,12 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { RoomContext } from "../context/RoomContext";
+import {
+  BsFillMicFill,
+  BsFillMicMuteFill,
+  BsCameraVideoOffFill,
+  BsCameraVideoFill,
+} from "react-icons/bs";
 
 const MutedLogo = ({ muted }: { muted: boolean }) => {
   if (muted)
@@ -57,12 +63,20 @@ const UserVideos = () => {
     connectedUsers,
     isScreenSharing,
     toggleScreenShare,
+    toggleAudio,
+    toggleVideo,
+    isAudioOn,
+    isVideoOn,
   } = useContext(RoomContext);
   const { user } = useContext(AuthContext);
   let videoRef = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     if (videoRef.current) videoRef.current.srcObject = mediaStream;
   }, [mediaStream]);
+
+  const ICON_SIZE: number = 14;
+  const ICON_COLOR: string = "#333";
+  const ICON_OFF_COLOR: string = "#a00";
 
   return (
     <div className="">
@@ -73,7 +87,27 @@ const UserVideos = () => {
           {!isScreenSharing ? "Share Screen" : "Back to Webcam"}
         </button>
         <video className="w-32 m-auto" muted ref={videoRef} autoPlay />
-        <p>{user.displayName}</p>
+        <div className="flex flex-row justify-center gap-1">
+          <p>{user.displayName}</p>
+          {isAudioOn !== null && (
+            <button onClick={toggleAudio}>
+              {isAudioOn ? (
+                <BsFillMicFill size={ICON_SIZE} color={ICON_COLOR} />
+              ) : (
+                <BsFillMicMuteFill size={ICON_SIZE} color={ICON_OFF_COLOR} />
+              )}
+            </button>
+          )}
+          {isVideoOn !== null && (
+            <button onClick={toggleVideo}>
+              {isVideoOn ? (
+                <BsCameraVideoFill size={ICON_SIZE} color={ICON_COLOR} />
+              ) : (
+                <BsCameraVideoOffFill size={ICON_SIZE} color={ICON_OFF_COLOR} />
+              )}
+            </button>
+          )}
+        </div>
       </div>
 
       {peerStreams.map((s, key) => {
