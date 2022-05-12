@@ -39,6 +39,8 @@ export type RoomContextType = {
   isScreenSharing: boolean;
   toggleAudio: () => void;
   toggleVideo: () => void;
+  isAudioOn: boolean | null;
+  isVideoOn: boolean | null;
 };
 
 export const RoomContext = createContext<RoomContextType>({
@@ -57,6 +59,8 @@ export const RoomContext = createContext<RoomContextType>({
   isScreenSharing: false,
   toggleAudio: () => {},
   toggleVideo: () => {},
+  isAudioOn: null,
+  isVideoOn: null,
 });
 
 export const RoomProvider: any = ({ children }: { children: any }) => {
@@ -74,6 +78,8 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
   const { setCompletedPomodoros } = useContext(TasksContext);
   const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
   const [isScreenSharing, setIsScreenSharing] = useState<boolean>(false);
+  const [isAudioOn, setIsAudioOn] = useState<boolean | null>(null);
+  const [isVideoOn, setIsVideoOn] = useState<boolean | null>(null);
 
   useEffect(() => {
     socket.on("timer-tick", (data) => setSeconds(data));
@@ -132,6 +138,7 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
     } else {
       videoTrack.enabled = true;
     }
+    setIsVideoOn(videoTrack.enabled);
   };
 
   let toggleAudio = () => {
@@ -145,7 +152,22 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
     } else {
       audioTrack.enabled = true;
     }
+    setIsAudioOn(audioTrack.enabled);
   };
+
+  useEffect(() => {
+    if (!mediaStream) return;
+    const audioTrack = mediaStream
+      .getTracks()
+      .find((track) => track.kind === "audio");
+    const videoTrack = mediaStream
+      .getTracks()
+      .find((track) => track.kind === "video");
+    if (!audioTrack) return;
+    setIsAudioOn(audioTrack.enabled);
+    if (!videoTrack) return;
+    setIsVideoOn(videoTrack.enabled);
+  }, [mediaStream]);
 
   let toggleScreenShare = async () => {
     if (!isScreenSharing) {
@@ -240,6 +262,8 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
         isScreenSharing,
         toggleAudio,
         toggleVideo,
+        isAudioOn,
+        isVideoOn,
       }}>
       {children}
     </RoomContext.Provider>

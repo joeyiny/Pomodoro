@@ -57,6 +57,10 @@ const UserVideos = () => {
     currentUserName,
     isScreenSharing,
     toggleScreenShare,
+    toggleAudio,
+    toggleVideo,
+    isAudioOn,
+    isVideoOn,
   } = useContext(RoomContext);
   let videoRef = useRef<HTMLVideoElement>(null);
   useEffect(() => {
@@ -73,6 +77,16 @@ const UserVideos = () => {
         </button>
         <video className="w-32 m-auto" muted ref={videoRef} autoPlay />
         <p>{currentUserName}</p>
+        {isAudioOn !== null && (
+          <button onClick={toggleAudio}>
+            {isAudioOn ? "Mute self" : "Unmute self"}
+          </button>
+        )}
+        {isVideoOn !== null && (
+          <button onClick={toggleVideo}>
+            {isVideoOn ? "Turn off video" : "Turn on video"}
+          </button>
+        )}
       </div>
 
       {peerStreams.map((s, key) => {
