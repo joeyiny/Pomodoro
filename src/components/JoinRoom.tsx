@@ -31,12 +31,13 @@ const JoinRoom = () => {
       });
   }, []);
 
+  if (!user) return <p>error, pls login</p>;
   return (
     <div>
       <button
         onClick={() => {
           socket.emit("create-room", user.displayName, (response: string) => {
-            navigate("/" + response);
+            navigate("/" + response, { replace: true });
           });
         }}
         className="bg-white text-gray-800 w-max m-auto px-2">

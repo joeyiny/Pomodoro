@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
@@ -52,23 +52,7 @@ const LoginButton = () => {
 };
 
 const Header = () => {
-  const { isLoggedIn, setIsLoggedIn, user, setUser } = useContext(AuthContext);
-  useEffect(() => {
-    let token = localStorage.getItem("token");
-    if (!token) return;
-
-    fetch("http://localhost:3000/isUserAuth", {
-      method: "POST",
-      headers: {
-        "x-access-token": token,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setIsLoggedIn(data.isLoggedIn);
-        setUser(data.user);
-      });
-  }, []);
+  const { isLoggedIn, setIsLoggedIn, user } = useContext(AuthContext);
 
   return (
     <header className="border-b border-gray-700 h-12 flex flex-row justify-between px-16 items-center">

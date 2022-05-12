@@ -17,8 +17,7 @@ const RoomScreen = () => {
   const { socket } = useContext(RoomContext);
 
   const { connectedUsers } = useContext(RoomContext);
-  const { user, isLoggedIn, setUser } = useContext(AuthContext);
-  const [userNameInput, setUserNameInput] = useState<string>("");
+  const { user, isLoggedIn } = useContext(AuthContext);
 
   const { roomCode } = useParams();
   let navigate = useNavigate();
@@ -42,26 +41,11 @@ const RoomScreen = () => {
 
   useEffect(() => {
     let token = localStorage.getItem("token");
-    if (!token) {
+    if (!token || !isLoggedIn || !user) {
       navigate("/login", { replace: true });
       return;
     }
-
-    fetch("http://localhost:3000/isUserAuth", {
-      method: "POST",
-      headers: {
-        "x-access-token": token,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data.isLoggedIn) {
-          navigate("/login", { replace: true });
-        } else {
-          setUser(data);
-        }
-      });
-  }, []);
+  }, [isLoggedIn, user]);
   return (
     <div className="flex gap-2 flex-col w-96 m-auto py-10">
       {newUserEffectOn && <NewUserNotification />}

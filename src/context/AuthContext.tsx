@@ -1,4 +1,10 @@
-import { createContext, Dispatch, SetStateAction, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 
 interface IAuthContext {
   isLoggedIn: boolean;
@@ -10,7 +16,7 @@ interface IAuthContext {
 export const AuthContext = createContext<IAuthContext>({
   isLoggedIn: true,
   setIsLoggedIn: () => {},
-  user: {},
+  user: null,
   setUser: () => {},
 });
 
