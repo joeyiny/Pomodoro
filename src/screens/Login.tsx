@@ -30,11 +30,11 @@ const Login = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setIsLoggedIn(true);
-
         if (data.message === "Success") {
           localStorage.setItem("token", data.token);
-          setUser(data);
+
+          setIsLoggedIn(true);
+          setUser(data.user);
           navigate("/", { replace: true });
         } else setResponseMessage(data.message);
       });

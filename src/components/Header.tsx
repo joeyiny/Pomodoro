@@ -52,7 +52,7 @@ const LoginButton = () => {
 };
 
 const Header = () => {
-  const { isLoggedIn, setIsLoggedIn, user } = useContext(AuthContext);
+  const { isLoggedIn, setIsLoggedIn, user, setUser } = useContext(AuthContext);
   useEffect(() => {
     let token = localStorage.getItem("token");
     if (!token) return;
@@ -66,6 +66,7 @@ const Header = () => {
       .then((res) => res.json())
       .then((data) => {
         setIsLoggedIn(data.isLoggedIn);
+        setUser(data.user);
       });
   }, []);
 
