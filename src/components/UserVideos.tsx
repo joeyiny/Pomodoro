@@ -73,6 +73,10 @@ const UserVideos = () => {
     if (videoRef.current) videoRef.current.srcObject = mediaStream;
   }, [mediaStream]);
 
+  const ICON_SIZE: number = 14;
+  const ICON_COLOR: string = "#333";
+  const ICON_OFF_COLOR: string = "#a00";
+
   return (
     <div className="">
       <div>
@@ -82,17 +86,27 @@ const UserVideos = () => {
           {!isScreenSharing ? "Share Screen" : "Back to Webcam"}
         </button>
         <video className="w-32 m-auto" muted ref={videoRef} autoPlay />
-        <p>{currentUserName}</p>
-        {isAudioOn !== null && (
-          <button onClick={toggleAudio}>
-            {isAudioOn ? <BsFillMicFill /> : <BsFillMicMuteFill />}
-          </button>
-        )}
-        {isVideoOn !== null && (
-          <button onClick={toggleVideo}>
-            {isVideoOn ? <BsCameraVideoFill /> : <BsCameraVideoOffFill />}
-          </button>
-        )}
+        <div className="flex flex-row justify-center gap-1">
+          <p>{currentUserName}</p>
+          {isAudioOn !== null && (
+            <button onClick={toggleAudio}>
+              {isAudioOn ? (
+                <BsFillMicFill size={ICON_SIZE} color={ICON_COLOR} />
+              ) : (
+                <BsFillMicMuteFill size={ICON_SIZE} color={ICON_OFF_COLOR} />
+              )}
+            </button>
+          )}
+          {isVideoOn !== null && (
+            <button onClick={toggleVideo}>
+              {isVideoOn ? (
+                <BsCameraVideoFill size={ICON_SIZE} color={ICON_COLOR} />
+              ) : (
+                <BsCameraVideoOffFill size={ICON_SIZE} color={ICON_OFF_COLOR} />
+              )}
+            </button>
+          )}
+        </div>
       </div>
 
       {peerStreams.map((s, key) => {
