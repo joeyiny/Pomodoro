@@ -26,7 +26,7 @@ const RoomScreen = () => {
     if (!isLoggedIn || !roomCode || !user) return;
     socket.emit(
       "join-room",
-      { roomCode, userName: user.displayName },
+      { roomCode, userName: user.displayName, databaseId: user._id },
       (roomExists: boolean) => {
         if (!roomExists) navigate("/");
       }

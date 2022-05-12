@@ -36,9 +36,14 @@ const JoinRoom = () => {
     <div>
       <button
         onClick={() => {
-          socket.emit("create-room", user.displayName, (response: string) => {
-            navigate("/" + response, { replace: true });
-          });
+          socket.emit(
+            "create-room",
+            user.displayName,
+            user._id,
+            (response: string) => {
+              navigate("/" + response, { replace: true });
+            }
+          );
         }}
         className="bg-white text-gray-800 w-max m-auto px-2">
         Start New Room

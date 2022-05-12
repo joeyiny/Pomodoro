@@ -1,10 +1,4 @@
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, Dispatch, SetStateAction, useState } from "react";
 
 interface IAuthContext {
   isLoggedIn: boolean;

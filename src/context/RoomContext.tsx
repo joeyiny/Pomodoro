@@ -15,6 +15,7 @@ import {
 import Peer from "peerjs";
 import { TimerContext } from "./TimerContext";
 import { TasksContext } from "./TasksContext";
+import { AuthContext } from "./AuthContext";
 
 let serverUrl = process.env.REACT_APP_SERVER;
 if (!serverUrl) {
@@ -71,6 +72,7 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
   >([]);
   const { setSeconds, setTimerOn, setSessionType } = useContext(TimerContext);
   const { setCompletedPomodoros } = useContext(TasksContext);
+  const { user } = useContext(AuthContext);
   const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
   const [isScreenSharing, setIsScreenSharing] = useState<boolean>(false);
   const [isAudioOn, setIsAudioOn] = useState<boolean | null>(null);
@@ -97,7 +99,7 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
   }, []);
 
   useEffect(() => {
-    if (!roomCode) return;
+    if (!roomCode || !user) return;
     const p = new Peer(socket.id);
     setPeer(p);
 
@@ -111,7 +113,7 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
     } catch (error) {
       console.error(error);
     }
-  }, [roomCode]);
+  }, [roomCode, user]);
 
   let toggleVideo = () => {
     if (!mediaStream) return;
