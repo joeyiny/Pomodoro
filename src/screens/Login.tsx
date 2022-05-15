@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { setUser, setIsLoggedIn } = useContext(AuthContext);
+  const { setUser, setIsLoggedIn, login, isFetching } = useContext(AuthContext);
 
   const [form, setForm] = useState({
     email: "",
@@ -20,23 +20,9 @@ const Login = () => {
 
   let onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
-
-    fetch("http://localhost:3000/login", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(form),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.message === "Success") {
-          localStorage.setItem("token", data.token);
-
-          setIsLoggedIn(true);
-          setUser(data.user);
-          navigate("/", { replace: true });
-        } else setResponseMessage(data.message);
+    if (login)
+      login(form).then(() => {
+        navigate("/", { replace: true });
       });
   };
 
@@ -44,6 +30,7 @@ const Login = () => {
     <div className="flex gap-2 flex-col w-96 m-auto py-10">
       <div className=" flex gap-1 flex-col bg-gray-700 w-96 p-4 rounded-md text-white">
         <h1 className=" text-lg font-bold">Login</h1>
+        {isFetching && <p>loading...</p>}
         <form
           className="max-w-sm m-auto grid-cols-3 grid gap-2"
           onSubmit={onSubmit}>

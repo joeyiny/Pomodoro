@@ -2,23 +2,17 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
-const LoggedInDisplay = ({
-  user,
-  setIsLoggedIn,
-}: {
-  user: any;
-  setIsLoggedIn: any;
-}) => {
+const LoggedInDisplay = ({ user }: { user: any }) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
+  const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
   let toggleDropDown = () => {
     setIsDropDownOpen(!isDropDownOpen);
   };
 
-  let logout = () => {
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
+  const handleLogout = () => {
+    logout();
     navigate("/login", { replace: true });
   };
 
@@ -31,7 +25,7 @@ const LoggedInDisplay = ({
       </button>
       {isDropDownOpen && (
         <button
-          onClick={logout}
+          onClick={handleLogout}
           className="bg-gray-200 w-full text-gray-800 rounded absolute block h-auto">
           logout
         </button>
@@ -52,17 +46,13 @@ const LoginButton = () => {
 };
 
 const Header = () => {
-  const { isLoggedIn, setIsLoggedIn, user } = useContext(AuthContext);
+  const { isLoggedIn, user } = useContext(AuthContext);
 
   return (
     <header className="border-b border-gray-700 h-12 flex flex-row justify-between px-16 items-center">
       <h1 className="font-bold">Pomo.wtf</h1>
       <div>
-        {isLoggedIn ? (
-          <LoggedInDisplay user={user} setIsLoggedIn={setIsLoggedIn} />
-        ) : (
-          <LoginButton />
-        )}
+        {isLoggedIn ? <LoggedInDisplay user={user} /> : <LoginButton />}
       </div>
     </header>
   );

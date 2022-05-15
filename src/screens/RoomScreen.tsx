@@ -40,12 +40,12 @@ const RoomScreen = () => {
   }, [newUserEffectOn]);
 
   useEffect(() => {
-    let token = localStorage.getItem("token");
-    if (!token || !isLoggedIn || !user) {
+    if (!isLoggedIn) {
       navigate("/login", { replace: true });
       return;
     }
-  }, [isLoggedIn, user]);
+  }, [isLoggedIn]);
+
   return (
     <div className="flex gap-2 flex-col w-96 m-auto py-10">
       {newUserEffectOn && <NewUserNotification />}

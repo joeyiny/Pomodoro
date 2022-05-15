@@ -5,33 +5,18 @@ import { RoomContext } from "../context/RoomContext";
 
 const JoinRoom = () => {
   const [roomCodeInput, setRoomCodeInput] = useState<string>("");
-  const { user } = useContext(AuthContext);
+  const { user, isLoggedIn } = useContext(AuthContext);
   const { socket } = useContext(RoomContext);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    let token = localStorage.getItem("token");
-    if (!token) {
+    if (!isLoggedIn) {
       navigate("/login", { replace: true });
-      return;
     }
+  }, [isLoggedIn]);
 
-    fetch("http://localhost:3000/isUserAuth", {
-      method: "POST",
-      headers: {
-        "x-access-token": token,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data.isLoggedIn) {
-          navigate("/login", { replace: true });
-        }
-      });
-  }, []);
-
-  if (!user) return <p>error, pls login</p>;
+  if (!user || !isLoggedIn) return <p>error, pls login</p>;
   return (
     <div>
       <button

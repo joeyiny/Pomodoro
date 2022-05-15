@@ -1,6 +1,10 @@
-import React, { SyntheticEvent, useState } from "react";
+import React, { SyntheticEvent, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const Register = () => {
+  const { register } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     displayName: "",
     email: "",
@@ -17,20 +21,14 @@ const Register = () => {
     e.preventDefault();
 
     const newPerson = { ...form };
-
-    await fetch("http://localhost:3000/register", {
-      method: "POST",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newPerson),
-    }).catch((error) => {
-      window.alert(error);
-      return;
-    });
-
-    setForm({ displayName: "", email: "", password: "" });
+    register(newPerson)
+      .catch((error: Error) => {
+        window.alert(error);
+      })
+      .then(() => {
+        setForm({ displayName: "", email: "", password: "" });
+        navigate("/", { replace: true });
+      });
   };
 
   return (
