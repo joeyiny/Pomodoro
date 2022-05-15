@@ -10,12 +10,6 @@ const JoinRoom = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      navigate("/login", { replace: true });
-    }
-  }, [isLoggedIn]);
-
   if (!user || !isLoggedIn) return <p>error, pls login</p>;
   return (
     <div>

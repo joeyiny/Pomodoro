@@ -12,6 +12,7 @@ import Register from "./screens/Register";
 import Login from "./screens/Login";
 import Profile from "./screens/Profile";
 import { AuthProvider } from "./context/AuthContext";
+import { RequireAuth } from "./components/utils/RequireAuth";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -26,8 +27,22 @@ root.render(
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/profile" element={<Profile />} />
-                <Route path=":roomCode" element={<RoomScreen />} />
-                <Route path="/" element={<JoinRoom />} />
+                <Route
+                  path=":roomCode"
+                  element={
+                    <RequireAuth>
+                      <RoomScreen />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path="/"
+                  element={
+                    <RequireAuth>
+                      <JoinRoom />
+                    </RequireAuth>
+                  }
+                />
               </Route>
             </Routes>
           </BrowserRouter>

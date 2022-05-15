@@ -39,13 +39,6 @@ const RoomScreen = () => {
     }, 6500);
   }, [newUserEffectOn]);
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      navigate("/login", { replace: true });
-      return;
-    }
-  }, [isLoggedIn]);
-
   return (
     <div className="flex gap-2 flex-col w-96 m-auto py-10">
       {newUserEffectOn && <NewUserNotification />}
