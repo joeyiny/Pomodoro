@@ -1,10 +1,11 @@
 import { SyntheticEvent, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { setUser, setIsLoggedIn, login, isFetching } = useContext(AuthContext);
+  const { login, isFetching } = useContext(AuthContext);
+  const location: any = useLocation();
 
   const [form, setForm] = useState({
     email: "",
@@ -22,7 +23,7 @@ const Login = () => {
     e.preventDefault();
     if (login)
       login(form).then(() => {
-        navigate("/", { replace: true });
+        navigate(location.state?.path || "/", { replace: true });
       });
   };
 
