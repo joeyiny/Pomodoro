@@ -55,10 +55,10 @@ export const AuthProvider = ({ children }: { children: any }) => {
           localStorage.setItem("token", data.token);
           setIsLoggedIn(true);
           setUser(data.user);
-          setIsFetching(false);
         } else {
           setErrorMessage(data.message);
         }
+        setIsFetching(false);
       })
       .catch((e) => setErrorMessage(e));
   };
@@ -75,6 +75,7 @@ export const AuthProvider = ({ children }: { children: any }) => {
     password: string;
   }) => {
     setErrorMessage("");
+    setIsFetching(true);
     return await fetch("http://localhost:3000/register", {
       method: "POST",
       headers: {
@@ -82,7 +83,16 @@ export const AuthProvider = ({ children }: { children: any }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(credentials),
-    });
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.message === "Success") {
+        } else {
+          setErrorMessage(data.message);
+        }
+        setIsFetching(false);
+      });
   };
 
   return (

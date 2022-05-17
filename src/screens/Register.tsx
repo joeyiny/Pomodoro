@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const Register = () => {
-  const { register } = useContext(AuthContext);
+  const { register, isFetching, errorMessage } = useContext(AuthContext);
   const navigate = useNavigate();
   const [form, setForm] = useState({
     displayName: "",
@@ -25,9 +25,11 @@ const Register = () => {
       .catch((error: Error) => {
         window.alert(error);
       })
-      .then(() => {
-        setForm({ displayName: "", email: "", password: "" });
-        navigate("/", { replace: true });
+      .then((data: any) => {
+        if (data.message === "Success") {
+          setForm({ displayName: "", email: "", password: "" });
+          navigate("/", { replace: true });
+        }
       });
   };
 
@@ -35,6 +37,7 @@ const Register = () => {
     <div className="flex gap-2 flex-col w-96 m-auto py-10">
       <div className=" flex gap-1 flex-col bg-gray-700 w-96 p-4 rounded-md text-white">
         <h1 className=" text-lg font-bold">Register</h1>
+        <p>{isFetching && "Loading..."}</p>
         <form
           className="max-w-sm m-auto grid-cols-3 grid gap-2"
           onSubmit={onSubmit}>
@@ -76,6 +79,7 @@ const Register = () => {
             />
           </div>
         </form>
+        <p className=" text-red-500">{errorMessage}</p>
       </div>
     </div>
   );
