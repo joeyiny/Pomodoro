@@ -1,5 +1,5 @@
 import React, { SyntheticEvent, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const Register = () => {
@@ -26,9 +26,10 @@ const Register = () => {
         window.alert(error);
       })
       .then((data: any) => {
-        if (data.message === "Success") {
+        console.log(data);
+        if (data === "success") {
           setForm({ displayName: "", email: "", password: "" });
-          navigate("/", { replace: true });
+          navigate("/login", { replace: true });
         }
       });
   };
@@ -81,6 +82,11 @@ const Register = () => {
         </form>
         <p className=" text-red-500">{errorMessage}</p>
       </div>
+      <p className=" text-sm">
+        <Link to="/login" className="font-semibold">
+          I have an account already.
+        </Link>{" "}
+      </p>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { SyntheticEvent, useContext, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
@@ -66,6 +66,11 @@ const Login = () => {
         </form>
         <p className=" text-red-500">{errorMessage}</p>
       </div>
+      <p className=" text-sm">
+        <Link to="/register" className="font-semibold">
+          Create account.
+        </Link>{" "}
+      </p>
     </div>
   );
 };

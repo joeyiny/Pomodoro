@@ -51,6 +51,8 @@ export const AuthProvider = ({ children }: { children: any }) => {
     })
       .then((res) => res.json())
       .then((data) => {
+        setIsFetching(false);
+
         if (data.message === "Success") {
           localStorage.setItem("token", data.token);
           setIsLoggedIn(true);
@@ -58,7 +60,6 @@ export const AuthProvider = ({ children }: { children: any }) => {
         } else {
           setErrorMessage(data.message);
         }
-        setIsFetching(false);
       })
       .catch((e) => setErrorMessage(e));
   };
@@ -86,12 +87,13 @@ export const AuthProvider = ({ children }: { children: any }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        setIsFetching(false);
+
         if (data.message === "Success") {
+          return "success";
         } else {
           setErrorMessage(data.message);
         }
-        setIsFetching(false);
       });
   };
 
