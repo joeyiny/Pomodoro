@@ -17,7 +17,7 @@ let Timer = ({ socket }: { socket: any }) => {
 
   useEffect(() => {
     if (!timerOn) {
-      document.title = "My Pomo";
+      document.title = "Pomo.wtf";
       return;
     }
     let affirmation = "Time to focus!";
