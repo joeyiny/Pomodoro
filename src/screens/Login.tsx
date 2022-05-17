@@ -4,14 +4,13 @@ import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login, isFetching } = useContext(AuthContext);
+  const { login, isFetching, errorMessage } = useContext(AuthContext);
   const location: any = useLocation();
 
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
-  const [responseMessage, setResponseMessage] = useState("");
 
   let updateForm = (value: any) => {
     return setForm((prev) => {
@@ -65,7 +64,7 @@ const Login = () => {
             />
           </div>
         </form>
-        <p className=" text-red-500">{responseMessage}</p>
+        <p className=" text-red-500">{errorMessage}</p>
       </div>
     </div>
   );

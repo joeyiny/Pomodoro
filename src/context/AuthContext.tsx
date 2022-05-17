@@ -1,4 +1,10 @@
-import { createContext, Dispatch, SetStateAction, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 
 interface IAuthContext {
   isLoggedIn: boolean;
@@ -9,6 +15,7 @@ interface IAuthContext {
   logout: () => void;
   register: any;
   isFetching: boolean;
+  errorMessage: string;
 }
 
 export const AuthContext = createContext<IAuthContext>({
@@ -19,15 +26,22 @@ export const AuthContext = createContext<IAuthContext>({
   isFetching: false,
   logout: () => {},
   register: null,
+  errorMessage: "",
 });
 
 export const AuthProvider = ({ children }: { children: any }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [user, setUser] = useState<any>({});
   const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  useEffect(() => {
+    setErrorMessage("");
+  }, []);
 
   const login = async (credentials: { email: string; password: string }) => {
     setIsFetching(true);
+    setErrorMessage("");
     return fetch("http://localhost:3000/login", {
       method: "POST",
       headers: {
@@ -42,8 +56,11 @@ export const AuthProvider = ({ children }: { children: any }) => {
           setIsLoggedIn(true);
           setUser(data.user);
           setIsFetching(false);
+        } else {
+          setErrorMessage(data.message);
         }
-      });
+      })
+      .catch((e) => setErrorMessage(e));
   };
 
   const logout = () => {
@@ -57,6 +74,7 @@ export const AuthProvider = ({ children }: { children: any }) => {
     email: string;
     password: string;
   }) => {
+    setErrorMessage("");
     return await fetch("http://localhost:3000/register", {
       method: "POST",
       headers: {
@@ -78,6 +96,7 @@ export const AuthProvider = ({ children }: { children: any }) => {
         logout,
         register,
         isFetching,
+        errorMessage,
       }}>
       {children}
     </AuthContext.Provider>
