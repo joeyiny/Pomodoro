@@ -41,37 +41,15 @@ export const TasksProvider = ({ children }: { children: any }) => {
   );
   const [completedPomodoros, setCompletedPomodoros] = useState<number>(0);
 
-  useEffect(() => {
-    const taskData = localStorage.getItem("tasks");
-    const selectedTaskIndexData = localStorage.getItem("selectedTaskIndex");
-    const completedPomodorosData = localStorage.getItem("completedPomodoros");
-    setTasks(JSON.parse(taskData || "[]"));
-    setSelectedTaskIndex(JSON.parse(selectedTaskIndexData || "null"));
-    setCompletedPomodoros(JSON.parse(completedPomodorosData || "0"));
-    if (taskData === "{}") setTasks([]);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-    localStorage.setItem(
-      "selectedTaskIndex",
-      selectedTaskIndex !== null ? selectedTaskIndex?.toString() : "null"
-    );
-    localStorage.setItem(
-      "completedPomodoros",
-      completedPomodoros ? completedPomodoros.toString() : "null"
-    );
-  }, [tasks, completedPomodoros, selectedTaskIndex]);
-
   let addTask = (task: Task) => {
     setTasks([...tasks, task]);
-    setSelectedTaskIndex(tasks.length);
   };
 
   let deleteTask = (taskIndex: number) => {
     let newTasks = [...tasks];
     newTasks.splice(taskIndex, 1);
     setTasks(newTasks);
+    if (selectedTaskIndex === null) return;
   };
 
   let toggleCompleteTask = (taskIndex: number) => {
