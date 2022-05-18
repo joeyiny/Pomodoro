@@ -71,7 +71,6 @@ let AddTaskButton = ({ onClick }: { onClick: (task: Task) => void }) => {
               onClick={() => {
                 onClick({
                   title: taskName,
-                  selected: false,
                   pomodorosCompleted: undefined,
                   pomodoroGoal: estimatedPomodoros,
                   completed: false,

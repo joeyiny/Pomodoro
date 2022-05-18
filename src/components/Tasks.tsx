@@ -13,18 +13,17 @@ let Tasks = () => {
     selectedTaskIndex,
   } = useContext(TasksContext);
 
-  useEffect(() => {
-    if (selectedTaskIndex === null) return;
-    let newTasks = [...tasks];
-    for (let i in newTasks) {
-      newTasks[i].selected = false;
-    }
-    newTasks[selectedTaskIndex] = {
-      ...newTasks[selectedTaskIndex],
-      selected: true,
-    };
-    setTasks(newTasks);
-  }, [selectedTaskIndex]);
+  // useEffect(() => {
+  //   if (selectedTaskIndex === null) return;
+  //   let newTasks = [...tasks];
+  //   for (let i in newTasks) {
+  //     newTasks[i].selected = false;
+  //   }
+  //   newTasks[selectedTaskIndex] = {
+  //     ...newTasks[selectedTaskIndex]
+  //   };
+  //   setTasks(newTasks);
+  // }, [selectedTaskIndex]);
 
   const listTasks = tasks.map((task, i) => {
     return (
@@ -40,11 +39,13 @@ let Tasks = () => {
 
   return (
     <div>
+      {selectedTaskIndex}
+
       <p className="text-base font-semibold my-6">
-        Working on:{" "}
         {selectedTaskIndex !== null &&
           selectedTaskIndex < tasks.length &&
-          tasks[selectedTaskIndex].title}
+          tasks[selectedTaskIndex].title !== undefined &&
+          "Working on:" + tasks[selectedTaskIndex].title}
       </p>
       <div className="w-96 flex gap-1.5 mt-2 flex-col">
         {tasks.length > 0 && listTasks}
