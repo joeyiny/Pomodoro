@@ -40,6 +40,7 @@ export type RoomContextType = {
   toggleVideo: () => void;
   isAudioOn: boolean | null;
   isVideoOn: boolean | null;
+  chats: Array<any>;
 };
 
 export const RoomContext = createContext<RoomContextType>({
@@ -58,6 +59,7 @@ export const RoomContext = createContext<RoomContextType>({
   toggleVideo: () => {},
   isAudioOn: null,
   isVideoOn: null,
+  chats: [],
 });
 
 export const RoomProvider: any = ({ children }: { children: any }) => {
@@ -77,6 +79,7 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
   const [isScreenSharing, setIsScreenSharing] = useState<boolean>(false);
   const [isAudioOn, setIsAudioOn] = useState<boolean | null>(null);
   const [isVideoOn, setIsVideoOn] = useState<boolean | null>(null);
+  const [chats, setChats] = useState<Array<any>>([]);
 
   useEffect(() => {
     socket.on("timer-tick", (data) => setSeconds(data));
@@ -93,6 +96,9 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
     });
     socket.on("joined-room", (code: string) => {
       setRoomCode(code);
+    });
+    socket.on("chat", (chat) => {
+      setChats((c) => c.concat(chat));
     });
     socket.on("user-disconnected", (userId) => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -250,6 +256,7 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
         toggleVideo,
         isAudioOn,
         isVideoOn,
+        chats,
       }}>
       {children}
     </RoomContext.Provider>
