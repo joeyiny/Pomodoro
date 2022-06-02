@@ -1,6 +1,15 @@
-import { Dispatch, SetStateAction, useState, createContext } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useState,
+  createContext,
+  useEffect,
+  useContext,
+} from "react";
 
 import { Task } from "../types/Task";
+import { AuthContext } from "./AuthContext";
+import { RoomContext } from "./RoomContext";
 
 export type TasksContextType = {
   tasks: Array<Task>;
@@ -29,6 +38,8 @@ export const TasksContext = createContext<TasksContextType>({
 });
 
 export const TasksProvider = ({ children }: { children: any }) => {
+  const { socket } = useContext(RoomContext);
+  const { user } = useContext(AuthContext);
   const [tasks, setTasks] = useState<Array<Task>>([]);
   const [selectedTaskIndex, setSelectedTaskIndex] = useState<number | null>(
     null
@@ -63,6 +74,10 @@ export const TasksProvider = ({ children }: { children: any }) => {
   let selectTask = (taskIndex: number) => {
     setSelectedTaskIndex(taskIndex);
   };
+
+  useEffect(() => {
+    socket.emit("update-tasks", user, tasks);
+  }, [tasks]);
 
   return (
     <TasksContext.Provider
