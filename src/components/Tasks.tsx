@@ -1,29 +1,11 @@
-import { useEffect, useContext } from "react";
+import { useContext } from "react";
 import TaskBox from "./TaskBox";
 import AddTaskButton from "./AddTaskButton";
 import { TasksContext } from "../context/TasksContext";
 
 let Tasks = () => {
-  const {
-    tasks,
-    setTasks,
-    selectTask,
-    addTask,
-    deleteTask,
-    selectedTaskIndex,
-  } = useContext(TasksContext);
-
-  // useEffect(() => {
-  //   if (selectedTaskIndex === null) return;
-  //   let newTasks = [...tasks];
-  //   for (let i in newTasks) {
-  //     newTasks[i].selected = false;
-  //   }
-  //   newTasks[selectedTaskIndex] = {
-  //     ...newTasks[selectedTaskIndex]
-  //   };
-  //   setTasks(newTasks);
-  // }, [selectedTaskIndex]);
+  const { tasks, selectTask, addTask, deleteTask, selectedTaskIndex } =
+    useContext(TasksContext);
 
   const listTasks = tasks.map((task, i) => {
     return (
@@ -33,19 +15,18 @@ let Tasks = () => {
         onDelete={() => deleteTask(i)}
         index={i}
         key={i}
+        selected={i === selectedTaskIndex}
       />
     );
   });
 
   return (
     <div>
-      {selectedTaskIndex}
-
       <p className="text-base font-semibold my-6">
         {selectedTaskIndex !== null &&
           selectedTaskIndex < tasks.length &&
           tasks[selectedTaskIndex].title !== undefined &&
-          "Working on:" + tasks[selectedTaskIndex].title}
+          "Working on: " + tasks[selectedTaskIndex].title}
       </p>
       <div className="w-96 flex gap-1.5 mt-2 flex-col">
         {tasks.length > 0 && listTasks}

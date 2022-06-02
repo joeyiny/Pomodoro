@@ -8,11 +8,13 @@ let TaskBox = ({
   onClick,
   onDelete,
   index,
+  selected,
 }: {
   task: Task;
   onClick: () => void;
   onDelete: () => void;
   index: number;
+  selected: boolean;
 }) => {
   let [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
   let { toggleCompleteTask } = useContext(TasksContext);
@@ -20,7 +22,7 @@ let TaskBox = ({
   return (
     <div
       className={`w-full text-black ${
-        false ? "bg-gray-200" : "bg-gray-700"
+        selected ? "bg-gray-200" : "bg-gray-700"
       } text-lg px-3 py-2 rounded cursor-pointer`}
       onClick={onClick}>
       <div className=" flex gap-2 justify-between">
