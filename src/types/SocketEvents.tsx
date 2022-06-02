@@ -12,6 +12,7 @@ export interface ServerToClientEvents {
   "completed-pomo": () => void;
   "new-user-joined-video": (userId: string) => void;
   "user-disconnected": (userId: string) => void;
+  chat: (chat: any) => void;
 }
 
 export interface ClientToServerEvents {
@@ -29,6 +30,7 @@ export interface ClientToServerEvents {
     callback: (response: { roomCode: string; exists: boolean }) => void
   ) => void;
   "video-ready": (roomCode: string) => void;
+  chat: (chat: any) => void;
 }
 export interface InterServerEvents {
   ping: () => void;

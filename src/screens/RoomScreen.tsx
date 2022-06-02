@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Tasks from "../components/Tasks";
 import { RoomContext } from "../context/RoomContext";
 import { AuthContext } from "../context/AuthContext";
+import Chat from "../components/Chat";
 
 const RoomScreen = () => {
   const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
@@ -43,6 +44,7 @@ const RoomScreen = () => {
     <div className="flex gap-2 flex-col w-96 m-auto py-10">
       {newUserEffectOn && <NewUserNotification />}
       <ConnectedUsers connectedUsers={connectedUsers} />
+      <Chat />
       <ProgressSection />
       <Timer socket={socket} />
       <Tasks />
