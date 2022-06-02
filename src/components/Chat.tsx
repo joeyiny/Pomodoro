@@ -17,15 +17,15 @@ const Chat = () => {
     setMessageInput("");
   };
 
-  const listChats = chats.map((chat) => (
-    <p>
+  const listChats = chats.map((chat, i) => (
+    <p key={i}>
       <span className="font-bold">{chat.user.displayName}</span>: {chat.message}
     </p>
   ));
 
   return (
     <div className="bg-gray-200 text-gray-900 absolute right-0 top-0 h-screen flex flex-col p-2 w-72 text-left justify-end">
-      <p>{listChats}</p>
+      <div>{listChats}</div>
       <form className="w-full flex flex-row gap-1" onSubmit={sendMessage}>
         <input
           className="text w-full h-8 border border-gray-500 rounded px-1"
