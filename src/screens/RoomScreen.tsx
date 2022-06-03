@@ -25,9 +25,10 @@ const RoomScreen = () => {
 
   useEffect(() => {
     if (!isLoggedIn || !roomCode || !user) return;
+    console.log(user.displayName);
     socket.emit(
       "join-room",
-      { roomCode, userName: user.displayName, databaseId: user._id },
+      { roomCode, displayName: user.displayName, databaseId: user._id },
       (roomExists: boolean) => {
         if (!roomExists) navigate("/");
       }

@@ -45,7 +45,7 @@ const Video = ({ stream, name }: { stream: MediaStream; name: string }) => {
         {muted ? "unmute" : "mute"}
       </button> */}
 
-      {/* <p>{connectedUsers[s.peerId] && connectedUsers[s.peerId].userName}</p> */}
+      {/* <p>{connectedUsers[s.peerId] && connectedUsers[s.peerId].displayName}</p> */}
       <div className="flex flex-row justify-center items-center gap-1">
         <p>{name}</p>
         <div onClick={() => setMuted(!muted)}>
@@ -108,6 +108,9 @@ const UserVideos = () => {
             </button>
           )}
         </div>
+        <p className="text-gray-500 text-xs">
+          {user.completedPomodoros.length} all time pomos
+        </p>
       </div>
 
       {peerStreams.map((s, key) => {
@@ -116,7 +119,7 @@ const UserVideos = () => {
             {connectedUsers[s.peerId] && (
               <Video
                 stream={s.stream}
-                name={connectedUsers[s.peerId].userName}
+                name={connectedUsers[s.peerId].displayName}
               />
             )}
           </div>
