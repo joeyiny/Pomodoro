@@ -108,9 +108,9 @@ const UserVideos = () => {
             </button>
           )}
         </div>
-        <p className="text-gray-500 text-xs">
+        {/* <p className="text-gray-500 text-xs">
           {user.completedPomodoros.length} all time pomos
-        </p>
+        </p> */}
       </div>
 
       {peerStreams.map((s, key) => {

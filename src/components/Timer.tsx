@@ -64,7 +64,7 @@ let Timer = ({ socket }: { socket: any }) => {
       <span id="timer" className="flex gap-2 justify-between">
         <button
           className="border-2 disabled:border-gray-700 disabled:text-gray-700 w-12 rounded-md"
-          disabled={timerOn}
+          disabled={timerOn || sessionType === SessionType.POMODORO}
           onClick={() => {
             socket.emit("decrement-button-press", roomCode);
           }}>
@@ -73,7 +73,7 @@ let Timer = ({ socket }: { socket: any }) => {
         <span className="font-bold text-6xl">{getTimestamp()}</span>
         <button
           className="border-2 disabled:border-gray-700 disabled:text-gray-700 w-12 rounded-md"
-          disabled={timerOn}
+          disabled={timerOn || sessionType === SessionType.POMODORO}
           onClick={() => {
             socket.emit("increment-button-press", roomCode);
           }}>
