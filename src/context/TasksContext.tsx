@@ -3,8 +3,8 @@ import {
   SetStateAction,
   useState,
   createContext,
-  useEffect,
   useContext,
+  useEffect,
 } from "react";
 
 import { Task } from "../types/Task";
@@ -39,7 +39,7 @@ export const TasksContext = createContext<TasksContextType>({
 
 export const TasksProvider = ({ children }: { children: any }) => {
   const { socket } = useContext(RoomContext);
-  const { user } = useContext(AuthContext);
+  const { user, isFetching } = useContext(AuthContext);
   const [tasks, setTasks] = useState<Array<Task>>([]);
   const [selectedTaskIndex, setSelectedTaskIndex] = useState<number | null>(
     null
@@ -77,7 +77,11 @@ export const TasksProvider = ({ children }: { children: any }) => {
 
   useEffect(() => {
     socket.emit("update-tasks", user, tasks);
-  }, [tasks]);
+  }, [tasks, socket, user]);
+
+  useEffect(() => {
+    if (user.tasks) setTasks(user.tasks);
+  }, [user, isFetching]);
 
   return (
     <TasksContext.Provider
