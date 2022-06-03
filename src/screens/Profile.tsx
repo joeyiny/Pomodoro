@@ -8,7 +8,7 @@ const Profile = () => {
     let token = localStorage.getItem("token");
     if (!token) return;
 
-    fetch("http://localhost:3000/isUserAuth", {
+    fetch("https://pomowtf.herokuapp.com/login/isUserAuth", {
       method: "POST",
       headers: {
         "x-access-token": token,
