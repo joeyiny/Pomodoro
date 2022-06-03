@@ -2,7 +2,8 @@ import { useState, useContext } from "react";
 import { TasksContext } from "../context/TasksContext";
 
 let TimeEstimation = () => {
-  const { tasks, completedPomodoros } = useContext(TasksContext);
+  const { tasks, completedPomodorosToday: completedPomodoros } =
+    useContext(TasksContext);
 
   let totalPomodoroGoal = 0;
   if (tasks.length > 0)

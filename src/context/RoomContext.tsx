@@ -73,7 +73,8 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
     { peerId: string; stream: MediaStream }[]
   >([]);
   const { setSeconds, setTimerOn, setSessionType } = useContext(TimerContext);
-  const { setCompletedPomodoros } = useContext(TasksContext);
+  const { setCompletedPomodorosToday: setCompletedPomodoros } =
+    useContext(TasksContext);
   const { user } = useContext(AuthContext);
   const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
   const [isScreenSharing, setIsScreenSharing] = useState<boolean>(false);
@@ -90,9 +91,6 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
     });
     socket.on("new-user-connected", () => {
       setNewUserEffectOn(true);
-    });
-    socket.on("completed-pomo", () => {
-      setCompletedPomodoros((completedPomodoros) => completedPomodoros + 1);
     });
     socket.on("joined-room", (code: string) => {
       setRoomCode(code);

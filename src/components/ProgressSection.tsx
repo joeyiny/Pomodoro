@@ -2,7 +2,8 @@ import { useContext } from "react";
 import { TasksContext } from "../context/TasksContext";
 
 const ProgressSection = () => {
-  const { completedPomodoros } = useContext(TasksContext);
+  const { completedPomodorosToday: completedPomodoros } =
+    useContext(TasksContext);
 
   let bar = "";
   for (let i = 0; i < 8; i++) {

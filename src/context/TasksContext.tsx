@@ -19,8 +19,8 @@ export type TasksContextType = {
   deleteTask: (taskIndex: number) => void;
   selectedTaskIndex: number | null;
   iterateNumberOfPomodorosForSelectedTask: () => void;
-  completedPomodoros: number;
-  setCompletedPomodoros: Dispatch<SetStateAction<number>>;
+  completedPomodorosToday: number;
+  setCompletedPomodorosToday: Dispatch<SetStateAction<number>>;
   toggleCompleteTask: (taskIndex: number) => void;
 };
 
@@ -32,8 +32,8 @@ export const TasksContext = createContext<TasksContextType>({
   deleteTask: () => {},
   selectedTaskIndex: null,
   iterateNumberOfPomodorosForSelectedTask: () => {},
-  completedPomodoros: 0,
-  setCompletedPomodoros: () => {},
+  completedPomodorosToday: 0,
+  setCompletedPomodorosToday: () => {},
   toggleCompleteTask: () => {},
 });
 
@@ -44,11 +44,22 @@ export const TasksProvider = ({ children }: { children: any }) => {
   const [selectedTaskIndex, setSelectedTaskIndex] = useState<number | null>(
     null
   );
-  const [completedPomodoros, setCompletedPomodoros] = useState<number>(0);
+  const [completedPomodorosToday, setCompletedPomodorosToday] =
+    useState<number>(0);
+  const [totalCompletedPomodoros, setTotalCompletedPomodoros] =
+    useState<number>(0);
 
   let addTask = (task: Task) => {
     setTasks([...tasks, task]);
   };
+
+  useEffect(() => {
+    socket.on("completed-pomo", () => {
+      setCompletedPomodorosToday(
+        (completedPomodoros) => completedPomodoros + 1
+      );
+    });
+  }, []);
 
   let deleteTask = (taskIndex: number) => {
     let newTasks = [...tasks];
@@ -81,6 +92,21 @@ export const TasksProvider = ({ children }: { children: any }) => {
 
   useEffect(() => {
     if (user.tasks) setTasks(user.tasks);
+    if (user.completedPomodoros) {
+      setTotalCompletedPomodoros(user.completedPomodoros.length);
+      let todaysPomos = user.completedPomodoros.filter(
+        (pomo: { date: Date }) => {
+          let today = new Date();
+          let pomoDate = new Date(pomo.date);
+          return (
+            today.getFullYear() === pomoDate.getFullYear() &&
+            today.getMonth() === pomoDate.getMonth() &&
+            today.getDate() === pomoDate.getDate()
+          );
+        }
+      );
+      setCompletedPomodorosToday(todaysPomos.length);
+    }
   }, [user, isFetching]);
 
   return (
@@ -93,8 +119,8 @@ export const TasksProvider = ({ children }: { children: any }) => {
         deleteTask,
         selectedTaskIndex,
         iterateNumberOfPomodorosForSelectedTask,
-        completedPomodoros,
-        setCompletedPomodoros,
+        completedPomodorosToday: completedPomodorosToday,
+        setCompletedPomodorosToday: setCompletedPomodorosToday,
         toggleCompleteTask,
       }}>
       {children}
