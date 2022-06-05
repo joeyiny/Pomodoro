@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }: { children: any }) => {
   const login = async (credentials: { email: string; password: string }) => {
     setIsFetching(true);
     setErrorMessage("");
-    return fetch("https://pomowtf.herokuapp.com/login", {
+    return fetch(`${process.env.REACT_APP_SERVER}/login`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -77,7 +77,7 @@ export const AuthProvider = ({ children }: { children: any }) => {
   }) => {
     setErrorMessage("");
     setIsFetching(true);
-    return await fetch("https://pomowtf.herokuapp.com/register", {
+    return await fetch(`${process.env.REACT_APP_SERVER}/register`, {
       method: "POST",
       headers: {
         "Access-Control-Allow-Origin": "*",
