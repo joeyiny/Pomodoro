@@ -2,6 +2,7 @@ import { useContext } from "react";
 import TaskBox from "./TaskBox";
 import AddTaskButton from "./AddTaskButton";
 import { TasksContext } from "../context/TasksContext";
+import Card from "./Card";
 
 let Tasks = () => {
   const { tasks, selectTask, addTask, deleteTask, selectedTaskIndex } =
@@ -21,18 +22,19 @@ let Tasks = () => {
   });
 
   return (
-    <div>
-      <p className="text-base font-semibold my-6">
+    <Card>
+      <h3 className="font-bold text-2xl text-gray-50 text-left">Tasks</h3>
+      <p className="text-base text-left text-gray-500">
         {selectedTaskIndex !== null &&
           selectedTaskIndex < tasks.length &&
           tasks[selectedTaskIndex].title !== undefined &&
-          "Working on: " + tasks[selectedTaskIndex].title}
+          "Current task: " + tasks[selectedTaskIndex].title}
       </p>
       <div className="w-96 flex gap-1.5 mt-2 flex-col">
         {tasks.length > 0 && listTasks}
         <AddTaskButton onClick={(t) => addTask(t)} />
       </div>
-    </div>
+    </Card>
   );
 };
 
