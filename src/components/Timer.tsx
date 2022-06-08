@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 import { TimerContext } from "../context/TimerContext";
 import { RoomContext } from "../context/RoomContext";
 import { SessionType } from "../types/Session";
+import Card from "./Card";
 
 let Timer = ({ socket }: { socket: any }) => {
   const { seconds, timerOn, sessionType } = useContext(TimerContext);
@@ -27,7 +28,7 @@ let Timer = ({ socket }: { socket: any }) => {
   }, [seconds, timerOn, sessionType]);
 
   return (
-    <div className="bg-gray-800 text-gray-50 rounded-lg flex gap-3 flex-col p-4 w-72">
+    <Card>
       <div className="flex gap-4 text-sm m-auto">
         <button
           className={`${
@@ -67,7 +68,7 @@ let Timer = ({ socket }: { socket: any }) => {
           +
         </button>
       </span>
-      <div className="flex gap-2 text-base justify-center">
+      <div className="">
         <button
           onClick={() => {
             socket.emit("toggle-button-press", roomCode);
@@ -76,7 +77,7 @@ let Timer = ({ socket }: { socket: any }) => {
           {timerOn ? "Stop" : "Start"}
         </button>
       </div>
-    </div>
+    </Card>
   );
 };
 
