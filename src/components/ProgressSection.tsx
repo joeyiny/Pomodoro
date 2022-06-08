@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { TasksContext } from "../context/TasksContext";
+import Card from "./Card";
 
 const ProgressSection = () => {
   const { completedPomodorosToday: completedPomodoros } =
@@ -16,9 +17,10 @@ const ProgressSection = () => {
   }
 
   return (
-    <div className="text-lg flex gap-1 flex-col bg-gray-700 w-96 p-4 rounded-md text-white">
-      <p className="text-center">
-        Daily Pomodoro Goal: {completedPomodoros} / 8{" "}
+    <Card>
+      <p className="text-center uppercase text-gray-400 text-sm font-extrabold">
+        Daily Pomodoro Goal:{" "}
+        <span className="text-primary">{completedPomodoros}/8</span>{" "}
         {completedPomodoros >= 8 && "✅"}
       </p>
       {bar}
@@ -28,7 +30,7 @@ const ProgressSection = () => {
           today!
         </p>
       )} */}
-    </div>
+    </Card>
   );
 };
 
