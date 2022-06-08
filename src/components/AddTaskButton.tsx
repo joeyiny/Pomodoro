@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { Task } from "../types/Task";
+import { MdAddCircleOutline } from "react-icons/md";
 
 enum ButtonState {
   BUTTON = "button",
@@ -87,9 +88,10 @@ let AddTaskButton = ({ onClick }: { onClick: (task: Task) => void }) => {
 
   return (
     <button
-      className={`w-full text-gray-200 border-2 border-dashed text-center text-lg px-4 py-1 rounded cursor-pointer`}
+      className={`text-gray-500 font-medium hover:text-gray-300 flex flex-row gap-1 items-center m-auto`}
       onClick={() => setButtonState(ButtonState.ADDING)}>
-      Add Task
+      <MdAddCircleOutline size={21} />
+      <span>Add Task</span>
     </button>
   );
 };
