@@ -33,7 +33,7 @@ function App() {
   }, [playAlarmSound, playJoinSound]);
 
   return (
-    <div className="text-center bg-gray-800 min-h-screen App-header text-white ">
+    <div className="text-center bg-gray-900 min-h-screen App-header text-white ">
       <div className="m-auto max-w-2xl">
         <Header />
         <Outlet />
