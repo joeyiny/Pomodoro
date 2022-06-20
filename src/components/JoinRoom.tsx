@@ -24,7 +24,7 @@ const JoinRoom = () => {
             }
           );
         }}
-        className="bg-white text-gray-800 w-max m-auto px-2">
+        className="bg-gray-50 text-gray-800 w-max m-auto px-2">
         Start New Room
       </button>
       <p className="">Or join a room:</p>

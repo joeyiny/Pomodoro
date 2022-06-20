@@ -31,7 +31,7 @@ const LoggedInDisplay = ({ user }: { user: any }) => {
       {isDropDownOpen && (
         <button
           onClick={handleLogout}
-          className="bg-gray-200 w-full text-gray-800 rounded absolute block h-auto">
+          className="bg-gray-50 w-full text-gray-800 rounded absolute block h-auto">
           logout
         </button>
       )}
