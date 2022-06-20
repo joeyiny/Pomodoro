@@ -30,8 +30,10 @@ let Tasks = () => {
           tasks[selectedTaskIndex].title !== undefined &&
           "Current task: " + tasks[selectedTaskIndex].title}
       </p>
-      <div className="w-96 flex gap-1.5 mt-2 flex-col">
-        {tasks.length > 0 && listTasks}
+      <div className="w-96 flex gap-3 mt-2 flex-col">
+        <div className="gap-1.5 flex flex-col">
+          {tasks.length > 0 && listTasks}
+        </div>
         <AddTaskButton onClick={(t) => addTask(t)} />
       </div>
     </Card>
