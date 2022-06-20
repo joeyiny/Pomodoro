@@ -60,7 +60,7 @@ const Login = () => {
             <input
               type="submit"
               value="Login"
-              className="m-auto border bg-gray-200 text-gray-900 p-1 rounded"
+              className="m-auto bg-gray-50 text-gray-900 p-1 rounded font-semibold text-sm px-2"
             />
           </div>
         </form>
