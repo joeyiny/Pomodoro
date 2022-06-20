@@ -50,7 +50,10 @@ const Header = () => {
 
   return (
     <header className="border-b border-gray-700 h-12 flex flex-row justify-between px-16 items-center">
-      <h1 className="font-bold text-gray-50">Pomo.wtf</h1>
+      <div className="flex gap-2 items-center">
+        <span className=" text-lg">🍅</span>
+        <h1 className="font-bold text-gray-50">Pomo.wtf</h1>
+      </div>
       <div>
         {isLoggedIn ? <LoggedInDisplay user={user} /> : <LoginButton />}
       </div>
