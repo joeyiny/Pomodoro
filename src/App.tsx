@@ -33,7 +33,7 @@ function App() {
   }, [playAlarmSound, playJoinSound]);
 
   return (
-    <div className="text-center bg-gray-900 h-screen overflow-hidden App-header text-white">
+    <div className="text-center bg-gray-900 h-screen overflow-hidden App-header text-gray-300">
       <Header />
       <Outlet />
     </div>
