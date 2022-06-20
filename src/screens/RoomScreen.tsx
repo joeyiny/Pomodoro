@@ -11,6 +11,7 @@ import Tasks from "../components/Tasks";
 import { RoomContext } from "../context/RoomContext";
 import { AuthContext } from "../context/AuthContext";
 import Chat from "../components/Chat";
+import UserVideos from "../components/UserVideos";
 
 const RoomScreen = () => {
   const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
@@ -42,14 +43,20 @@ const RoomScreen = () => {
   }, [newUserEffectOn]);
 
   return (
-    <div className="flex gap-2 flex-col w-96 m-auto py-10">
-      {newUserEffectOn && <NewUserNotification />}
-      <ConnectedUsers connectedUsers={connectedUsers} />
-      <Chat />
-      <ProgressSection />
-      <Timer socket={socket} />
-      <Tasks />
-      {tasks.length > 0 && <TimeEstimation />}
+    <div className="flex gap-2 max-w-7xl m-auto px-3">
+      <div className="flex gap-2 flex-col min-w-sm w-[36rem]">
+        {newUserEffectOn && <NewUserNotification />}
+        {/* <Chat /> */}
+        <Timer socket={socket} />
+        <ProgressSection />
+        <ConnectedUsers connectedUsers={connectedUsers} />
+      </div>
+      <div className="flex gap-2 flex-col ">
+        <Tasks />
+      </div>
+      <div className="flex gap-2 flex-col">
+        <UserVideos />
+      </div>
     </div>
   );
 };
