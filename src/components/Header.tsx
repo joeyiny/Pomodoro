@@ -17,11 +17,16 @@ const LoggedInDisplay = ({ user }: { user: any }) => {
   };
 
   return (
-    <div className=" relative w-auto inline-block text-sm">
+    <div className="relative w-auto inline-block text-sm">
       <button
         onClick={toggleDropDown}
-        className="bg-gray-600 p-1 px-2 block rounded-sm text-gray-200">
-        {user.displayName}
+        className="flex flex-row gap-3 items-center text-gray-50 text-sm uppercase font-extrabold">
+        <span>{user.displayName}</span>
+        <img
+          src="https://img.seadn.io/files/fd71e2ed1844c918b06350cf9fca922e.png?fit=max&w=600"
+          className="rounded-full w-8 h-8"
+          alt="pfp"
+        />
       </button>
       {isDropDownOpen && (
         <button
@@ -39,7 +44,7 @@ const LoginButton = () => {
   return (
     <button
       onClick={() => navigate("/login", { replace: true })}
-      className="bg-gray-600 p-1 px-2 rounded-sm text-sm text-gray-200">
+      className="bg-gray-300 text-gray-700 p-1 px-2 rounded-sm text-sm text-gray-200 font-semibold hover:bg-gray-100 active:bg-gray-400">
       Login
     </button>
   );
@@ -49,7 +54,7 @@ const Header = () => {
   const { isLoggedIn, user } = useContext(AuthContext);
 
   return (
-    <header className="border-b border-gray-700 h-12 flex flex-row justify-between px-16 items-center">
+    <header className="h-14 flex flex-row justify-between px-16 items-center">
       <div className="flex gap-2 items-center">
         <span className=" text-lg">🍅</span>
         <h1 className="font-bold text-gray-50">Pomo.wtf</h1>
