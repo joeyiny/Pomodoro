@@ -39,8 +39,13 @@ const Video = ({ stream, name }: { stream: MediaStream; name: string }) => {
   }, [stream]);
 
   return (
-    <div className="block border w-32 m-auto">
-      <video className="w-full block" muted={muted} ref={localVideo} autoPlay />
+    <div className="flex-1">
+      <video
+        className="rounded-lg w-full m-auto"
+        muted={muted}
+        ref={localVideo}
+        autoPlay
+      />
       {/* <button onClick={() => setMuted(!muted)}>
         {muted ? "unmute" : "mute"}
       </button> */}
@@ -61,8 +66,6 @@ const UserVideos = () => {
     mediaStream,
     peerStreams,
     connectedUsers,
-    isScreenSharing,
-    toggleScreenShare,
     toggleAudio,
     toggleVideo,
     isAudioOn,
@@ -75,20 +78,25 @@ const UserVideos = () => {
   }, [mediaStream]);
 
   const ICON_SIZE: number = 14;
-  const ICON_COLOR: string = "#333";
+  const ICON_COLOR: string = "#d9d9d9";
   const ICON_OFF_COLOR: string = "#a00";
 
   return (
-    <div className="">
-      <div>
-        <button
+    <div className="text-gray-50 flex flex-col">
+      <div className="flex-1">
+        {/* <button
           className="border rounded border-gray-400 text-gray-800 p-1 mb-1"
           onClick={() => toggleScreenShare()}>
           {!isScreenSharing ? "Share Screen" : "Back to Webcam"}
-        </button>
-        <video className="w-32 m-auto" muted ref={videoRef} autoPlay />
+        </button> */}
+        <video
+          className="rounded-lg w-full m-auto"
+          muted
+          ref={videoRef}
+          autoPlay
+        />
         <div className="flex flex-row justify-center gap-1">
-          <p>{user.displayName}</p>
+          <p className="text-gray-300 font-semibold">{user.displayName}</p>
           {isAudioOn !== null && (
             <button onClick={toggleAudio}>
               {isAudioOn ? (
@@ -115,7 +123,7 @@ const UserVideos = () => {
 
       {peerStreams.map((s, key) => {
         return (
-          <div key={key}>
+          <div className="flex-1" key={key}>
             {connectedUsers[s.peerId] && (
               <Video
                 stream={s.stream}
