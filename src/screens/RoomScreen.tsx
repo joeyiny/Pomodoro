@@ -51,10 +51,10 @@ const RoomScreen = () => {
         <ProgressSection />
         <ConnectedUsers connectedUsers={connectedUsers} />
       </div>
-      <div className="flex gap-2 flex-col ">
+      <div className="flex gap-2 flex-col flex-auto">
         <Tasks />
       </div>
-      <div className="flex gap-2 flex-col">
+      <div className="flex gap-2 flex-col w-[18rem]">
         <UserVideos />
       </div>
     </div>
