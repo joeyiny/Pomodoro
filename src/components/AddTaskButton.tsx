@@ -18,14 +18,14 @@ let AddTaskButton = ({ onClick }: { onClick: (task: Task) => void }) => {
 
   if (buttonState === ButtonState.ADDING)
     return (
-      <div className={`bg-gray-100 rounded text-lg text-gray-900`}>
+      <div className={`bg-gray-600 rounded-lg text-lg text-gray-50`}>
         <div className="px-2 py-2 text-left">
           <input
-            className="w-full pl-2 py-1 text-lg border border-gray-300 rounded"
+            className="w-full pl-2 py-1 text-lg rounded text-gray-800"
             placeholder="What are you working on?"
             value={taskName}
             onChange={(e) => setTaskName(e.target.value)}></input>
-          <p className="font-semibold text-base mt-2">Est Pomodoros</p>
+          <p className="font-semibold text-base mt-2">Estimated Pomodoros</p>
           <p className="text-sm -mt-1 mb-1">How long will this take you?</p>
           <div className="flex gap-2 justify-start">
             <button
@@ -36,7 +36,7 @@ let AddTaskButton = ({ onClick }: { onClick: (task: Task) => void }) => {
               type="number"
               name="estimatedNumberOfPomodoros"
               id="EstimatedNumberOfPomodoros"
-              className="w-12 rounded border border-gray-300 pl-2 text-center"
+              className="w-12 rounded border border-gray-300 pl-2 text-center text-gray-800"
               value={estimatedPomodoros}
               onChange={(e) => setEstimatedPomodoros(e.target.valueAsNumber)}
             />
@@ -55,20 +55,20 @@ let AddTaskButton = ({ onClick }: { onClick: (task: Task) => void }) => {
           ) : (
             <button
               onClick={() => setIsEditingNotes(!isEditingNotes)}
-              className="underline text-gray-500 text-sm">
+              className="underline text-gray-200 text-sm">
               + Add Note
             </button>
           )}
         </div>
-        <div className="bg-gray-300 rounded-b px-2 py-2">
+        <div className="rounded-b px-2 py-2">
           <div className="flex justify-end text-base gap-2">
             <button
-              className=" bg-gray 300 rounded px-3 py-1"
+              className="text-gray-50 uppercase font-bold text-sm rounded px-3 py-1"
               onClick={() => setButtonState(ButtonState.BUTTON)}>
               Cancel
             </button>
             <button
-              className="bg-gray-600 text-white rounded px-3 py-1"
+              className="bg-primary text-gray-900 uppercase font-bold text-sm rounded-full px-4 py-1"
               onClick={() => {
                 onClick({
                   title: taskName,
