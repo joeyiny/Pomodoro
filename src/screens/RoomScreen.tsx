@@ -44,8 +44,8 @@ const RoomScreen = () => {
 
   return (
     <div className="flex gap-2 max-w-7xl m-auto px-3">
-      <div className="flex gap-2 flex-col min-w-sm w-[36rem]">
-        {newUserEffectOn && <NewUserNotification />}
+      <div className="flex flex-shrink-0 gap-2 flex-col w-[18rem]">
+        {/* {newUserEffectOn && <NewUserNotification />} */}
         {/* <Chat /> */}
         <Timer socket={socket} />
         <ProgressSection />
