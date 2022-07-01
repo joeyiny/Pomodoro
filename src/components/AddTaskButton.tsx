@@ -19,7 +19,7 @@ let AddTaskButton = ({ onClick }: { onClick: (task: Task) => void }) => {
   if (buttonState === ButtonState.ADDING)
     return (
       <div className={`bg-gray-600 rounded-lg text-lg text-gray-50`}>
-        <div className="px-2 py-2 text-left">
+        <div className="px-3 py-3 text-left">
           <input
             className="w-full pl-2 py-1 text-lg rounded text-gray-800"
             placeholder="What are you working on?"
