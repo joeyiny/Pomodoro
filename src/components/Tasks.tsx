@@ -27,8 +27,14 @@ let Tasks = () => {
       <p className="text-base text-left text-gray-500">
         {selectedTaskIndex !== null &&
           selectedTaskIndex < tasks.length &&
-          tasks[selectedTaskIndex].title !== undefined &&
-          "Current task: " + tasks[selectedTaskIndex].title}
+          tasks[selectedTaskIndex].title !== undefined && (
+            <span>
+              Current task:{" "}
+              <span className="font-semibold text-gray-50">
+                {tasks[selectedTaskIndex].title}
+              </span>
+            </span>
+          )}
       </p>
       <div className="flex gap-3 mt-2 flex-col">
         <div className="gap-1.5 flex flex-col">
