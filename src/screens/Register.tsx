@@ -76,7 +76,7 @@ const Register = () => {
             <input
               type="submit"
               value="Sign up"
-              className="m-auto border bg-gray-200 text-gray-900 p-1 rounded"
+              className="m-auto bg-gray-50 text-gray-900 p-1 rounded font-semibold text-sm px-2"
             />
           </div>
         </form>
