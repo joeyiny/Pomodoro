@@ -35,58 +35,72 @@ const Register = () => {
   };
 
   return (
-    <div className="flex gap-2 flex-col w-96 m-auto py-10">
-      <div className=" flex gap-1 flex-col bg-gray-700 w-96 p-4 rounded-md text-white">
-        <h1 className=" text-lg font-bold">Register</h1>
-        <p>{isFetching && "Loading..."}</p>
-        <form
-          className="max-w-sm m-auto grid-cols-3 grid gap-2"
-          onSubmit={onSubmit}>
-          <label htmlFor="displayName" className="text-right">
-            Display Name
-          </label>
-          <input
-            type="text"
-            id="displayName"
-            className="text-black col-span-2 px-1"
-            value={form.displayName}
-            onChange={(e) => updateForm({ displayName: e.target.value })}
-          />
-          <label htmlFor="email" className="text-right">
-            Email Address
-          </label>
-          <input
-            type="email"
-            id="email"
-            className="text-black col-span-2 px-1"
-            value={form.email}
-            onChange={(e) => updateForm({ email: e.target.value })}
-          />
-          <label htmlFor="password" className="text-right">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            className="text-black col-span-2 px-1"
-            value={form.password}
-            onChange={(e) => updateForm({ password: e.target.value })}
-          />
+    <div className="flex gap-2 flex-col w-[30rem] m-auto py-10">
+      <div className="flex gap-1 flex-col bg-gray-700 w-[30rem] p-8 rounded-md text-white">
+        <div className=" mb-6">
+          <h1 className=" text-gray-50 text-2xl font-bold">
+            Create a new account.
+          </h1>
+          <p className=" text-primary font-bold mt-2">{errorMessage}</p>
+          <p>{isFetching && "Loading..."}</p>
+        </div>
+        <form className="flex gap-4 flex-col" onSubmit={onSubmit}>
+          <div>
+            <label
+              htmlFor="displayName"
+              className="text-left text-base font-semibold text-gray-50 w-full mb-0.5 block">
+              Display Name
+            </label>
+            <input
+              type="text"
+              id="displayName"
+              className="text-black col-span-2 px-2.5 py-2 rounded bg-gray-50 w-full text-gray-900"
+              value={form.displayName}
+              onChange={(e) => updateForm({ displayName: e.target.value })}
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="email"
+              className="text-left text-base font-semibold text-gray-50 w-full mb-0.5 block">
+              Email Address
+            </label>
+            <input
+              type="email"
+              id="email"
+              className="text-black col-span-2 px-2.5 py-2 rounded bg-gray-50 w-full text-gray-900"
+              value={form.email}
+              onChange={(e) => updateForm({ email: e.target.value })}
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="password"
+              className="text-left text-base font-semibold text-gray-50 w-full mb-0.5 block">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              className="text-black col-span-2 px-2.5 py-2 rounded bg-gray-50 w-full text-gray-900"
+              value={form.password}
+              onChange={(e) => updateForm({ password: e.target.value })}
+            />
+          </div>
           <div className="col-span-3">
             <input
               type="submit"
               value="Sign up"
-              className="m-auto bg-gray-50 text-gray-900 p-1 rounded font-semibold text-sm px-2"
+              className="bg-primary text-gray-900 w-full rounded font-bold py-2 mt-2 uppercase hover:cursor-pointer "
             />
           </div>
         </form>
-        <p className=" text-red-500">{errorMessage}</p>
+        <p className="mt-4 text-sm">
+          <Link to="/login" className="font-semibold">
+            I have an account already.
+          </Link>{" "}
+        </p>
       </div>
-      <p className=" text-sm">
-        <Link to="/login" className="font-semibold">
-          I have an account already.
-        </Link>{" "}
-      </p>
     </div>
   );
 };
