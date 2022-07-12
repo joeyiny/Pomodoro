@@ -27,50 +27,62 @@ const Login = () => {
   };
 
   return (
-    <div className="flex gap-2 flex-col w-96 m-auto py-10">
-      <div className=" flex gap-1 flex-col bg-gray-700 w-96 p-4 rounded-md text-white">
-        <h1 className=" text-lg font-bold">Login</h1>
-        {isFetching && <p>loading...</p>}
-        <form
-          className="max-w-sm m-auto grid-cols-3 grid gap-2"
-          onSubmit={onSubmit}>
-          <label htmlFor="email" className="text-right">
-            Email Address
-          </label>
-          <input
-            required
-            type="email"
-            id="email"
-            className="text-black col-span-2 px-1"
-            value={form.email}
-            onChange={(e) => updateForm({ email: e.target.value })}
-          />
-          <label htmlFor="password" className="text-right">
-            Password
-          </label>
-          <input
-            required
-            type="password"
-            id="password"
-            className="text-black col-span-2 px-1"
-            value={form.password}
-            onChange={(e) => updateForm({ password: e.target.value })}
-          />
+    <div className="flex gap-2 flex-col w-[30rem] m-auto py-10">
+      <div className=" flex gap-1 flex-col bg-gray-700 w-[30rem] p-8 rounded-md text-white">
+        <div className=" mb-6">
+          <h1 className="text-gray-50 text-2xl font-bold">
+            Log in to your account.
+          </h1>
+          <p className=" text-primary font-bold mt-2">{errorMessage}</p>
+          {isFetching && <p>loading...</p>}
+        </div>
+        <form className="flex gap-4 flex-col" onSubmit={onSubmit}>
+          <div>
+            <label
+              htmlFor="email"
+              className="text-left text-base font-semibold text-gray-50 w-full mb-0.5 block">
+              Email Address
+            </label>
+            <input
+              required
+              type="email"
+              id="email"
+              className="text-black col-span-2 px-2.5 py-2 rounded bg-gray-50 w-full text-gray-900"
+              value={form.email}
+              onChange={(e) => updateForm({ email: e.target.value })}
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="password"
+              className="text-left text-base font-semibold text-gray-50 w-full mb-0.5 block">
+              Password
+            </label>
+            <input
+              required
+              type="password"
+              id="password"
+              className="text-black col-span-2 px-2.5 py-2 rounded bg-gray-50 w-full text-gray-900"
+              value={form.password}
+              onChange={(e) => updateForm({ password: e.target.value })}
+            />
+          </div>
           <div className="col-span-3">
             <input
               type="submit"
               value="Login"
-              className="m-auto bg-gray-50 text-gray-900 p-1 rounded font-semibold text-sm px-2"
+              className="bg-primary text-gray-900 w-full rounded font-bold py-2 mt-2 uppercase"
+              //m-auto bg-gray-50 text-gray-900 p-1 rounded font-semibold text-sm px-2
             />
           </div>
         </form>
-        <p className=" text-red-500">{errorMessage}</p>
+        <p className="mt-4 text-sm">
+          Don't have an account yet?{" "}
+          <Link to="/register" className="font-semibold text-gray-50">
+            Make one here.
+          </Link>{" "}
+        </p>
       </div>
-      <p className=" text-sm">
-        <Link to="/register" className="font-semibold">
-          Create account.
-        </Link>{" "}
-      </p>
     </div>
   );
 };
