@@ -71,7 +71,7 @@ const Login = () => {
             <input
               type="submit"
               value="Login"
-              className="bg-primary text-gray-900 w-full rounded font-bold py-2 mt-2 uppercase"
+              className="bg-primary text-gray-900 w-full rounded font-bold py-2 mt-2 uppercase hover:cursor-pointer "
               //m-auto bg-gray-50 text-gray-900 p-1 rounded font-semibold text-sm px-2
             />
           </div>
