@@ -27,8 +27,8 @@ const Login = () => {
   };
 
   return (
-    <div className="flex gap-2 flex-col w-[30rem] m-auto py-10">
-      <div className=" flex gap-1 flex-col bg-gray-700 w-[30rem] p-8 rounded-md text-white">
+    <div className="flex gap-2 flex-col w-full sm:w-[30rem] m-auto py-10">
+      <div className=" flex gap-1 flex-col bg-gray-700 w-full sm:w-[30rem] p-8 sm:rounded-md text-white">
         <div className=" mb-6">
           <h1 className="text-gray-50 text-2xl font-bold">
             Log in to your account.
@@ -71,7 +71,7 @@ const Login = () => {
             <input
               type="submit"
               value="Login"
-              className="bg-primary text-gray-900 w-full rounded font-bold py-2 mt-2 uppercase hover:cursor-pointer "
+              className="bg-primary text-gray-900 w-full rounded font-bold py-2 mt-2 uppercase hover:cursor-pointer"
               //m-auto bg-gray-50 text-gray-900 p-1 rounded font-semibold text-sm px-2
             />
           </div>

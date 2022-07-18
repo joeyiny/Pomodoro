@@ -35,8 +35,8 @@ const Register = () => {
   };
 
   return (
-    <div className="flex gap-2 flex-col w-[30rem] m-auto py-10">
-      <div className="flex gap-1 flex-col bg-gray-700 w-[30rem] p-8 rounded-md text-white">
+    <div className="flex gap-2 flex-col w-full sm:w-[30rem] m-auto py-10">
+      <div className=" flex gap-1 flex-col bg-gray-700 w-full sm:w-[30rem] p-8 sm:rounded-md text-white">
         <div className=" mb-6">
           <h1 className=" text-gray-50 text-2xl font-bold">
             Create a new account.

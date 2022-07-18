@@ -54,7 +54,7 @@ const Header = () => {
   const { isLoggedIn, user } = useContext(AuthContext);
 
   return (
-    <header className="h-14 flex flex-row justify-between px-16 items-center">
+    <header className="h-14 flex flex-row justify-between px-8 sm:px-16 items-center">
       <div className="flex gap-2 items-center">
         <span className=" text-lg">🍅</span>
         <h1 className="font-bold text-gray-50">Pomo.wtf</h1>

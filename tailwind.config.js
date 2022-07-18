@@ -34,6 +34,11 @@ module.exports = {
         dark: "#406134",
       },
     },
+    extend: {
+      screens: {
+        sm: "540px",
+      },
+    },
   },
   plugins: [],
 };
