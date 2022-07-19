@@ -5,6 +5,7 @@ import App from "./App.tsx";
 import reportWebVitals from "./reportWebVitals";
 import RoomScreen from "./screens/RoomScreen";
 import JoinRoom from "./components/JoinRoom.tsx";
+import SoloPomo from "./screens/SoloPomo";
 import { RoomProvider } from "./context/RoomContext";
 import { TasksProvider } from "./context/TasksContext";
 import { TimerProvider } from "./context/TimerContext";
@@ -35,14 +36,7 @@ root.render(
                     </RequireAuth>
                   }
                 />
-                <Route
-                  path="/"
-                  element={
-                    <RequireAuth>
-                      <JoinRoom />
-                    </RequireAuth>
-                  }
-                />
+                <Route path="/" element={<SoloPomo />} />
               </Route>
             </Routes>
           </BrowserRouter>

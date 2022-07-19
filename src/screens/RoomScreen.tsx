@@ -15,7 +15,6 @@ import UserVideos from "../components/UserVideos";
 
 const RoomScreen = () => {
   const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
-  const { tasks } = useContext(TasksContext);
   const { socket } = useContext(RoomContext);
 
   const { connectedUsers } = useContext(RoomContext);
@@ -26,7 +25,6 @@ const RoomScreen = () => {
 
   useEffect(() => {
     if (!isLoggedIn || !roomCode || !user) return;
-    console.log(user.displayName);
     socket.emit(
       "join-room",
       { roomCode, displayName: user.displayName, databaseId: user._id },

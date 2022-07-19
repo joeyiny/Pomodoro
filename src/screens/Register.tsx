@@ -91,7 +91,7 @@ const Register = () => {
             <input
               type="submit"
               value="Sign up"
-              className="bg-primary text-gray-900 w-full rounded font-bold py-2 mt-2 uppercase hover:cursor-pointer "
+              className="bg-primary text-gray-900 w-full rounded font-bold py-2 mt-2 uppercase hover:cursor-pointer"
             />
           </div>
         </form>
