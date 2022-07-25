@@ -1,33 +1,27 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 
 const Profile = () => {
-  const [displayName, setDisplayName] = useState("");
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const { email } = useParams();
+  const [user, setUser] = useState<any>({});
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   useEffect(() => {
-    let token = localStorage.getItem("token");
-    if (!token) return;
+    let fetchUser = async () => {
+      let response = await fetch(`http://localhost:3000/user/${email}`);
+      let user = await response.json();
+      setUser(user);
+      setIsLoading(false);
+    };
+    fetchUser();
+  }, [email]);
 
-    fetch("https://pomowtf.herokuapp.com/login/isUserAuth", {
-      method: "POST",
-      headers: {
-        "x-access-token": token,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setIsLoggedIn(data.isLoggedIn);
-
-        if (data.isLoggedIn) {
-          setDisplayName(data.displayName);
-        }
-      });
-  }, []);
-
+  if (isLoading) return <div>loading</div>;
   return (
     <div>
-      Profile
-      {displayName && <p>Welcome Back {displayName}!</p>}
+      <h3>{user.displayName}</h3>
+      <p>All time completed pomodoros: {user.completedPomodoros.length}</p>
     </div>
   );
 };
