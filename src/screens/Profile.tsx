@@ -14,8 +14,12 @@ const Profile = () => {
   useEffect(() => {
     if (email) {
       fetchUser(email).then((user) => {
-        setUser(user);
         setIsLoading(false);
+        if (user === 404) {
+          setUser(404);
+          return;
+        }
+        setUser(user);
         if (user.completedPomodoros?.length > 0) {
           let today = new Date();
           today.setHours(0, 0, 0, 0);
@@ -80,6 +84,7 @@ const Profile = () => {
   };
 
   if (isLoading) return <div>loading</div>;
+  if (user === 404) return <div>User not found</div>;
   return (
     <div className="flex flex-col gap-6">
       <h3 className="text-xl font-semibold text-gray-50">{user.displayName}</h3>
