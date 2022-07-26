@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { Menu } from "@headlessui/react";
 
 const LoggedInDisplay = ({ user }: { user: any }) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
@@ -17,8 +18,8 @@ const LoggedInDisplay = ({ user }: { user: any }) => {
   };
 
   return (
-    <div className="relative w-auto inline-block text-sm">
-      <button
+    <Menu as="div" className="relative w-auto inline-block text-sm">
+      <Menu.Button
         onClick={toggleDropDown}
         className="flex flex-row gap-3 items-center text-gray-50 text-sm uppercase font-extrabold">
         <span>{user.displayName}</span>
@@ -27,15 +28,57 @@ const LoggedInDisplay = ({ user }: { user: any }) => {
           className="rounded-full w-8 h-8"
           alt="pfp"
         />
-      </button>
-      {isDropDownOpen && (
-        <button
-          onClick={handleLogout}
-          className="bg-gray-50 w-full text-gray-800 rounded absolute block h-auto">
-          logout
-        </button>
-      )}
-    </div>
+      </Menu.Button>
+      <Menu.Items className="absolute mt-2 divide-y divide-gray-500 rounded-md bg-white focus:outline-none">
+        <Menu.Item
+          as="div"
+          className="group flex w-full items-center px-2 py-2 text-sm">
+          {({ active }) => (
+            <button
+              className={`${
+                active ? "bg-gray-500" : ""
+              } group flex w-full items-center rounded-md px-2 py-2 text-sm`}>
+              Profile
+            </button>
+          )}
+        </Menu.Item>
+        <Menu.Item
+          as="div"
+          className="group flex w-full items-center px-2 py-2 text-sm">
+          {({ active }) => (
+            <button
+              onClick={handleLogout}
+              className={`${
+                active ? "bg-gray-500" : ""
+              } group flex w-full items-center rounded-md px-2 py-2 text-sm`}>
+              Logout
+            </button>
+          )}
+        </Menu.Item>
+      </Menu.Items>
+    </Menu>
+    // <div className="relative w-auto inline-block text-sm">
+    //   <Menu>
+    //     <Menu.Button
+    //       onClick={toggleDropDown}
+    //       className="flex flex-row gap-3 items-center text-gray-50 text-sm uppercase font-extrabold">
+    //       <span>{user.displayName}</span>
+    //       <img
+    //         src="https://img.seadn.io/files/fd71e2ed1844c918b06350cf9fca922e.png?fit=max&w=600"
+    //         className="rounded-full w-8 h-8"
+    //         alt="pfp"
+    //       />
+    //     </Menu.Button>
+    //     <Menu.Items>
+    //       <Menu.Item>hello</Menu.Item>
+    //     </Menu.Items>
+    //     {/* <button
+    //         onClick={handleLogout}
+    //         className="bg-gray-50 w-full text-gray-800 rounded absolute block h-auto">
+    //         logout
+    //       </button> */}
+    //   </Menu>
+    // </div>
   );
 };
 
