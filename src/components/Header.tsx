@@ -18,7 +18,7 @@ const LoggedInDisplay = ({ user }: { user: any }) => {
   };
 
   return (
-    <Menu as="div" className="relative w-auto inline-block text-sm">
+    <Menu as="div" className="relative w-auto inline-block text-sm z-50">
       <Menu.Button
         onClick={toggleDropDown}
         className="flex flex-row gap-3 items-center text-gray-50 text-sm uppercase font-extrabold">
@@ -29,7 +29,7 @@ const LoggedInDisplay = ({ user }: { user: any }) => {
           alt="pfp"
         />
       </Menu.Button>
-      <Menu.Items className="absolute mt-2 divide-y divide-gray-500 rounded-md bg-white focus:outline-none border-gray-50 border">
+      <Menu.Items className="absolute mt-2 divide-y divide-gray-500 rounded-md bg-white focus:outline-none border-gray-500 bg-opacity-90 border bg-gray-800">
         <Menu.Item
           as="div"
           className="group flex w-full items-center px-1 py-1 text-sm">
