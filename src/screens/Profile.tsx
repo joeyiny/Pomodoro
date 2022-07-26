@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { fetchUser } from "../api";
 import { AuthContext } from "../context/AuthContext";
 
 const Profile = () => {
@@ -11,29 +12,28 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    let fetchUser = async () => {
-      let response = await fetch(`http://localhost:3000/user/${email}`);
-      let user = await response.json();
-      setUser(user);
-      setIsLoading(false);
-      if (user.completedPomodoros?.length > 0) {
-        let today = new Date();
-        today.setHours(0, 0, 0, 0);
-        let oneWeekAgo = new Date(
-          today.getFullYear(),
-          today.getMonth(),
-          today.getDate() - 6
-        );
-        let newPomos = user.completedPomodoros.filter(
-          (pomo: { date: string | number | Date }) => {
-            let pomoDate = new Date(pomo.date);
-            return pomoDate >= oneWeekAgo;
-          }
-        );
-        setCompletedPomodoros(newPomos);
-      }
-    };
-    fetchUser();
+    if (email) {
+      fetchUser(email).then((user) => {
+        setUser(user);
+        setIsLoading(false);
+        if (user.completedPomodoros?.length > 0) {
+          let today = new Date();
+          today.setHours(0, 0, 0, 0);
+          let oneWeekAgo = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            today.getDate() - 6
+          );
+          let newPomos = user.completedPomodoros.filter(
+            (pomo: { date: string | number | Date }) => {
+              let pomoDate = new Date(pomo.date);
+              return pomoDate >= oneWeekAgo;
+            }
+          );
+          setCompletedPomodoros(newPomos);
+        }
+      });
+    }
   }, [email]);
 
   let displayPomodoroCalendar = () => {
