@@ -21,6 +21,7 @@ let serverUrl = process.env.REACT_APP_SERVER;
 if (!serverUrl) {
   throw new Error("serverUrl not set in env file");
 }
+
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
   io(serverUrl);
 
@@ -28,7 +29,7 @@ export type RoomContextType = {
   roomCode: string;
   setRoomCode: (roomCode: string) => void;
   connectedUsers: { [peerId: string]: User };
-  setConnectedUsers: any;
+  setConnectedUsers: Dispatch<SetStateAction<{ [peerId: string]: User }>>;
   socket: Socket;
   mediaStream: MediaStream | null;
   peerStreams: Array<{ peerId: string; stream: MediaStream }>;
@@ -69,6 +70,8 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
   }>({});
   const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
   const [peer, setPeer] = useState<Peer>();
+  const [connectedPeers, setConnectedPeers] = useState({});
+
   const [peerStreams, setPeerStreams] = useState<
     { peerId: string; stream: MediaStream }[]
   >([]);
@@ -169,6 +172,7 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
           .then((stream) => {
             setMediaStream(stream);
             setIsScreenSharing(true);
+            // @ts-ignore
             Object.values(peer?.connections).forEach((connection: any) => {
               const videoTrack = stream
                 ?.getTracks()
@@ -189,6 +193,7 @@ export const RoomProvider: any = ({ children }: { children: any }) => {
           .then((stream) => {
             setMediaStream(stream);
             setIsScreenSharing(false);
+            // @ts-ignore
             Object.values(peer?.connections).forEach((connection: any) => {
               const videoTrack = stream
                 ?.getTracks()
