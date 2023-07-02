@@ -17,20 +17,9 @@ import { TimerContext } from "./TimerContext";
 import { TasksContext } from "./TasksContext";
 import { AuthContext } from "./AuthContext";
 
-let serverUrl;
-
-if (process.env.NODE_ENV === "production") {
-  serverUrl = process.env.REACT_APP_PROD_SERVER;
-} else {
-  serverUrl = process.env.REACT_APP_DEV_SERVER;
-}
-
-if (!serverUrl) {
-  throw new Error("serverUrl not set in env file");
-}
-
-const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
-  io(serverUrl);
+const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
+  process.env.REACT_APP_SERVER!
+);
 
 export type RoomContextType = {
   roomCode: string;

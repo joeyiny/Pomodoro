@@ -1,17 +1,9 @@
-let serverUrl: string;
-
-if (process.env.NODE_ENV === "production") {
-  serverUrl = process.env.REACT_APP_PROD_SERVER!;
-} else {
-  serverUrl = process.env.REACT_APP_DEV_SERVER!;
-}
-
-if (!serverUrl) {
-  throw new Error("serverUrl not set in env file");
+if (!process.env.REACT_APP_SERVER) {
+  throw new Error("REACT_APP_SERVER .env var not found.");
 }
 
 export let fetchUser = async (email: string) => {
-  let response = await fetch(`${serverUrl}/user/${email}`);
+  let response = await fetch(`${process.env.REACT_APP_SERVER}/user/${email}`);
   console.log(response);
   if (!response.ok) return 404;
   let user = await response.json();
