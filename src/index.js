@@ -26,7 +26,7 @@ root.render(
               <Route path="/" element={<App />}>
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/profile" element={<Profile />} />
+                <Route path="/profile/:email" element={<Profile />} />
                 <Route
                   path=":roomCode"
                   element={

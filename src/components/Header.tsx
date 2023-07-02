@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { Menu } from "@headlessui/react";
 
 const LoggedInDisplay = ({ user }: { user: any }) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
@@ -17,8 +18,8 @@ const LoggedInDisplay = ({ user }: { user: any }) => {
   };
 
   return (
-    <div className="relative w-auto inline-block text-sm">
-      <button
+    <Menu as="div" className="relative w-auto inline-block text-sm z-50">
+      <Menu.Button
         onClick={toggleDropDown}
         className="flex flex-row gap-3 items-center text-gray-50 text-sm uppercase font-extrabold">
         <span>{user.displayName}</span>
@@ -27,15 +28,36 @@ const LoggedInDisplay = ({ user }: { user: any }) => {
           className="rounded-full w-8 h-8"
           alt="pfp"
         />
-      </button>
-      {isDropDownOpen && (
-        <button
-          onClick={handleLogout}
-          className="bg-gray-50 w-full text-gray-800 rounded absolute block h-auto">
-          logout
-        </button>
-      )}
-    </div>
+      </Menu.Button>
+      <Menu.Items className="absolute mt-2 divide-y divide-gray-500 rounded-md bg-white focus:outline-none border-gray-500 bg-opacity-90 border bg-gray-800">
+        <Menu.Item
+          as="div"
+          className="group flex w-full items-center px-1 py-1 text-sm">
+          {({ active }) => (
+            <Link
+              to={`/profile/${user.email}`}
+              className={`${
+                active ? "bg-primary text-gray-50" : ""
+              } group flex w-full items-center font-semibold rounded-md px-1 py-1 text-sm`}>
+              Profile
+            </Link>
+          )}
+        </Menu.Item>
+        <Menu.Item
+          as="div"
+          className="group flex w-full items-center px-1 py-1 text-sm">
+          {({ active }) => (
+            <button
+              onClick={handleLogout}
+              className={`${
+                active ? "bg-primary text-gray-50" : ""
+              } group flex w-full items-center font-semibold rounded-md px-1 py-1 text-sm`}>
+              Logout
+            </button>
+          )}
+        </Menu.Item>
+      </Menu.Items>
+    </Menu>
   );
 };
 
@@ -54,11 +76,13 @@ const Header = () => {
   const { isLoggedIn, user } = useContext(AuthContext);
 
   return (
-    <header className="h-14 flex flex-row justify-between px-8 sm:px-16 items-center">
-      <div className="flex gap-2 items-center">
-        <span className=" text-lg">🍅</span>
-        <h1 className="font-bold text-gray-50">Pomo.wtf</h1>
-      </div>
+    <header className="h-14 flex flex-row justify-between px-16 items-center">
+      <Link to="/">
+        <div className="flex gap-2 items-center">
+          <span className=" text-lg">🍅</span>
+          <h1 className="font-bold text-gray-50">Pomo.wtf</h1>
+        </div>
+      </Link>
       <div>
         {isLoggedIn ? <LoggedInDisplay user={user} /> : <LoginButton />}
       </div>

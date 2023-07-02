@@ -12,6 +12,7 @@ import { RoomContext } from "../context/RoomContext";
 import { AuthContext } from "../context/AuthContext";
 import Chat from "../components/Chat";
 import UserVideos from "../components/UserVideos";
+import InvitePanel from "../components/InvitePanel";
 
 const RoomScreen = () => {
   const [newUserEffectOn, setNewUserEffectOn] = useState<boolean>(false);
@@ -49,6 +50,7 @@ const RoomScreen = () => {
         {/* <Chat /> */}
         <Timer socket={socket} />
         <ProgressSection />
+        <InvitePanel />
         <ConnectedUsers connectedUsers={connectedUsers} />
       </div>
       <div className="flex gap-2 flex-col flex-auto">
