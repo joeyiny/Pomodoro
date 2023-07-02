@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { Menu } from "@headlessui/react";
+import * as Avatar from "@radix-ui/react-avatar";
 
 const LoggedInDisplay = ({ user }: { user: any }) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
@@ -23,11 +24,23 @@ const LoggedInDisplay = ({ user }: { user: any }) => {
         onClick={toggleDropDown}
         className="flex flex-row gap-3 items-center text-gray-50 text-sm uppercase font-extrabold">
         <span>{user.displayName}</span>
-        <img
+        {/* <img
           src="https://img.seadn.io/files/fd71e2ed1844c918b06350cf9fca922e.png?fit=max&w=600"
           className="rounded-full w-8 h-8"
           alt="pfp"
-        />
+        /> */}
+        <Avatar.Root className=" inline-flex h-[32px] w-[32px] select-none items-center justify-center overflow-hidden rounded-full align-middle">
+          <Avatar.Image
+            src="https://img.seadn.io/files/fd71e2ed1844c918b06350cf9fca922e.png?fit=max&w=60"
+            className="rounded-full w-8 h-8"
+          />
+
+          <Avatar.Fallback
+            className="leading-1 flex h-full w-full items-center justify-center bg-[#fff] text-[#000] text-[15px] font-medium"
+            delayMs={600}>
+            {user.displayName.slice(0, 1)}
+          </Avatar.Fallback>
+        </Avatar.Root>
       </Menu.Button>
       <Menu.Items className="absolute mt-2 divide-y divide-gray-500 rounded-md bg-white focus:outline-none border-gray-500 bg-opacity-90 border bg-gray-800">
         <Menu.Item
