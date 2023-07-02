@@ -6,6 +6,7 @@ import { Outlet } from "react-router-dom";
 import useSound from "use-sound";
 import { useContext } from "react";
 import Header from "./components/Header";
+import { ErrorBoundary } from "react-error-boundary";
 
 const alarmSound = require("./sounds/alarm.wav");
 const joinSound = require("./sounds/join.wav");
@@ -35,7 +36,9 @@ function App() {
   return (
     <div className="text-center bg-gray-900 h-screen overflow-hidden App-header text-gray-300">
       <Header />
-      <Outlet />
+      <ErrorBoundary fallback={<div>Something went wrong.</div>}>
+        <Outlet />
+      </ErrorBoundary>
     </div>
   );
 }
